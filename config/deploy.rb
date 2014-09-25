@@ -81,9 +81,6 @@ namespace :deploy do
       configs = %w( database.yml ).map {|c| [shared_path, 'config', c].join('/') }
       run "test #{configs.map {|c| "-f #{c}"}.join(' -a ') }"
       run "ln -s #{configs.join(' ')} #{release_path}/config"
-
-      # Daily DB dumps tank
-      run "ln -s #{shared_path}/db #{release_path}/db/dumps"
     end
     after "deploy:update_code", "deploy:db:symlink"
 
