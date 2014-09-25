@@ -9,7 +9,10 @@ gem 'turbolinks'
 gem 'ranked-model', github: 'mixonic/ranked-model'
 gem 'jbuilder', '~> 1.2'
 gem 'uglifier', '>= 1.3.0'
-gem 'therubyracer', platforms: :ruby
+# FIXME later rubyracer doesn't compile on SuSE 11.4 :-(.
+# https://code.google.com/p/v8/issues/detail?id=2195
+#
+gem 'therubyracer', '~> 0.11.4'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'bootstrap-datetimepicker-rails'
