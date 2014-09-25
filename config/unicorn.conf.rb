@@ -1,4 +1,4 @@
-worker_processes 6
+worker_processes 4
 timeout 60
 
 # Load rails app into the master before forking workers
@@ -10,16 +10,18 @@ listen "#{ENV['HOME']}/.unicorn.sock"
 
 # Working directory
 working_directory "#{ENV['HOME']}/current"
-ENV['BUNDLE_GEMFILE'] = "#{ENV['PWD']}/Gemfile"
 
 # Log stdout and stderr in separate files
-#
 stdout_path 'log/unicorn.stdout.log'
 stderr_path 'log/unicorn.stderr.log'
 
 pid "#{ENV['HOME']}/.unicorn.pid"
 
 Unicorn::HttpServer::START_CTX[0] = "#{ENV['HOME']}/bin/unicorn"
+
+before_exec do |server|
+  ENV['BUNDLE_GEMFILE'] = "#{ENV['PWD']}/Gemfile"
+end
 
 before_fork do |server, worker|
   ##
@@ -54,4 +56,3 @@ after_fork do |server, worker|
   # CouchDB and Memcached would go here but their connections are established
   # on demand, so the master never opens a socket
 end
-

@@ -1,92 +1,110 @@
-require 'bundler/capistrano'
+# =========================================================================
+# Global Settings
+# =========================================================================
 
-# This capistrano deployment recipe is made to work with the optional
-# StackScript provided to all Rails Rumble teams in their Linode dashboard.
-#
-# After setting up your Linode with the provided StackScript, configuring
-# your Rails app to use your GitHub repository, and copying your deploy
-# key from your server's ~/.ssh/github-deploy-key.pub to your GitHub
-# repository's Admin / Deploy Keys section, you can configure your Rails
-# app to use this deployment recipe by doing the following:
-#
-# 1. Add `gem 'capistrano', '~> 2.15'` to your Gemfile.
-# 2. Run `bundle install --binstubs --path=vendor/bundles`.
-# 3. Run `bin/capify .` in your app's root directory.
-# 4. Replace your new config/deploy.rb with this file's contents.
-# 5. Configure the two parameters in the Configuration section below.
-# 6. Run `git commit -a -m "Configured capistrano deployments."`.
-# 7. Run `git push origin master`.
-# 8. Run `bin/cap deploy:setup`.
-# 9. Run `bin/cap deploy:migrations` or `bin/cap deploy`.
-#
-# Note: You may also need to add your local system's public key to
-# your GitHub repository's Admin / Deploy Keys area.
-#
-# Note: When deploying, you'll be asked to enter your server's root
-# password. To configure password-less deployments, see below.
+# Base settings
+set :application, "hermes"
 
-#############################################
-##                                         ##
-##              Configuration              ##
-##                                         ##
-#############################################
+# Stages settings
+set :stages, %w( staging production )
+set(:rails_env)     { "#{stage}" }
 
-GITHUB_REPOSITORY_NAME = 'r13-team-385'
-LINODE_SERVER_HOSTNAME = 'antani.r13.railsrumble.com'
+require 'capistrano/ext/multistage'
 
-#############################################
-#############################################
+# Repository settings
+set :repository,    "git@github.com:ifad/hermes.git"
+set :scm,           "git"
+set :branch,        fetch(:branch, "ifad")
+set :deploy_via,    :remote_cache
+set :deploy_to,     "/home/rails/apps/#{application}"
+set :use_sudo,      false
 
-# General Options
-
-set :bundle_flags,               "--deployment"
-
-set :application,                "hermes"
-set :deploy_to,                  "/www"
-set :normalize_asset_timestamps, false
-set :rails_env,                  "production"
-
-set :user,                       "antani"
-set :runner,                     "antani"
-set :admin_runner,               "antani"
+# Account settings
+set :user,          fetch(:user, "hermes")
 
 ssh_options[:forward_agent] = true
 ssh_options[:auth_methods]  = %w( publickey )
-ssh_options[:port]          = 22
 
-# SCM Options
-set :scm,        :git
-set :repository, "git@github.com:railsrumble/#{GITHUB_REPOSITORY_NAME}.git"
-set :branch,     fetch(:branch, "master")
-set :use_sudo,   false
+# =========================================================================
+# Dependencies
+# =========================================================================
+depend :remote, :command, "gem"
+depend :remote, :command, "git"
 
-# Roles
-role :app, LINODE_SERVER_HOSTNAME
-role :db,  LINODE_SERVER_HOSTNAME, :primary => true
-
-# Add Configuration Files & Compile Assets
-after 'deploy:update_code' do
-  # Setup Configuration
-  run "cp #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-
-  # Compile Assets
-  run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile hermes:symlink"
-
-  # Symlink hermes.js
+# =========================================================================
+# Extensions
+# =========================================================================
+def compile(template)
+  location = fetch(:template_dir, File.expand_path('../deploy', __FILE__)) + "/#{template}"
+  config   = ERB.new File.read(location)
+  config.result(binding)
 end
 
-# Restart Unicorn
-deploy.task :restart, :roles => :app do
-  # Fix Permissions
-  run "chown -R #{runner}:#{runner} #{current_path}"
-  run "chown -R #{runner}:#{runner} #{latest_release}"
-  run "chown -R #{runner}:#{runner} #{shared_path}/bundle"
-  run "chown -R #{runner}:#{runner} #{shared_path}/log"
+namespace :deploy do
 
-  # Restart Application
-  pid = "#{deploy_to}/.unicorn.pid"
-  run "test -f #{pid} && kill -USR2 `cat #{pid}` || true"
+  desc "Restarts your application."
+  task :restart, :roles => :app do
+    # Signal the unicorns
+    pid = "#{deploy_to}/.unicorn.pid"
+    run "test -f #{pid} && kill -USR2 `cat #{pid}` || true"
+  end
+
+  task :fast do
+    run "cd current && git fetch && git rebase origin/#{branch} && { kill -USR2 `cat #{deploy_to}/.unicorn.pid`; }"
+  end
+
+
+  namespace :ifad do
+    # Harden permissions up
+    on :after, :only => %w( deploy:setup deploy:create_symlink ),
+      :except => { :no_release => true } do
+      run '/home/rails/bin/setup_permissions'
+    end
+
+    desc '[internal] Symlink ruby version'
+    task :symlink_ruby_version, :except => { :no_release => true } do
+      run "ln -s #{deploy_to}/.ruby-version #{release_path}"
+    end
+    after 'deploy:update_code', 'deploy:ifad:symlink_ruby_version'
+  end
+
+  namespace :db do
+    desc "[internal] Creates the database configuration files in shared path."
+    task :setup do
+      run "mkdir -p #{shared_path}/{db,config}"
+      put compile('database.yml.erb'), "#{shared_path}/config/database.yml"
+    end
+    after "deploy:setup", "deploy:db:setup"
+
+    desc "[internal] Updates the symlink for database configuration files to the just deployed release."
+    task :symlink do
+      configs = %w( database.yml ).map {|c| [shared_path, 'config', c].join('/') }
+      run "test #{configs.map {|c| "-f #{c}"}.join(' -a ') }"
+      run "ln -s #{configs.join(' ')} #{release_path}/config"
+
+      # Daily DB dumps tank
+      run "ln -s #{shared_path}/db #{release_path}/db/dumps"
+    end
+    after "deploy:update_code", "deploy:db:symlink"
+
+    desc "[internal] Back the database and place the backup under db/"
+    task :backup do
+      rake 'db:backup'
+    end
+  end
+
+  namespace :assets do
+    desc "[internal] Precompile assets."
+    task :precompile, :roles => :web do
+      run "cd #{release_path}; #{rake} assets:precompile RAILS_RELATIVE_URL_ROOT=/hermes"
+    end
+    after "deploy:update_code", "deploy:assets:precompile"
+  end
+
 end
 
+after 'deploy', 'deploy:cleanup'
+
+require 'bundler/capistrano'
 set :bundle_flags, "--deployment --quiet --binstubs #{deploy_to}/bin"
 set :rake,         "bundle exec rake"

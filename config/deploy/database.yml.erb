@@ -1,0 +1,15 @@
+<%
+  pg_name      = Capistrano::CLI.ui.ask('PG database name: ')
+  pg_host      = Capistrano::CLI.ui.ask('PG database host: ')
+  pg_username  = Capistrano::CLI.ui.ask('PG database username: ')
+  pg_password  = Capistrano::CLI.ui.ask('PG database password: ')
+%>
+
+<%= rails_env %>:
+  adapter:  postgresql
+  encoding: utf8
+  timeout:  5000
+  database: <%= pg_name %>
+  username: <%= pg_username %>
+  password: <%= pg_password %>
+  host: <%= pg_host %>
