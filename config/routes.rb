@@ -1,4 +1,4 @@
-Hermes::Application.routes.draw do
+Hermes::Application.routes.draw do scope ENV['RAILS_RELATIVE_URL_ROOT'] || '' do
   devise_for :users
 
   root :to => 'sites#index'
@@ -15,4 +15,4 @@ Hermes::Application.routes.draw do
 
   # Message preview, bypassing State check
   get "/message/:type/:id" => "messages#show",    as: :message
-end
+end end
