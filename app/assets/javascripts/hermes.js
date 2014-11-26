@@ -67,7 +67,7 @@
   function Hermes($) {
     this.display = function() {
       __hermes_init_popover__($);
-
+      
       $.ajax(__hermes_host__ + '/messages.js', {
         dataType: 'jsonp',
         success: enqueue.bind(this)
@@ -98,6 +98,7 @@
     }
 
     var show = function(message) {
+      alert(message.type);
       switch(message.type) {
       case 'tutorial':
         break;
@@ -196,7 +197,6 @@
         event.stopImmediatePropagation();
 
         var path = getPath(selected);
-
         window.opener.postMessage(path, opener_protocol + ':' + __hermes_host__);
         window.close();
       };

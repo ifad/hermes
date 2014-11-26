@@ -1,0 +1,12 @@
+.row
+  %div
+    %h1= title "Tutorial #{@tutorial.title}"
+    %dl.dl-horizontal
+      %dt Title
+      %dd= @tutorial.title
+      %dt Path
+      %dd= @tutorial.path
+      %dt Publish on
+      %dd= l @tutorial.published_at
+      %dt Unpublish on
+      %dd= l @tutorial.unpublished_at

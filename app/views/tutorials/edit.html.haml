@@ -1,0 +1,3 @@
+%h1= title @site.name, 'Edit tutorial'
+= form_for @tutorial, :url => site_tutorial_path(@site, @tutorial) do |f|
+  = render 'form', :f => f

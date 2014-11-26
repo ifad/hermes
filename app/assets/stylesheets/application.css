@@ -9,9 +9,10 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require font-awesome
  *= require bootstrap_and_overrides
- *= require jquery.ui.core
- *= require jquery.ui.theme
+ *= require jquery-ui/core
+ *= require jquery-ui/theme
  *= require bootstrap-datetimepicker
  *= require bootstrap-wysihtml5
  *= require style
@@ -25,6 +26,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 1;
 }
 
 #sites-list a:hover {

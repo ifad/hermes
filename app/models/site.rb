@@ -21,7 +21,6 @@ class Site < ActiveRecord::Base
               (url.scheme == 'https' && url.port != 443)
       url.port.to_s
     end
-
     where(hostname: [host, port].compact.join(':')).first
   end
 

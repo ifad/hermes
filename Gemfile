@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0'
+gem 'rails', '~> 4.1.7'
 gem 'devise'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'jquery-rails'
@@ -18,6 +18,8 @@ gem 'twitter-bootstrap-rails'
 gem 'bootstrap-datetimepicker-rails'
 gem 'sanitize-rails'
 gem 'bootstrap-wysihtml5-rails'
+gem 'haml-rails'
+gem 'font-awesome-rails'
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 
 group :doc do
@@ -35,6 +37,6 @@ end
 
 group :production do
   gem 'unicorn'
-  gem 'pg'
+  # gem 'pg'
   gem 'exception_notification', github: 'rails/exception_notification', require: 'exception_notifier'
 end

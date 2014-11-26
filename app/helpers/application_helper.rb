@@ -2,8 +2,8 @@
 
 module ApplicationHelper
   def logo
-    link_to root_path, :id => 'logo', :class => 'brand' do
-      image_tag('hermes-logo.png', size: '30x30') + content_tag(:span, '') + 'Hermes'
+    link_to root_path, :id => 'logo', :class => 'navbar-brand' do
+      image_tag('hermes-logo.png', size: '22x22') + content_tag(:span, 'Hermes')
     end.to_s
   end
 

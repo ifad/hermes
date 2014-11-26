@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   before_filter :find_site
   before_filter :find_message, only: %w( show update )
 
-  skip_before_action :verify_authenticity_token, only: :update
+  skip_before_action :verify_authenticity_token
 
   def index
     head :not_found and return unless @site
@@ -60,7 +60,6 @@ class MessagesController < ApplicationController
 
       @source = URI.parse(request.referer)
       return unless @source.scheme.in? %w( http https )
-
       @site = Site.by_url(@source)
 
     rescue URI::InvalidURIError

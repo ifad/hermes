@@ -1,0 +1,46 @@
+.form-group
+  = f.text_field :title, class: 'form-control', placeholder: 'Title'
+.form-group
+  = f.text_area :content, class: 'form-control wysihtml5', rows: 8, placeholder: 'Content'
+.form-group
+  = f.label :path
+  = f.text_field :path, :'data-tip-connect-path' => '#tip-connector', class: 'form-control', id: 'tip-path'
+.form-group
+  %label
+    Layout type
+  %div
+    .btn-group{"data-toggle" => "buttons"}
+      %label.btn.btn-primary{class: f.object.selector.blank? ? 'active' : ''}
+        %input#tip-broadcast{"data-output" => "#tip-connected", :name => "broadcast", :type => "radio", checked: f.object.selector.blank?}
+        Broadcast
+      %label.btn.btn-primary#tip-connect-label{class: f.object.selector.blank? ? '' : 'active'}
+        %input{"data-output" => "#tip-connect", :name => "broadcast", :type => "radio", checked: f.object.selector.present?}
+        Bound to item in the page
+        = link_to 'Connect', [f.object.tippable.url, f.object.path, @tip_connector_token].join, :id => 'tip-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => f.object.tippable.url, :'data-token' => @tip_connector_token, :'data-output' => '#tip-connected'
+        %span#tip-connected{:class => f.object.selector.blank? ? 'hide' : ''}
+          %i.icon.icon-ok
+          Connected!
+          = f.hidden_field :selector
+        
+.form-group
+  .input-group.datetimepicker
+    = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control'
+    %span.input-group-addon.add-on
+      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
+
+.form-group
+  .input-group.datetimepicker
+    = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control'
+    %span.input-group-addon.add-on
+      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
+
+- if f.object.persisted?
+  .checkbox
+    = f.label :redisplay do
+      = f.check_box :redisplay
+      Check to redisplay the message
+.form-actions
+  - if f.object.persisted?
+    = f.button 'Update message', class: 'btn btn-primary'
+  - else
+    = f.button 'Create new message', class: 'btn btn-primary'

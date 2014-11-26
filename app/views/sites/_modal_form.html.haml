@@ -1,0 +1,20 @@
+.modal-header
+  %button.close{"data-dismiss" => "modal", :type => "button"}
+    %span{"aria-hidden" => "true"} &times;
+    %span.sr-only Close
+  %h4.modal-title Edit an existing site
+= form_for site, method: :put, remote: true do |f|
+  .modal-body
+    %div
+      = f.text_field :name, { :class => 'form-control input-lg', placeholder: 'Name' }
+      %span.help-block Enter a name for the site you are adding.
+    %div
+      = f.text_field :hostname , { :class => 'form-control input-lg', placeholder: 'Address' }
+      %span.help-block Enter the URL for the site you are adding.
+    %div
+      %span.help-block
+        Hint: don't forget to add the
+        %code hermes.js
+        script to your site!
+  .modal-footer
+    = f.submit 'Update site', class: 'btn btn-primary'

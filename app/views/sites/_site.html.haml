@@ -1,0 +1,14 @@
+%li{:id => dom_id(site)}
+  %span.actions.btn-group
+    = link_to edit_site_path(site), remote: true, class: 'btn btn-sm btn-default edit' do
+      %i.icon-pencil
+    = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-sm btn-default remove', :'data-confirm' => 'This action will remove your site'  do
+      %i.icon-remove
+  = link_to site_tips_path(site) do |link|
+    %i.icon-list-alt
+    %b= site.name
+    - if site.tips.any?
+      %span.label= site.tips.count
+  %small
+    / span class="label"><haml:loud> pluralize(site.tutorials.count, &amp;#39;tutorials&amp;#39;) </haml:loud></span
+%li.divider

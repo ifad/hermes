@@ -1,0 +1,10 @@
+.control-group
+  .input-prepend
+    %span.add-on Name
+    = f.text_field :name, {:class => 'input-xlarge'}
+.control-group
+  .input-prepend
+    %span.add-on HostName
+    = f.text_field :hostname , {:class => 'input-xxlarge'}
+.control-group
+  = f.submit 'Save!'

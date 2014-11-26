@@ -1,0 +1,5 @@
+%tr
+  %td= link_to tutorial.title, site_tutorial_path(@site, tutorial)
+  %td= l tutorial.published_at
+  %td= l tutorial.unpublished_at
+  %td= link_to 'Edit', edit_site_tutorial_path(@site, tutorial)
