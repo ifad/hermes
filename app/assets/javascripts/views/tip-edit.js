@@ -40,14 +40,15 @@ then stored in Hermes' DB.
 
   /**
   *
-  * TipConnector object constructor. It handles the tip edit form.
+  * TipEdit object constructor. It handles the tip edit form.
   *
-  * @return this (current instance, chaining purpose)
+  * @return {this} (current instance, chaining purpose)
   *
   **/
 
-  var TipConnector = function() {
+  var TipEdit = function(element) {
     this.version = '0.1';
+    this.element = element || b;
     this.components = {
       tipPath         : $('#tip-path'),
       tipBroadcast    : $('#tip-broadcast'),
@@ -65,13 +66,13 @@ then stored in Hermes' DB.
   * On broadcast radio selection, it will reset the selector and hide the 
   * connected label element
   *
-  * @param event, a valid DOM event
+  * @param {event}, a valid DOM event
   *
-  * @return this (current instance, chaining purpose)
+  * @return {this} (current instance, chaining purpose)
   **/
   
 
-  TipConnector.prototype._setBroadcast = function(evt) {
+  TipEdit.prototype._setBroadcast = function(evt) {
     var $broadcast = this.components.tipBroadcast,
         $output     = $($broadcast.data('output'))
     ;
@@ -93,12 +94,12 @@ then stored in Hermes' DB.
   * it also checks wether the value is invalid (like empty string or string
   * is not starting with '/')
   *
-  * @param event, a valid DOM event
+  * @param {event}, a valid DOM event
   *
-  * @return this (current instance, chaining purpose)
+  * @return {this} (current instance, chaining purpose)
   **/
 
-  TipConnector.prototype._changePath = function(evt) {
+  TipEdit.prototype._changePath = function(evt) {
     var $input  = this.components.tipPath,
         $target = $($input.data('tip-connect-path')),
         val = $input.val().trim(),
@@ -122,12 +123,12 @@ then stored in Hermes' DB.
   * This method handles the message received from the popup window (through 
   * window.opener.postMessage. This is window.opener because we call it via window.open)
   *
-  * @param event, a valid DOM event
+  * @param {event}, a valid DOM event
   *
-  * @return this (current instance, chaining purpose)
+  * @return {this} (current instance, chaining purpose)
   **/
 
-  TipConnector.prototype._receiveMessage = function(evt) {
+  TipEdit.prototype._receiveMessage = function(evt) {
     this.$output.find('input').val(evt.data);
     this.$output.removeClass('hide');
 
@@ -142,12 +143,12 @@ then stored in Hermes' DB.
   * popup. This is needed to be able to obtain a communication between the opened window
   * and this window
   *
-  * @param event, a valid DOM event
+  * @param {event}, a valid DOM event
   *
-  * @return this (current instance, chaining purpose)
+  * @return {this} (current instance, chaining purpose)
   **/
 
-  TipConnector.prototype._connect = function(evt) {
+  TipEdit.prototype._connect = function(evt) {
     evt.preventDefault();
 
     var $connector = this.components.tipConnectLink;
@@ -165,19 +166,21 @@ then stored in Hermes' DB.
   * Init method, called when the object is being created via the constructor function.
   * Delegating events for the edit tip form
   *
-  * @return this (current instance, chaining purpose)
+  * @return {this} (current instance, chaining purpose)
   **/
 
-  TipConnector.prototype.init = function() {
-    b.on('click', '#tip-connect-label', this._connect.bind(this));
-    b.on('change', '#tip-broadcast', this._setBroadcast.bind(this));
-    b.on('blur', '#tip-path', this._changePath.bind(this));
+  TipEdit.prototype.init = function() {
+    this.element
+          .on('click', '#tip-connect-label', this._connect.bind(this))
+          .on('change', '#tip-broadcast', this._setBroadcast.bind(this))
+          .on('blur', '#tip-path', this._changePath.bind(this))
+    ;
     w.addEventListener('message', this._receiveMessage.bind(this), false);
     return this;
   };
 
   // export it via provided namespace
 
-  ns.TipConnector = TipConnector;
+  ns.TipEdit = TipEdit;
 
 })(jQuery, HERMES, this);
