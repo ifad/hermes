@@ -35,6 +35,8 @@ then stored in Hermes' DB.
 
 !(function($, ns, w){
 
+  'use strict';
+
   var b = $(document.body);
 
 

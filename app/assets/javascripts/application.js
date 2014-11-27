@@ -10,5 +10,6 @@
 //= require data-confirm-modal
 
 // require views
+//= require views/tip-collection
 //= require views/tip-edit
 //= require views/app

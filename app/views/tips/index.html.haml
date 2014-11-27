@@ -1,42 +1,24 @@
-%h3
-  = "Messages for #{@site.name}"
-  = link_to new_site_tip_path(@site), class: 'btn btn-default btn-sm pull-right' do
-    %i.icon-plus
-    New message
-- if @tips.any?
-  %table.table.table-hover
-    %thead
-      %tr
-        %th Message title
-        %th Visible From
-        %th Visible Until
-        %th
-    %tbody#tips-list
-      = render @tips
-- else
-  .hero-unit{:style => "padding: 30px 60px; text-align: center"}
-    %h3 No messages for this site yet!
-    %p
-      Start adding messages to your site clicking the button below.
-    %hr/
-    %p
-      = link_to "Add a message to your site!", new_site_tip_path(@site), class: 'btn btn-large btn-primary'
-:javascript
-  $(function() {
-    $('#tips-list').sortable({
-      revert: true,
-      handle: '.icon-reorder',
-      start: function(event, ui) {},
-      update: function(event, ui) {
-        var pos = $('#tips-list').find('tr').index(ui.item);
-        $.ajax("/tips/" + ui.item.attr('data-id') + '/position', {
-          data: { pos: pos },
-          type: 'put',
-          success: function() {
-          }
-        });
-      }
-    });
-
-    $('#tips-list').disableSelection();
-  });
+.tip-collection{data: {view: 'tip-collection'}}
+  %h3
+    = "Messages for #{@site.name}"
+    = link_to new_site_tip_path(@site), class: 'btn btn-default btn-sm pull-right' do
+      %i.icon-plus
+      New message
+  - if @tips.any?
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Message title
+          %th Visible From
+          %th Visible Until
+          %th
+      %tbody#tips-list
+        = render @tips
+  - else
+    .hero-unit{:style => "padding: 30px 60px; text-align: center"}
+      %h3 No messages for this site yet!
+      %p
+        Start adding messages to your site clicking the button below.
+      %hr/
+      %p
+        = link_to "Add a message to your site!", new_site_tip_path(@site), class: 'btn btn-large btn-primary'
