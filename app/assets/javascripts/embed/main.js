@@ -63,18 +63,18 @@
 
   function Hermes($) {
     this.display = function() {
-      __hermes_init_popover__($);
+      __hermes_embed.init_popover($);
       
-      $.ajax(__hermes_host__ + '/messages.js', {
+      $.ajax(__hermes_embed.host + '/messages.js', {
         dataType: 'jsonp',
         success: enqueue.bind(this)
       });
     }
 
     this.preview = function (path) {
-      __hermes_init_popover__($);
+      __hermes_embed.init_popover($);
 
-      $.ajax(__hermes_host__ + path, {
+      $.ajax(__hermes_embed.host + path, {
         dataType: 'jsonp',
         success: show
       });
@@ -192,33 +192,11 @@
         event.preventDefault();
         event.stopPropagation();
         event.stopImmediatePropagation();
-
-        var path = getPath(selected);
-        window.opener.postMessage(path, opener_protocol + ':' + __hermes_host__);
+        var path = __hermes_embed.utils.getCSSPath(selected);
+        window.opener.postMessage(path, opener_protocol + ':' + __hermes_embed.host);
         window.close();
       };
 
-      // Stolen from http://stackoverflow.com/a/4588211/69379
-      //
-      var getPath = function (el) {
-        var names = [];
-
-        while (el.parentNode) {
-          if (el.id) {
-            names.unshift('#'+el.id);
-            break;
-          } else {
-            if (el == el.ownerDocument.documentElement)
-              names.unshift(el.tagName);
-            else {
-              for (var c=1, e=el; e.previousElementSibling; e = e.previousElementSibling, c++);
-              names.unshift(el.tagName + ':nth-child('+c+')');
-            }
-            el = el.parentNode;
-          }
-        }
-        return names.join(' > ');
-      };
 
       // Create the 4 overlays that make up the border of the hovering element.
       //
