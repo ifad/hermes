@@ -33,7 +33,10 @@ Hermes::Application.routes.draw do
     root :to => 'sites#index'
 
     resources :sites do
-      resources :tips, :tutorials
+      resources :tips
+      resources :tutorials do 
+        resources :tips
+      end
     end
 
     put '/tips/:id/position'  => 'tips#position'

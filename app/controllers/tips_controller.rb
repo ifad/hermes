@@ -6,7 +6,12 @@ class TipsController < ApplicationController
   before_filter :generate_xd_token, only: %w( new edit )
 
   def index
-    @tips = @site.tips.sort_by_row_order
+    @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
+    if @tutorial
+      @tips = Tip.where(tippable_id: @tutorial.id, tippable_type: 'Tutorial').sort_by_row_order
+    else
+      @tips = @site.tips.sort_by_row_order
+    end
   end
 
   def show
@@ -14,13 +19,15 @@ class TipsController < ApplicationController
 
   def new
     @tip = @site.tips.new
+    @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
   end
 
   def create
     @tip = @site.tips.new(tip_params)
-
     if @tip.save
-      redirect_to site_tips_path(@site)
+      @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
+      @tutorial.tips << @tip if @tutorial
+      redirect_to @tutorial ? site_tutorial_tips_path(@site, @tutorial) : site_tips_path(@site)
     else
       flash.now[:error] = 'There was an error saving your message.'
       render :new
@@ -73,7 +80,8 @@ class TipsController < ApplicationController
     def tip_params
       params.require(:tip).permit(
         :title, :content, :published_at, :path,
-        :unpublished_at, :selector, :position, :redisplay
+        :unpublished_at, :selector, :position, :redisplay,
+        :tutorial_id
       ).tap do |params|
         params[:redisplay] = nil if params[:redisplay] === '0'
       end

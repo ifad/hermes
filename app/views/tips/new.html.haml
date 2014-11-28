@@ -1,5 +1,7 @@
-= form_for @tip, :url => site_tips_path(@site), html: { role: 'form' } do |f|
-  %fieldset
-    %legend
-      Create a new message for your site “#{@site.name}”
-    = render 'form', :f => f
+.tip-edit{data: {view: 'tip-edit'}}
+  = form_for @tip, :url => site_tips_path(@site), html: { role: 'form' } do |f|
+    = hidden_field_tag :tutorial_id, @tutorial.id if @tutorial
+    %fieldset
+      %legend
+        Create a new message for your site “#{@site.name}”
+      = render 'form', :f => f

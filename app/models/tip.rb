@@ -5,6 +5,7 @@ class Tip < ActiveRecord::Base
   include RankedModel
 
   belongs_to :tippable, polymorphic: true, inverse_of: :tips
+  belongs_to :tutorial, polymorphic: true
 
   validates :tippable_id, :tippable_type, presence: true
   validates :tippable, associated: true

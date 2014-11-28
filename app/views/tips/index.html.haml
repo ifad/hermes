@@ -21,4 +21,4 @@
         Start adding messages to your site clicking the button below.
       %hr/
       %p
-        = link_to "Add a message to your site!", new_site_tip_path(@site), class: 'btn btn-large btn-primary'
+        = link_to "Add a message to your site!", @tutorial ? new_site_tutorial_tip_path(@site, @tutorial) : new_site_tip_path(@site), class: 'btn btn-large btn-primary'
