@@ -28,6 +28,24 @@ Fire the JS!
 
 !(function($, ns){
 
+  String.prototype.toViewTitle = String.prototype.toViewTitle || function() {
+    var n = this.split('-'),
+        len = n.length,
+        i = 0,
+        l = '',
+        r = '',
+        accumulator = ''
+    ;
+    l = n[0].charAt(0).toUpperCase() + n[0].slice(1);
+    accumulator = l;
+    for(; i < len; i ++) {
+      l = n[i].charAt(0).toUpperCase() + n[i].slice(1);
+      r = n[i+1] ? n[i+1].charAt(0).toUpperCase() + n[i+1].slice(1) : '';
+      accumulator += r
+    }
+    return accumulator;
+  };
+
   var App = function() {
     this.version = '0.1';
     this.components = {};
@@ -40,28 +58,24 @@ Fire the JS!
     $('.datetimepicker').datetimepicker({ language: 'en-US' });
 
     // WYSIWYG Editor
-    $('.wysihtml5').each(function() {
-      $(this).wysihtml5({
-        'font-styles': false, //Font styling, e.g. h1, h2, etc. Default true
-        'emphasis'   : true,  // Italics, bold, etc. Default true
-        'lists'      : false, // (Un)ordered lists, e.g. Bullets, Numbers. Default true
-        'html'       : false, // Button which allows you to edit the generated HTML. Default false
-        'link'       : true,  // Button to insert a link. Default true
-        'image'      : false, // Button to insert an image. Default true,
-        'color'      : true   // Button to change color of font
-      });
-    });
+    // $('.wysihtml5').each(function() {
+    //   $(this).wysihtml5({
+    //     'font-styles': true, //Font styling, e.g. h1, h2, etc. Default true
+    //     'emphasis'   : true,  // Italics, bold, etc. Default true
+    //     'lists'      : false, // (Un)ordered lists, e.g. Bullets, Numbers. Default true
+    //     'html'       : false, // Button which allows you to edit the generated HTML. Default false
+    //     'link'       : true,  // Button to insert a link. Default true
+    //     'image'      : false, // Button to insert an image. Default true,
+    //     'color'      : true   // Button to change color of font
+    //   });
+    // });
   }
 
   App.prototype._findAndInstantiateViews = function() {
     $('[data-view]:not([data-instantiated=true])').each(function(i, el){
-      var n = $(el).data('view').split('-'),
-          l = n[0].charAt(0).toUpperCase() + n[0].slice(1),
-          r = n[1] ? n[1].charAt(0).toUpperCase() + n[1].slice(1) : '',
-          n = l + r
-      ;
+      var viewName = $(el).data('view').toViewTitle();
       $(el).attr('data-instantiated', true);
-      this.components[n] = new ns[n]();
+      this.components[viewName] = new ns[viewName]();
     }.bind(this))
   }
 

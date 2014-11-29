@@ -1,3 +1,48 @@
+/*
+
+
+  Embedded Hermes Flow: 
+    * page is being loaded
+    * this javascript is loaded one way or the other
+
+    1 - jquery checker
+    2 - type of action (by checking hash, or by firing tour)
+            /      \                              / 
+    2a - Authoring  \                            /
+      2b - General messaging                    /
+        2c - Tutorial/tour (can be multipage)
+
+    2a => Authoring
+    3 - enable mouse move
+    4 - on user click, check css Path (new algorithm)
+    5 - post message to window.opener containing the css path of the element that have been clicked
+
+      2b => General messaging
+      3 - make a jSonP call to the server to obtain all the *general* messages of the website for that path
+      4 - on jSonP callback, check sequentially the messages
+      5 - check the type of the message
+      5a - is it a tip?
+           Can I show it? (cookie_check)
+           show the tip via popover plugin. 
+           On *got it* click, save a cookie on the client (I think there's no need to tell to the server (@TODO ask))
+      5b - is it a broadcast?
+           Can I show it (cookie_check)
+           show the broadcast message
+           On *close* click, save a cookie on the client (I think there's no need to tell to the server (@TODO ask))
+    
+        2c => Tutorial/tour
+
+*/
+
+!(function(w){
+
+  'use strict';
+  
+
+})(this);
+
+
+
 (function() {
   var jQuery,
       jQueryURL     = '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
