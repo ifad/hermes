@@ -52,6 +52,35 @@ Node.prototype.nodeNameInCorrectCase = function(){
 
 
     /**
+    * throttle 
+    *
+    * @param {fn} function, the function being throttled
+    * @param {time} int, ms throttling time
+    *
+    * @return {Function} the throttled function
+    *
+    **/
+
+    throttle: function(fn, time) {
+      var timeout = null,
+          time = time || 200,
+          last = null;
+      return function() {
+        var now = +new Date(), _t = this, args = arguments;
+        if (last && now < last + time) {
+          clearTimeout(timeout);
+          timeout = setTimeout(function() {
+            fn.apply(_t, args);
+          }, time);
+        } else {
+          last = now;
+          fn.apply(this, arguments);
+        }
+      }
+    },
+
+
+    /**
     * validNode 
     *
     * @param {node}

@@ -48,12 +48,10 @@
   };
 
   App.prototype.init = function($){
-    var hash = document.location.hash, 
-        m = ''
-    ;
-    if ((m = hash.match(/^#hermes-authoring,(https?)/)) && (window.opener || ns.env === 'development')) {
+    var hash = document.location.hash;
+    if ((hash.match(/^#hermes-authoring/)) && (window.opener || ns.env === 'development')) {
       ns.Authoring($);
-    } else if ((m = hash.match(/#hermes-preview,([\w\/]+)/))) {
+    } else if (hash.match(/^#hermes-preview/)) {
       // h.preview(m[1]);
       console.log('preview');
     } else {
