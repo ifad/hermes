@@ -22,7 +22,8 @@ THE SOFTWARE.
 
 ---
 
-Path finder. Given a node, find the css path
+Various utils
+  + Path finder. Given a node, find the css path
 
 */
 
@@ -39,7 +40,6 @@ Node.prototype.nodeNameInCorrectCase = function(){
 
 
 !(function(w, ns) {
-  
   'use strict';
 
   /**

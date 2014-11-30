@@ -27,6 +27,7 @@ Fire the JS!
 */
 
 !(function($, ns){
+  'use strict';
 
   String.prototype.toViewTitle = String.prototype.toViewTitle || function() {
     var n = this.split('-'),
@@ -41,7 +42,7 @@ Fire the JS!
     for(; i < len; i ++) {
       l = n[i].charAt(0).toUpperCase() + n[i].slice(1);
       r = n[i+1] ? n[i+1].charAt(0).toUpperCase() + n[i+1].slice(1) : '';
-      accumulator += r
+      accumulator += r;
     }
     return accumulator;
   };

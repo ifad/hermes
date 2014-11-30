@@ -23,7 +23,6 @@ THE SOFTWARE.
 */
 
 !(function($, ns, w){
-
   'use strict';
 
   var b = $(document.body);
