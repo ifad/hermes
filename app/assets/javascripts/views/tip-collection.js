@@ -46,7 +46,7 @@ THE SOFTWARE.
   TipCollection.prototype.init = function() {
     this.element.find('#tips-list').sortable({
       revert: true,
-      handle: '.icon-reorder',
+      handle: '.fa-reorder',
       start: function(event, ui) {},
       update: function(event, ui) {
         var pos = $('#tips-list').find('tr').index(ui.item);

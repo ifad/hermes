@@ -2,15 +2,16 @@
   %h3
     = "Messages for #{@site.name}"
     = link_to new_site_tip_path(@site), class: 'btn btn-default btn-sm pull-right' do
-      %i.icon-plus
+      %i.fa.fa-plus
       New message
   - if @tips.any?
     %table.table.table-hover
       %thead
         %tr
           %th Message title
-          %th Visible From
-          %th Visible Until
+          - unless @tutorial
+            %th Visible From
+            %th Visible Until
           %th
       %tbody#tips-list
         = render @tips

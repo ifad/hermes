@@ -1,6 +1,6 @@
 #sites-list.well
   = link_to '#new-site-modal', class: 'btn btn-block btn-default btn-sm', :'data-toggle' => 'modal' do
-    %i.icon-plus
+    %i.fa.fa-plus
     Add new site
   - if Site.by_user(current_user).any?
     %ul.nav.nav-list

@@ -17,6 +17,7 @@ __hermes_embed.Authoring = function($) {
           },
           elementStyle : {
             'background-color': 'rgba(33, 143, 255, 0.5)',
+            'background-image': 'none',
             cursor: 'pointer'
           }
         }
@@ -110,7 +111,8 @@ __hermes_embed.Authoring = function($) {
         //
         $(this.selectedElement).data('hermes-restore-css', {
           'cursor': this.selectedElement.style.cursor,
-          'background-color': this.selectedElement.style.backgroundColor
+          'background-color': this.selectedElement.style.backgroundColor,
+          'background-image': this.selectedElement.style.backgroundImage,
         }).css(this.options.elementStyle).bind('click.hermes', this.callback.bind(this));
 
       } catch (e) {

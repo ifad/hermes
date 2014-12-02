@@ -43,7 +43,7 @@
   color: green;
 }
 
-#tips-list .icon-reorder {
+#tips-list .fa-reorder {
   margin-right: 10px;
   cursor: move;
 }

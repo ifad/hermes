@@ -39,7 +39,11 @@ class TipsController < ApplicationController
 
   def update
     if @tip.update_attributes(tip_params)
-      redirect_to site_tips_path(@site), :notice => "Message '#{@tip.title}' saved"
+      if @tutorial
+        redirect_to site_tutorial_tips_path(@site, @tutorial), :notice => "Message '#{@tip.title}' for tutorial '#{@tutorial.title}' saved"
+      else
+        redirect_to site_tips_path(@site), :notice => "Message '#{@tip.title}' saved"
+      end
     else
       flash.now[:error] = 'There was an error updating your message'.
       render :edit
@@ -74,7 +78,8 @@ class TipsController < ApplicationController
     end
 
     def find_tip
-      @tip = @site.tips.find(params[:id])
+      @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id].present?
+      @tip = @tutorial ? @tutorial.tips.find(params[:id]) : @site.tips.find(params[:id])
     end
 
     def tip_params

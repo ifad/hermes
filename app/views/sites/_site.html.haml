@@ -1,11 +1,10 @@
 %li{:id => dom_id(site)}
   %span.actions.btn-group
     = link_to edit_site_path(site), remote: true, class: 'btn btn-sm btn-default edit' do
-      %i.icon-pencil
+      %i.fa.fa-pencil
     = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-sm btn-default remove', :'data-confirm' => 'This action will remove your site'  do
-      %i.icon-remove
-  = link_to site_tips_path(site) do |link|
-    %i.icon-list-alt
+      %i.fa.fa-remove
+  = link_to site_path(site) do |link|
     %b= site.name
     - if site.tips.any?
       %span.label= site.tips.count

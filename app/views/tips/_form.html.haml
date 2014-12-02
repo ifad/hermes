@@ -16,25 +16,27 @@
       %label.btn.btn-primary#tip-connect-label{class: f.object.selector.blank? ? '' : 'active'}
         %input{"data-output" => "#tip-connect", :name => "broadcast", :type => "radio", checked: f.object.selector.present?}
         Bound to item in the page
-        = link_to 'Connect', [f.object.tippable.url, f.object.path, @tip_connector_token].join, :id => 'tip-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => f.object.tippable.url, :'data-token' => @tip_connector_token, :'data-output' => '#tip-connected'
+        = link_to 'Connect', [@site.url, f.object.path, @tip_connector_token].join, :id => 'tip-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tip_connector_token, :'data-output' => '#tip-connected'
         %span#tip-connected{:class => f.object.selector.blank? ? 'hide' : ''}
-          %i.icon.icon-ok
+          %i.fa.fa-ok
           Connected!
           = f.hidden_field :selector
-        
-.form-group
-  .input-group.datetimepicker
-    = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control'
-    %span.input-group-addon.add-on
-      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
 
-.form-group
-  .input-group.datetimepicker
-    = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control'
-    %span.input-group-addon.add-on
-      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
+- unless @tutorial
+          
+  .form-group
+    .input-group.datetimepicker
+      = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control'
+      %span.input-group-addon.add-on
+        %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
 
-- if f.object.persisted?
+  .form-group
+    .input-group.datetimepicker
+      = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control'
+      %span.input-group-addon.add-on
+        %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
+
+- if f.object.persisted? && !@tutorial
   .checkbox
     = f.label :redisplay do
       = f.check_box :redisplay

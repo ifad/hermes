@@ -5,6 +5,5 @@
     %dd= @site.hostname
     %dt Tips
     %dd= link_to pluralize(@site.tips.count, 'tip'), site_tips_path(@site)
-    /
-      dt>Tutorials</dt>
-      <dd><haml:loud> link_to pluralize(@site.tutorials.count, &amp;#39;tutorial&amp;#39;), site_tutorials_path(@site) </haml:loud></dd
+    %dt Tutorials
+    %dd= link_to pluralize(@site.tutorials.count, 'tutorial'), site_tutorials_path(@site)
