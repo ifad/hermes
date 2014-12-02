@@ -493,7 +493,6 @@ __hermes_embed.init_popover = function (jQuery) {
 
     $.fn.popover.Constructor = Popover
 
-
     // POPOVER NO CONFLICT
     // ===================
 
@@ -509,7 +508,7 @@ __hermes_embed.init_popover = function (jQuery) {
   // Load the CSS
   var style = document.createElement('style');
   style.type = 'text/css';
-  style.innerText = "<%= ActionView::Base.new.escape_javascript(File.read('app/assets/stylesheets/hermes-embed.css').gsub("\n", '')) %>";
+  style.innerText = "<%= ActionView::Base.new.escape_javascript(File.read('app/assets/stylesheets/hermes.css').gsub("\n", '')) %>";
 
   (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(style);
 

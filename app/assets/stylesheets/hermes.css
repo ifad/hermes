@@ -1,3 +1,49 @@
+/* The broadcast CSS */
+
+.hermes-broadcast {
+  position: fixed;
+  z-index: 10000000;
+
+  padding: 10px;
+  margin: 0;
+  bottom: 15px; left: 15px; right: 15px;
+
+  background-color: rgb(111, 163, 202);
+  background-color: rgba(111, 163, 202, 0.95);
+  border-color: #428bca;
+  color: #fff;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.5);
+}
+
+.hermes-broadcast * {
+  font-size: 20px !important;
+  line-height: 20px !important;
+}
+
+.hermes-broadcast p {
+  margin: 0 0 4px !important;
+}
+
+.hermes-broadcast .hermes-close {
+  display: inline-block !important;
+  cursor: pointer !important;
+  background: none !important;
+  border: none !important;
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+  right: 1%;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  font-weight: bolder;
+}
+
+/* The popover CSS */
+
 .popover {
   position: absolute;
   top: 0;
@@ -133,46 +179,6 @@
   padding: 5px 10px;
   margin: 10px 0;
   float: right;
-}
-
-/* The broadcast CSS */
-
-.hermes-broadcast {
-  position: fixed;
-  z-index: 10000000;
-
-  padding: 5px;
-  margin: 0;
-  bottom: 5px; left: 5px; right: 5px;
-
-  background-color: #D9EDF7;
-  border-color: #BCE8F1;
-  color: #3A87AD;
-  border-width: 1px;
-  border-style: solid;
-}
-
-.hermes-broadcast * {
-  font-size: 20px !important;
-  line-height: 20px !important;
-}
-
-.hermes-broadcast p {
-  margin: 0 0 4px !important;
-}
-
-.hermes-broadcast .hermes-close {
-  display: inline-block !important;
-  cursor: pointer !important;
-  background: none !important;
-  border: none !important;
-  position: absolute;
-  top: 1%;
-  right: 1%;
-  color: #777;
-  width: 30px;
-  height: 30px;
-  font-weight: bolder;
 }
 
 /* WYSIWYG Colors */
