@@ -1,4 +1,4 @@
-__hermes_embed.Authoring = function($) {
+__hermes_embed.init_authoring = function($) {
   
   !(function(w, ns){
     

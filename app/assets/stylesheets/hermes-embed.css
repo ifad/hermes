@@ -136,16 +136,20 @@
 }
 
 /* The broadcast CSS */
+
 .hermes-broadcast {
-  position: absolute;
+  position: fixed;
+  z-index: 10000000;
+
+  padding: 5px;
+  margin: 0;
+  bottom: 5px; left: 5px; right: 5px;
+
   background-color: #D9EDF7;
   border-color: #BCE8F1;
   color: #3A87AD;
   border-width: 1px;
   border-style: solid;
-  padding: 1%;
-  width: 98%;
-  margin: 0;
 }
 
 .hermes-broadcast * {

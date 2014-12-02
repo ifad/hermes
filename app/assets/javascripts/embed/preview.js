@@ -1,4 +1,4 @@
-__hermes_embed.Preview = function($) {
+__hermes_embed.init_preview = function($) {
   
   !(function(w, ns){
     
@@ -12,16 +12,12 @@ __hermes_embed.Preview = function($) {
       this.options = $.extend(DEFAULTS, options);
       this.init();
     };
-
-    Preview.prototype.display = function(message) {
-      ns.display(message);
-    }
-
+    
     Preview.prototype.init = function() {
       this.path = document.location.hash.match(/#hermes-preview,([\w\/]+)/)[1];
       $.ajax(ns.host + this.path, {
         dataType: 'jsonp',
-        success: this.display.bind(this)
+        success: ns.display
       });
     }
 
