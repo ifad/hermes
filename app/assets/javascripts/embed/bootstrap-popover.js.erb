@@ -503,13 +503,11 @@ __hermes_embed.init_popover = function (jQuery) {
 
   }(jQuery)
   
-
-
   // Load the CSS
   var style = document.createElement('style');
   style.type = 'text/css';
-  style.innerText = "<%= ActionView::Base.new.escape_javascript(File.read('app/assets/stylesheets/hermes.css').gsub("\n", '')) %>";
-
+  style.innerHTML = "<%= ActionView::Base.new.escape_javascript(File.read('app/assets/stylesheets/hermes.css').gsub("\n", '')) %>";
+  
   (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(style);
 
 }; // init_popover

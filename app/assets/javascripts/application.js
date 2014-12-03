@@ -9,7 +9,11 @@
 //= require bootstrap-wysihtml5
 //= require data-confirm-modal
 
+// require own plugins
+//= require_directory ./plugins
+
 // require views
 //= require views/tip-collection
 //= require views/tip-edit
+//= require views/tutorial-edit
 //= require views/app

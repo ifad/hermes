@@ -9,7 +9,8 @@
         Your sites
         %b.caret
       %ul.dropdown-menu
-        = render Site.by_user(current_user)
+        - Site.by_user(current_user).to_a.each do |site|
+          %li= link_to site.name, site_path(site)
   %li.dropdown
     %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
       = image_tag gravatar(current_user.email, 25), size: "25x25"

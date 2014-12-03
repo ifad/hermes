@@ -1,0 +1,25 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.02em;
+  color: rgba(0,0,0,0.8);
+  font-family: 'Open Sans', sans-serif;
+  background-color: @lightblue-smoke;
+}
+
+html.not_logged_in {
+  body {
+    background: @lightblue-smoke image-url('hermes-wing.png') no-repeat right 100px;
+  }
+}
+
+.courier {
+  font-family: Courier new;
+  font-size: .7em;
+}

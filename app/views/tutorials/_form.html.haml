@@ -1,14 +1,40 @@
-%div
-  = f.label :title
-  = f.text_field :title
-%div
+.form-group
+  = f.text_field :title, class: 'form-control', placeholder: 'Title'
+.form-group
   = f.label :path
-  = f.text_field :path
-%div
-  = f.label :published_at, 'Publishing starts'
-  = f.text_field :published_at, :class => "datepicker span2"
-%div
-  = f.label :unpublished_at, 'Publishing ends'
-  = f.text_field :unpublished_at, :class => "datepicker span2"
-%div
-  = f.submit 'Save!'
+  = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path'
+
+.form-group
+  .input-group.datetimepicker
+    = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control'
+    %span.input-group-addon.add-on
+      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
+
+.form-group
+  .input-group.datetimepicker
+    = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control'
+    %span.input-group-addon.add-on
+      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
+
+%p Activate tutorial on click to item in the page
+.form-group
+  .btn-group{"data-toggle" => "buttons"}
+    %label.btn.btn-primary{class: f.object.selector.present? ? '' : 'active'}
+      %input.ext-remove-selector{:"data-output" => "#selector-connected", :name => "selector", :type => "radio", checked: f.object.selector.blank?}
+      No
+    %label.btn.btn-primary.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
+      %input{"data-output" => "#selector-connect", :name => "selector", :type => "radio", checked: f.object.selector.present?}
+      = link_to 'Connect', [@site.url, f.object.path, @tutorial_connector_token].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tutorial_connector_token, :'data-output' => '#selector-connected'
+      Yes
+      %span#selector-connected{:class => f.object.selector.blank? ? 'hide' : ''}
+        %i.fa.fa-check
+        Connected!
+        = f.hidden_field :selector
+.form-group
+  .alert.alert-warning
+    %button.close{"data-dismiss" => "alert", :type => "button"}
+      %span{"aria-hidden" => "true"} &#215;
+      %span.sr-only Close
+    If you select to start a tour w/ a selector, make sure the element doesn't have an href
+%p.text-center
+  %button.btn.btn-primary.btn-lg Save

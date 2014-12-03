@@ -1,29 +1,32 @@
-.welcome
-  = image_tag 'hermes-logo.png'
-  %h3 Welcome to Hermes
-.explain
-  %p
-    To set up Hermes for your website, add the following code to your pages
-    just before the ending
-    %code &lt;/body&gt;
-    tag:
-  %pre
-    &lt;script src="#{root_url + 'assets/hermes.js'}"&gt;&lt;/script&gt;
-  %p or you can dinamically import it via JavaScript:
-  %pre
-    (function(t,d,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{root_url + 'assets/hermes.js'}';l.parentNode.insertBefore(s,l)}(this,document));
-  %p
-    Then
-  %p.text-center
-    = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
-      %i.fa.fa-plus
-      Add new site
-.explain
-  %p
-    Once you added a site, you can add as many messages as you wish to it: they will be shown to your visitor until they dismiss them.
-  %p
-    You can decide, for every single message:
-  %ul
-    %li the publishing time frame
-    %li the visualization order (for multiple messages on one page)
-    %li the layout type (broadcast message or tooltip bound to a specific page element)
+.col-md-3
+  = render 'side'
+.col-md-9
+  .welcome
+    = image_tag 'hermes-logo.png'
+    %h3 Welcome to <span class="hermes-title">Hermes</span>
+  .explain
+    %p
+      To set up Hermes for your website, add the following code to your pages
+      just before the ending
+      %code &lt;/body&gt;
+      tag:
+    %pre
+      &lt;script src="#{root_url + 'assets/hermes.js'}"&gt;&lt;/script&gt;
+    %p or you can dinamically import it via JavaScript:
+    %pre
+      (function(t,d,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{root_url + 'assets/hermes.js'}';l.parentNode.insertBefore(s,l)}(this,document));
+    %p
+      Then
+    %p.text-center
+      = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
+        %i.fa.fa-plus
+        Add new site
+  .explain
+    %p
+      Once you added a site, you can add as many messages as you wish to it: they will be shown to your visitor until they dismiss them.
+    %p
+      You can decide, for every single message:
+    %ul
+      %li the publishing time frame
+      %li the visualization order (for multiple messages on one page)
+      %li the layout type (broadcast message or tooltip bound to a specific page element)

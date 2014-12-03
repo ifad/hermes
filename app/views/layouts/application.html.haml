@@ -11,7 +11,9 @@
     = stylesheet_link_tag "application", :media => "all"
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     = yield :head
-    %link{:href => "//fonts.googleapis.com/css?family=Lato:300,400,700", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Open+Sans:400,300,600", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Lobster", :rel => "stylesheet", :type => "text/css"}
+
     :javascript
       // the app namespace
       !function(w) {
@@ -28,11 +30,9 @@
     .container
       .row
         - if user_signed_in?
-          .col-md-12
-            = bootstrap_flash
-            = render 'edit_site'
-            -# = render 'side' if current_user
-            = yield
+          = bootstrap_flash
+          = render 'edit_site_modal'
+          = yield
         - else
           .col-md-7
             = bootstrap_flash

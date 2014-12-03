@@ -3,6 +3,7 @@ class TutorialsController < ApplicationController
 
   before_filter :find_site
   before_filter :find_tutorial, only: %w( show edit update destroy )
+  before_filter :generate_xd_token, only: %w( new edit )
 
   def index
     @tutorials = @site.tutorials.order('created_at DESC') # FIXME
@@ -25,6 +26,7 @@ class TutorialsController < ApplicationController
     if @tutorial.save
       redirect_to site_tutorials_path(@site)
     else
+      flash.now[:error] = 'There was an error saving your tutorial.'
       render :new
     end
   end
@@ -60,5 +62,16 @@ class TutorialsController < ApplicationController
         require(:tutorial).
         permit(:title, :published_at,
                :unpublished_at, :path, :position)
+    end
+
+    # This is a token to passed between the #tip-connector and the
+    # target web site, to enable the authoring component in it and
+    # to authorize communication.
+    #
+    # TODO: actually use a random token and verify it - for now it
+    # is only used to pass the opener scheme to postMessage.
+    #
+    def generate_xd_token
+      @tutorial_connector_token = "#hermes-authoring,#{request.scheme}"
     end
 end

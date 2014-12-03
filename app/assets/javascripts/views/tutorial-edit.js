@@ -30,13 +30,13 @@ THE SOFTWARE.
 
   /**
   *
-  * TipEdit object constructor. It handles the tip edit form.
+  * TutorialEdit object constructor. It handles the tutorial edit form.
   *
   * @return {this} (current instance, chaining purpose)
   *
   **/
 
-  var TipEdit = function(element) {
+  var TutorialEdit = function(element) {
     this.version = '0.1';
     this.element = element || b;
     this.init();
@@ -52,13 +52,13 @@ THE SOFTWARE.
   * @return {this} (current instance, chaining purpose)
   **/
 
-  TipEdit.prototype.init = function() {
+  TutorialEdit.prototype.init = function() {
     this.element.externalconnector();
     return this;
   };
 
   // export it via provided namespace
 
-  ns.TipEdit = TipEdit;
+  ns.TutorialEdit = TutorialEdit;
 
 })(jQuery, HERMES, this);

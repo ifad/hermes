@@ -1,5 +1,9 @@
 %tr
-  %td= link_to tutorial.title, site_tutorial_path(@site, tutorial)
+  %td= link_to tutorial.title, site_tutorial_tips_path(@site, tutorial)
   %td= l tutorial.published_at
   %td= l tutorial.unpublished_at
-  %td= link_to 'Edit', edit_site_tutorial_path(@site, tutorial)
+  %td
+    = link_to edit_site_tutorial_path(@site, tutorial) do
+      %i.fa.fa-edit
+    = link_to site_tutorial_path(@site, tutorial), remote: true, method: :delete, :'data-confirm' => 'This action will delete your tutorial.' do
+      %i.fa.fa-remove

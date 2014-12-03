@@ -1,8 +1,8 @@
-#sites-list.well
-  = link_to '#new-site-modal', class: 'btn btn-block btn-default btn-sm', :'data-toggle' => 'modal' do
-    %i.fa.fa-plus
-    Add new site
+#sites-list
   - if Site.by_user(current_user).any?
-    %ul.nav.nav-list
-      %li.nav-header Your sites
+    %ul.list-group
       = render Site.by_user(current_user)
+      %li.list-group-item
+        = link_to '#new-site-modal', class: 'btn btn-block btn-primary btn-lg', :'data-toggle' => 'modal' do
+          %i.fa.fa-plus
+          Add new site

@@ -3,5 +3,5 @@
     = hidden_field_tag :tutorial_id, @tutorial.id if @tutorial
     %fieldset
       %legend
-        Create a new message for your site “#{@site.name}”
+        = title @tutorial ? "Tutorial #{@tutorial.title} (#{@site.name} site)" : "Site #{@site.name}", "New message"
       = render 'form', :f => f

@@ -4,19 +4,19 @@
   = f.text_area :content, class: 'form-control wysihtml5', rows: 8, placeholder: 'Content'
 .form-group
   = f.label :path
-  = f.text_field :path, :'data-tip-connect-path' => '#tip-connector', class: 'form-control', id: 'tip-path'
+  = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path'
 .form-group
   %label
     Layout type
   %div
     .btn-group{"data-toggle" => "buttons"}
       %label.btn.btn-primary{class: f.object.selector.blank? ? 'active' : ''}
-        %input#tip-broadcast{"data-output" => "#tip-connected", :name => "broadcast", :type => "radio", checked: f.object.selector.blank?}
+        %input.ext-remove-selector{"data-output" => "#tip-connected", :name => "broadcast", :type => "radio", checked: f.object.selector.blank?}
         Broadcast
-      %label.btn.btn-primary#tip-connect-label{class: f.object.selector.blank? ? '' : 'active'}
+      %label.btn.btn-primary.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
         %input{"data-output" => "#tip-connect", :name => "broadcast", :type => "radio", checked: f.object.selector.present?}
         Bound to item in the page
-        = link_to 'Connect', [@site.url, f.object.path, @tip_connector_token].join, :id => 'tip-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tip_connector_token, :'data-output' => '#tip-connected'
+        = link_to 'Connect', [@site.url, f.object.path, @tip_connector_token].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tip_connector_token, :'data-output' => '#tip-connected'
         %span#tip-connected{:class => f.object.selector.blank? ? 'hide' : ''}
           %i.fa.fa-check
           Connected!

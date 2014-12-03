@@ -31,7 +31,7 @@ __hermes_embed.init_displayer = function($) {
 
       var content = $('<div class="hermes-content" />'),
           buttonsContainer = $('<div class="hermes-actions" />'),
-          close = $('<button class="hermes-close" />').html(this.options.closeTipLabel)
+          close = $('<button class="hermes-close btn btn-primary" />').html(this.options.closeTipLabel)
       ;
 
       close.click(function (event) {
@@ -56,6 +56,7 @@ __hermes_embed.init_displayer = function($) {
     }
 
     Displayer.prototype.displayBroadcast = function(message) {
+
       var elem = $('<div class="hermes-broadcast" />'),
           close = $('<button class="hermes-close" />').html('&times;')
       ;

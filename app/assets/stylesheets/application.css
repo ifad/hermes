@@ -10,45 +10,9 @@
  *
  *= require_self
  *= require font-awesome
- *= require bootstrap_and_overrides
  *= require jquery-ui/core
  *= require jquery-ui/theme
  *= require bootstrap-datetimepicker
  *= require bootstrap-wysihtml5
- *= require style
+ *= require views/main
  */
-
-.nav-list li {
-  position: relative;
-}
-
-.nav-list .actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-}
-
-#sites-list a:hover {
-  text-decoration: none;
-}
-
-.nav-list .remove:hover {
-  text-decoration: none;
-  color: red;
-}
-
-.nav-list .edit:hover {
-  text-decoration: none;
-  color: green;
-}
-
-#tips-list .fa-reorder {
-  margin-right: 10px;
-  cursor: move;
-}
-
-.support-links {
-  border-top: 1px solid #EEE;
-  font-size: 0.85em;
-}

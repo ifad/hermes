@@ -1,0 +1,70 @@
+.btn,
+a {
+  -webkit-transition: -webkit-transform .2s @cubic;
+  -moz-transition:    -moz-transform .2s @cubic;
+  -ms-transition:     -ms-transform .2s @cubic;
+  -o-transition:      -o-transform .2s @cubic;
+  transition:         transform .2s @cubic;
+  &:active {
+    .transform(scale(.9));
+  }
+}
+a:active {
+  .transform(scale(.95));
+}
+
+.btn-circular {
+  position: relative;
+  .square(50px);
+  border-radius: 50%;
+  border-color: transparent;
+  text-align: center;
+  font-size: 20px;
+  .label {
+    border-radius: 50%;
+    position: absolute;
+    top: -1px;
+    right: -7px;
+    font-size: 10px;
+    z-index: 1;
+  }
+  &.btn-danger {
+    background-color: @brand-danger;
+  }
+  &.current {
+    opacity: 1;
+    .box-shadow(0 2px 8px -1px rgba(0, 0, 0, .4) inset);
+  }
+  .glyphicon {
+    line-height: 33px;
+  }
+  i {
+    line-height: 36px; 
+  }
+  &.btn-gray {
+    color: #fff;
+    background-color: @gray-light;
+  }
+}
+
+.btn-circular.btn-sm {
+  .square(35px);
+  font-size: 14px;
+  .glyphicon {
+    line-height: 23px;
+  }
+  i {
+    line-height: 23px; 
+  }
+}
+
+.btn-circular.btn-xs {
+  .square(20px);
+  font-size: 10px;
+  .glyphicon {
+    line-height: 17px;
+  }
+  i {
+    line-height: 18px; 
+  }
+}

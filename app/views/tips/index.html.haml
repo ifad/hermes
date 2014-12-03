@@ -1,7 +1,7 @@
 .tip-collection{data: {view: 'tip-collection'}}
   %h3
-    = "Messages for #{@site.name}"
-    = link_to new_site_tip_path(@site), class: 'btn btn-default btn-sm pull-right' do
+    = index_title
+    = link_to new_tip_link, class: 'btn btn-default btn-sm pull-right' do
       %i.fa.fa-plus
       New message
   - if @tips.any?
@@ -17,9 +17,9 @@
         = render @tips
   - else
     .hero-unit{:style => "padding: 30px 60px; text-align: center"}
-      %h3 No messages for this site yet!
+      %h3 No messages for this #{@tutorial ? 'tutorial' : 'site'} yet!
       %p
-        Start adding messages to your site clicking the button below.
+        Start adding messages to your #{@tutorial ? 'tutorial' : 'site'} by clicking the button below.
       %hr/
       %p
-        = link_to "Add a message to your site!", @tutorial ? new_site_tutorial_tip_path(@site, @tutorial) : new_site_tip_path(@site), class: 'btn btn-large btn-primary'
+        = link_to "Add a message to your #{@tutorial ? 'tutorial' : 'site'}!", new_tip_link, class: 'btn btn-large btn-primary'
