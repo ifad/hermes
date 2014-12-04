@@ -72,6 +72,6 @@ class TutorialsController < ApplicationController
     # is only used to pass the opener scheme to postMessage.
     #
     def generate_xd_token
-      @tutorial_connector_token = "#hermes-authoring,#{request.scheme}"
+      @tutorial_connector_token = "#hermes-authoring-tutorial,#{request.scheme}"
     end
 end

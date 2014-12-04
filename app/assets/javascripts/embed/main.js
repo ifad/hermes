@@ -52,18 +52,21 @@
     var hash = document.location.hash, 
         path = ''
     ;
-    if ((hash.match(/^#hermes-authoring/)) && (window.opener || ns.env === 'development')) {
+    if ((hash.match(/^#hermes-authoring-tutorial/)) && (window.opener || ns.env === 'development')) {
+      this.mode = 'authoring-tutorial';
       ns.init_authoring($);
+    } else if ((hash.match(/^#hermes-authoring/)) && (window.opener || ns.env === 'development')) {
       this.mode = 'authoring';
+      ns.init_authoring($);
     } else {
       ns.init_displayer($);
       ns.init_popover($);
       if (hash.match(/^#hermes-preview/)) {
-        ns.init_preview($);
         this.mode = 'preview';
+        ns.init_preview($);
       } else {
-        ns.init_general_messaging($);
         this.mode = 'general-messaging';
+        ns.init_general_messaging($);
       }
     }
 

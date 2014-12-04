@@ -1,6 +1,6 @@
-.col-md-3
-  = render 'side'
-.col-md-9
+- if Site.by_user(current_user).any?
+  .col-md-3= render 'side'
+%div{class: Site.by_user(current_user).any? ? 'col-md-9' : ''}
   .welcome
     = image_tag 'hermes-logo.png'
     %h3 Welcome to <span class="hermes-title">Hermes</span>

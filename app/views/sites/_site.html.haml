@@ -1,19 +1,21 @@
 %li.list-group-item
-  -# = link_to site_path(site), id: dom_id(site) do
-  %h4.list-group-item-heading= site.name
+  = link_to site_path(site), id: dom_id(site) do
+    %h4.list-group-item-heading= site.name
   %p.small.courier
     = site.hostname
   %p.list-group-item-text
     %span.small
-      = site.tips.count
-      tips
-    = link_to new_site_tip_path(site), class: 'btn btn-success btn-xs btn-circular' do
+      = link_to site_tips_path(site) do
+        = site.tips.count
+        tips
+    = link_to new_site_tip_path(site), class: 'btn btn-primary btn-xs btn-circular' do
       %i.fa.fa-plus  
     &nbsp;
     %span.small
-      = site.tutorials.count
-      tutorials
-    = link_to new_site_tutorial_path(site), class: 'btn btn-success btn-xs btn-circular' do
+      = link_to site_tutorials_path(site) do
+        = site.tutorials.count
+        tutorials
+    = link_to new_site_tutorial_path(site), class: 'btn btn-primary btn-xs btn-circular' do
       %i.fa.fa-plus
   .list-group-item-actions
     = link_to edit_site_path(site), remote: true, class: 'btn btn-xs btn-circular' do

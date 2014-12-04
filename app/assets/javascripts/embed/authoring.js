@@ -121,10 +121,27 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.callback = function(evt) {
-      var path = ns.utils.getCSSPath(this.selectedElement);
+      
+      var path = '',
+          $selected = $(this.selectedElement)
+      ;
       evt.preventDefault();
       evt.stopPropagation();
       evt.stopImmediatePropagation();
+      console.log($selected)
+      if (ns.instances.app.mode === 'authoring-tutorial') {
+        if ($selected.is('a') 
+          || $selected.parents('a').length > 0
+          || $selected.is('button:submit')
+          || $selected.parents('button:submit').length > 0) {
+
+          alert('you can\'t bind a tutorial start on <a> or <button type="submit"> elements! :(');
+          return;
+        }
+      } 
+
+      path = ns.utils.getCSSPath(this.selectedElement);
+
       if (w.opener) {
         w.opener.postMessage(path, this.openerProtocol + ':' + ns.host);
         w.close();
@@ -135,7 +152,9 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.init = function() {
-      this.openerProtocol = document.location.hash.match(/^#hermes-authoring,(https?)/)[1];
+      this.openerProtocol = ns.instances.app.mode === 'authoring-tutorial' ?  
+                            document.location.hash.match(/^#hermes-authoring-tutorial,(https?)/)[1] :
+                            document.location.hash.match(/^#hermes-authoring,(https?)/)[1] ;
       this.prepareOverlay();
       this.selectedElement = null;
       BODY.on('mousemove', ns.utils.throttle(this.mousemove.bind(this), 100));
