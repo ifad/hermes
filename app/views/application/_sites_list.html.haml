@@ -4,6 +4,10 @@
       %i.fa.fa-plus
       Add new site
   - if Site.by_user(current_user).any?
+    %li
+      = link_to '#', :'data-toggle' => 'modal' do
+        %i.fa.fa-plus
+        Add new general broadcast
     %li.dropdown
       %a.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
         Your sites
@@ -17,5 +21,7 @@
       = current_user.email
       %b.caret
     %ul.dropdown-menu
+      %li
+        = link_to 'Home', root_path
       %li
         = link_to 'Logout', destroy_user_session_path, method: :delete

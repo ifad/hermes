@@ -1,5 +1,5 @@
-.tip-edit{data: {view: 'tip-edit'}}
-  %h3= title @tutorial ? "Tutorial #{@tutorial.title} (#{@site.name} site)" : "Site #{@site.name}", "New message"
-  = form_for @tip, :url => site_tips_path(@site), html: { role: 'form', class: 'boxed' } do |f|
+.col-md-8.col-md-offset-2.tip-edit{data: {view: 'tip-edit'}}
+  %h3 New tip
+  = form_for @tip, :url => site_tips_path(@site), html: { role: 'form' } do |f|
     = hidden_field_tag :tutorial_id, @tutorial.id if @tutorial
     = render 'form', :f => f

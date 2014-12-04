@@ -1,0 +1,17 @@
+- if @site.persisted?
+  %ol.breadcrumb
+    %li= link_to 'Home', root_path
+    - is_site = !@tutorial && !@tip && !@tutorials && !@tips
+    %li{class: is_site ? 'active' : ''}
+      = is_site ? "Site: #{@site.name}" : link_to("Site: #{@site.name}", site_path(@site))
+    - if @tutorial && @tutorial.persisted?
+      - is_tutorial = !@tips && !@tip
+      %li{class: is_tutorial ? 'active' : ''}
+        = is_tutorial ? "Tutorial: #{@tutorial.title}" : link_to("Tutorial: #{@tutorial.title}", site_tutorial_path(@site, @tutorial))
+    - if @tutorial && !@tutorial.persisted? || @tutorials
+      %li.active Tutorials
+    - if @tip && @tip.persisted?
+      %li= "Tip: #{@tip.title}"
+    - if @tip && !@tip.persisted? || @tips
+      %li.active Tips
+

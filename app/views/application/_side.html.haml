@@ -2,6 +2,11 @@
   %ul.list-group
     = render Site.by_user(current_user) if Site.by_user(current_user).any?
     %li.list-group-item
-      = link_to '#new-site-modal', class: 'btn btn-block btn-primary btn-lg', :'data-toggle' => 'modal' do
+      = link_to '#new-site-modal', class: 'btn btn-block btn-primary', :'data-toggle' => 'modal' do
         %i.fa.fa-plus
         Add new site
+    - if Site.by_user(current_user).any?
+      %li.list-group-item
+        = link_to '#', class: 'btn btn-block btn-primary', :'data-toggle' => 'modal' do
+          %i.fa.fa-plus
+          Add new general broadcast

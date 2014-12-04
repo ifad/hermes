@@ -24,6 +24,7 @@ gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 gem 'animate-rails'
 gem 'autosize-rails'
 gem 'medium-editor-rails'
+gem 'zeroclipboard-rails'
 
 group :doc do
   gem 'sdoc', require: false

@@ -6,15 +6,13 @@
   %p.list-group-item-text
     %span.small
       = link_to site_tips_path(site) do
-        = site.tips.count
-        tips
+        = pluralize(site.tips.count, 'tip')
     = link_to new_site_tip_path(site), class: 'btn btn-primary btn-xs btn-circular' do
       %i.fa.fa-plus  
     &nbsp;
     %span.small
       = link_to site_tutorials_path(site) do
-        = site.tutorials.count
-        tutorials
+        = pluralize(site.tutorials.count, 'tutorial')
     = link_to new_site_tutorial_path(site), class: 'btn btn-primary btn-xs btn-circular' do
       %i.fa.fa-plus
   .list-group-item-actions

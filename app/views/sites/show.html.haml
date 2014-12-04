@@ -1,9 +1,30 @@
-%div
-  %h3= title "Site #{@site.name}"
-  %dl.dl-horizontal
-    %dt Host name
-    %dd= @site.hostname
-    %dt Tips
-    %dd= link_to pluralize(@site.tips.count, 'tip'), site_tips_path(@site)
-    %dt Tutorials
-    %dd= link_to pluralize(@site.tutorials.count, 'tutorial'), site_tutorials_path(@site)
+.boxed.site-show
+  %h1= @site.name
+  %p.courier= @site.hostname
+  %p
+    %span.small
+      = link_to site_tips_path(@site) do
+        = pluralize(@site.tips.count, 'tip')
+    = link_to new_site_tip_path(@site), class: 'btn btn-primary btn-xs btn-circular' do
+      %i.fa.fa-plus  
+    &nbsp;
+    %span.small
+      = link_to site_tutorials_path(@site) do
+        = pluralize(@site.tutorials.count, 'tutorial')
+    = link_to new_site_tutorial_path(@site), class: 'btn btn-primary btn-xs btn-circular' do
+      %i.fa.fa-plus
+  .list-group-item-actions
+    = link_to edit_site_path(@site), remote: true, class: 'btn btn-xs btn-circular' do
+      %i.fa.fa-pencil
+    = link_to site_path(@site), method: :delete, remote: true, class: 'btn btn-xs btn-circular', :'data-confirm' => 'This action will remove your site'  do
+      %i.fa.fa-trash
+
+-# %div
+-#   %h3= title "Site #{@site.name}"
+-#   %dl.dl-horizontal
+-#     %dt Host name
+-#     %dd= @site.hostname
+-#     %dt Tips
+-#     %dd= link_to pluralize(@site.tips.count, 'tip'), site_tips_path(@site)
+-#     %dt Tutorials
+-#     %dd= link_to pluralize(@site.tutorials.count, 'tutorial'), site_tutorials_path(@site)

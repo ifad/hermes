@@ -1,34 +1,38 @@
-.form-group
-  = f.text_field :title, class: 'form-control', placeholder: 'Title'
-.form-group
-  = f.label :path
-  = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path'
+.boxed
+  .form-group
+    = f.text_field :title, class: 'form-control input-transparent', placeholder: 'Title'
+  .form-group
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
+    %p.form-control-help.text-right
+      insert the path where the tutorial will be displayed (<b>/</b> default)
+  .form-group
+    .input-group.datetimepicker
+      = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control input-transparent'
+      %span.input-group-addon.add-on
+        %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
 
-.form-group
-  .input-group.datetimepicker
-    = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control'
-    %span.input-group-addon.add-on
-      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
+  .form-group
+    .input-group.datetimepicker
+      = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control input-transparent'
+      %span.input-group-addon.add-on
+        %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
 
-.form-group
-  .input-group.datetimepicker
-    = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control'
-    %span.input-group-addon.add-on
-      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
-
-%p Activate tutorial on click to item in the page
-.form-group
-  .btn-group{"data-toggle" => "buttons"}
-    %label.btn.btn-primary{class: f.object.selector.present? ? '' : 'active'}
-      %input.ext-remove-selector{:"data-output" => "#selector-connected", :name => "selector", :type => "radio", checked: f.object.selector.blank?}
-      No
-    %label.btn.btn-primary.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
-      %input{"data-output" => "#selector-connect", :name => "selector", :type => "radio", checked: f.object.selector.present?}
-      = link_to 'Connect', [@site.url, f.object.path, @tutorial_connector_token].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tutorial_connector_token, :'data-output' => '#selector-connected'
-      Yes
-      %span#selector-connected{:class => f.object.selector.blank? ? 'hide' : ''}
-        %i.fa.fa-check
-        Connected!
-        = f.hidden_field :selector
-%p.text-center
-  %button.btn.btn-primary.btn-lg Save
+  %p Activate tutorial on click to item in the page
+  .form-group
+    .btn-group{"data-toggle" => "buttons"}
+      %label.btn.btn-default{class: f.object.selector.present? ? '' : 'active'}
+        %input.ext-remove-selector{:"data-output" => "#selector-connected", :name => "selector", :type => "radio", checked: f.object.selector.blank?}
+        No
+      %label.btn.btn-default.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
+        %input{"data-output" => "#selector-connect", :name => "selector", :type => "radio", checked: f.object.selector.present?}
+        = link_to 'Connect', [@site.url, f.object.path, @tutorial_connector_token].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tutorial_connector_token, :'data-output' => '#selector-connected'
+        Yes
+        %span#selector-connected{:class => f.object.selector.blank? ? 'hide' : ''}
+          %i.fa.fa-check
+          Connected!
+          = f.hidden_field :selector
+.form-actions.text-center
+  - if f.object.persisted?
+    = f.button 'Update tutorial', class: 'btn btn-success'
+  - else
+    = f.button 'Create new tutorial', class: 'btn btn-success'

@@ -1,4 +1,4 @@
-.tutorial-edit{data: {view: 'tutorial-edit'}}
-  %h1= title @site.name, 'Edit tutorial'
-  = form_for @tutorial, :url => site_tutorial_path(@site, @tutorial) do |f|
+.col-md-8.col-md-offset-2.tutorial-edit{data: {view: 'tutorial-edit'}}
+  %h3 Edit tutorial
+  = form_for @tutorial, :url => site_tutorial_path(@site, @tutorial), html: { role: 'form' } do |f|
     = render 'form', :f => f

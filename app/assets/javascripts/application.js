@@ -9,12 +9,13 @@
 //= require bootstrap-datetimepicker
 //= require data-confirm-modal
 //= require medium-editor
+//= require zeroclipboard
 
 // require own plugins
 //= require_directory ./plugins
 
-// require views
+// require views (main should always be the last, order for others doesn't matter)
 //= require views/tip-collection
 //= require views/tip-edit
 //= require views/tutorial-edit
-//= require views/app
+//= require views/main

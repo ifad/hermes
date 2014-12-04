@@ -12,6 +12,9 @@ class TipsController < ApplicationController
     else
       @tips = @site.tips.sort_by_row_order
     end
+    if @tips.blank?
+      redirect_to @tutorial ? new_site_tutorial_tip_path(@site, @tutorial) : new_site_tip_path(@site)
+    end
   end
 
   def show

@@ -2,7 +2,7 @@
   .col-md-3= render 'side'
 %div{class: Site.by_user(current_user).any? ? 'col-md-9' : ''}
   .welcome
-    = image_tag 'hermes-logo.png'
+    = logo_big
     %h3 Welcome to <span class="hermes-title">Hermes</span>
   .explain
     %p
@@ -10,11 +10,19 @@
       just before the ending
       %code &lt;/body&gt;
       tag:
-    %pre
-      &lt;script src="#{root_url + 'assets/hermes.js'}"&gt;&lt;/script&gt;
+    .embed-element
+      %pre#embed_static
+        &lt;script src="#{root_url + 'assets/hermes.js'}"&gt;&lt;/script&gt;
+      %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
+        %i.fa.fa-files-o
+        copy
     %p or you can dinamically import it via JavaScript:
-    %pre
-      (function(t,d,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{root_url + 'assets/hermes.js'}';l.parentNode.insertBefore(s,l)}(this,document));
+    .embed-element
+      %pre#embed_dynamic
+        (function(t,d,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{root_url + 'assets/hermes.js'}';l.parentNode.insertBefore(s,l)}(this,document));
+      %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
+        %i.fa.fa-files-o
+        copy
     %p
       Then
     %p.text-center

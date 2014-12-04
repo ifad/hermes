@@ -9,7 +9,7 @@ module TipsHelper
   end
 
   def index_title
-    @tutorial ? "Messages for tutorial #{@tutorial.title} (#{@site.name} site)" : "Messages for #{ @site.name }"
+    @tutorial ? "Tips for tutorial #{@tutorial.title} (#{@site.name} site)" : "Tips for #{ @site.name }"
   end
 
   def new_tip_link

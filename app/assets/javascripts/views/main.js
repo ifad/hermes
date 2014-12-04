@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 ---
 
-Fire the JS!
+Create the App and Fire the JS!
 
 */
 
@@ -60,6 +60,28 @@ Fire the JS!
     $('textarea').autosize();
   }
 
+  App.prototype._startZeroClipboard = function() {
+    var errorZeroClipboard = false,
+        zeroClient = new ZeroClipboard,
+        copyElement = $('.copy-element')
+    ;
+    copyElement.parents('.embed-element').data('hermes.to', null)
+    zeroClient.on('ready', function(evt) {
+      zeroClient.on('aftercopy', function(evt) {
+        var embedElem = $(evt.target).parents('.embed-element');
+        embedElem.addClass('copied');
+        clearTimeout(embedElem.data('hermes.to'));
+        embedElem.data('hermes.to', setTimeout(function() {
+          embedElem.removeClass('copied');
+        }, 500));
+      });
+    });
+    zeroClient.on('error', function() {
+      copyElement.remove();
+    });
+    zeroClient.clip(copyElement);
+  };
+
   App.prototype._findAndInstantiateViews = function() {
     $('[data-view]:not([data-instantiated=true])').each(function(i, el){
       var viewName = $(el).data('view').toViewTitle();
@@ -71,6 +93,7 @@ Fire the JS!
   App.prototype.init = function() {
     this._startBootstrap();
     this._findAndInstantiateViews();
+    this._startZeroClipboard();
   };
 
   ns.App = new App();

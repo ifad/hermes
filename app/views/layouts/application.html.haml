@@ -27,6 +27,7 @@
         .navbar-header
           = logo
         = render 'sites_list' if user_signed_in?
+    = render 'breadcrumb'
     .container
       .row
         = bootstrap_flash
