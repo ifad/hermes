@@ -1,11 +1,11 @@
 .user-meta
-  = image_tag 'hermes-logo.png', class: 'logo'
+  = logo_big
   %h3 Hermes
   %h4 Forgot your password?
   = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
     = devise_error_messages!
-    .control-group
-      .controls
-        = f.email_field :email, :autofocus => true, placeholder: 'email...', class: 'input-block-level'
-    = f.button "Send reset password link", class: "btn input-block-level"
+    .form-group
+      = f.email_field :email, :autofocus => true, placeholder: 'email...', class: 'form-control input-lg input-transparent'
+    .form-group
+      = f.button "Send reset password link", class: 'btn btn-block btn-success'
   = render "devise/shared/links"

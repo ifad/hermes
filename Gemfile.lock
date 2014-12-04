@@ -57,7 +57,11 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    animate-rails (1.0.7)
+      rails
     arel (5.0.1.20140414130214)
+    autosize-rails (1.18.8)
+      rails (>= 3.1)
     bcrypt (3.1.9)
     bcrypt-ruby (3.0.1)
     bootstrap-datetimepicker-rails (0.0.11)
@@ -125,6 +129,8 @@ GEM
     libv8 (3.11.8.17)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    medium-editor-rails (0.13.1)
+      railties (>= 3.0)
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.1)
@@ -221,6 +227,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  animate-rails
+  autosize-rails
   bcrypt-ruby (~> 3.0.0)
   bootstrap-datetimepicker-rails
   bootstrap-wysihtml5-rails
@@ -235,6 +243,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   less-rails
+  medium-editor-rails
   mysql2
   pg
   pry

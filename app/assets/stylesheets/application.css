@@ -9,10 +9,12 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require animate
  *= require font-awesome
  *= require jquery-ui/core
  *= require jquery-ui/theme
  *= require bootstrap-datetimepicker
- *= require bootstrap-wysihtml5
+ *= require medium-editor/medium-editor
+ *= require medium-editor/themes/flat
  *= require views/main
  */

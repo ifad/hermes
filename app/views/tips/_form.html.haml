@@ -1,10 +1,14 @@
 .form-group
-  = f.text_field :title, class: 'form-control', placeholder: 'Title'
+  = f.text_field :title, class: 'form-control input-transparent', placeholder: 'Title'
 .form-group
-  = f.text_area :content, class: 'form-control wysihtml5', rows: 8, placeholder: 'Content'
+  = f.hidden_field :content
+  .textarea-editable{data: {placeholder: 'Content'}}= f.object.content.html_safe if f.object.content
+  %p.form-control-help.text-right
+    Insert the content of the tip. Select text to change style
 .form-group
-  = f.label :path
-  = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path'
+  = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
+  %p.form-control-help.text-right
+    insert the path where the tip will be displayed (<b>/</b> default)
 .form-group
   %label
     Layout type
@@ -26,13 +30,13 @@
           
   .form-group
     .input-group.datetimepicker
-      = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control'
+      = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control input-transparent'
       %span.input-group-addon.add-on
         %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
 
   .form-group
     .input-group.datetimepicker
-      = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control'
+      = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control input-transparent'
       %span.input-group-addon.add-on
         %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
 

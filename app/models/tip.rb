@@ -1,4 +1,5 @@
 class Tip < ActiveRecord::Base
+
   include Publicable
   include Politeness
   include PathScoping

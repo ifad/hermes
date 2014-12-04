@@ -1,0 +1,73 @@
+.input-transparent {
+  background-color: transparent;
+  .box-shadow(none);
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid lighten(@gray-light, 20%);
+  &:active,
+  &:focus {
+    .box-shadow(none);
+    border-bottom: 1px solid @gray-light;
+  }
+}
+:focus::-webkit-input-placeholder {
+   color: @gray-light;
+}
+:-moz-placeholder:focus {
+   color: @gray-light;
+}
+:-ms-input-placeholder:focus {
+   color: @gray-light;
+}
+
+.textarea-editable {
+  padding: 10px;
+  border-bottom: 1px solid lighten(@gray-light, 20%);
+}
+
+.form-control-help {
+  font-size: 11px;
+  color: @gray-light;
+  font-style: italic;
+}
+
+/* content editable overwrite */
+
+.medium-editor-placeholder:after {
+  color: @gray-light;
+  top: 10px;
+  left: 10px;
+  font-style: normal;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.medium-editor-toolbar {
+  background-color: @brand-primary;
+}
+
+.medium-editor-toolbar li button {
+  border-right-color: lighten(@brand-primary, 5%);
+  &:hover {
+    background-color: darken(@brand-primary, 10%);
+  }
+}
+
+.medium-editor-toolbar li .medium-editor-button-active {
+  background-color: darken(@brand-primary, 15%);
+}
+
+.medium-toolbar-arrow-under:after {
+  border-color: @brand-primary transparent transparent transparent
+}
+
+.medium-toolbar-arrow-over:before {
+  border-color: transparent transparent @brand-primary transparent 
+}
+
+.medium-editor-toolbar-form-anchor .medium-editor-toolbar-anchor-input {
+  background-color: @brand-primary;
+}
+
+.medium-editor-toolbar-anchor-preview {
+  background-color: @brand-primary; 
+}

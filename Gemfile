@@ -21,6 +21,9 @@ gem 'bootstrap-wysihtml5-rails'
 gem 'haml-rails'
 gem 'font-awesome-rails'
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
+gem 'animate-rails'
+gem 'autosize-rails'
+gem 'medium-editor-rails'
 
 group :doc do
   gem 'sdoc', require: false

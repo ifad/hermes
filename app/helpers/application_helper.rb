@@ -11,4 +11,8 @@ module ApplicationHelper
     gravatar_id = Digest::MD5.hexdigest(email.downcase)
     return "http://gravatar.com/avatar/#{gravatar_id}?size=#{size}&default=identicon"
   end
+
+  def logo_big
+    image_tag 'hermes-logo.png', class: 'logo', width: 71, height: 67
+  end
 end

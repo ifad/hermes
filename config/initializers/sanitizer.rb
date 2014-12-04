@@ -21,11 +21,11 @@ css_class_filterer = lambda {|options|
 }
 
 Sanitize::Rails.configure(
-  :elements => %w[ a b br em i p span strong ],
+  :elements => %w[ a b br em i p span strong li ul ol ],
 
   :attributes => {
     'span' => ['class'],
-    'a'    => ['href'],
+    'a'    => ['href', 'target'],
     'img'  => ['src']
   },
 

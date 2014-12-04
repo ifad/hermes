@@ -21,22 +21,21 @@
         HERMES.env = "#{Rails.env}";
       }(this);
   %body
-    = render 'new_site'
-    .navbar.navbar-default{role: :navigation}
+    = render 'new_site_modal' if user_signed_in?
+    .navbar.navbar-default{role: :navigation, class: user_signed_in? ? '' : 'animated fadeInDown'}
       .container-fluid
         .navbar-header
           = logo
         = render 'sites_list' if user_signed_in?
     .container
       .row
+        = bootstrap_flash
         - if user_signed_in?
-          = bootstrap_flash
           = render 'edit_site_modal'
           = yield
         - else
           .col-md-7
-            = bootstrap_flash
             = render 'welcome'
-          .col-md-3
+          .col-md-3.animated.zoomInUp
             = yield
     = javascript_include_tag "application"

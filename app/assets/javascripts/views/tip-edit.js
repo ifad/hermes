@@ -44,7 +44,9 @@ THE SOFTWARE.
   };
 
 
-
+  TipEdit.prototype.submitForm = function(evt) {
+    this.element.find('#tip_content').val(this.contentEditor.serialize()['element-0'].value);
+  }
 
   /**
   * Init method, called when the object is being created via the constructor function.
@@ -54,6 +56,13 @@ THE SOFTWARE.
 
   TipEdit.prototype.init = function() {
     this.element.externalconnector();
+    this.contentEditor = new MediumEditor('.textarea-editable', {
+      buttons: ['bold', 'italic', 'underline', 'anchor', 'orderedlist', 'unorderedlist'],
+      targetBlank: true,
+      disableDoubleReturn: true
+    });
+    console.log(this.contentEditor)
+    this.element.on('submit', 'form', this.submitForm.bind(this))
     return this;
   };
 

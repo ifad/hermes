@@ -1,7 +1,5 @@
 .tip-edit{data: {view: 'tip-edit'}}
-  = form_for @tip, :url => site_tips_path(@site), html: { role: 'form' } do |f|
+  %h3= title @tutorial ? "Tutorial #{@tutorial.title} (#{@site.name} site)" : "Site #{@site.name}", "New message"
+  = form_for @tip, :url => site_tips_path(@site), html: { role: 'form', class: 'boxed' } do |f|
     = hidden_field_tag :tutorial_id, @tutorial.id if @tutorial
-    %fieldset
-      %legend
-        = title @tutorial ? "Tutorial #{@tutorial.title} (#{@site.name} site)" : "Site #{@site.name}", "New message"
-      = render 'form', :f => f
+    = render 'form', :f => f
