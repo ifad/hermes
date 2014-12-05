@@ -37,12 +37,6 @@
   }
 }
 
-.col-md-3.zoomInUp {
-  -webkit-animation-delay: 1s; 
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
 #error_explanation {
   h2 {
     color: #900;
@@ -63,26 +57,53 @@ pre {
 }
 
 .not_logged_in {
+  .user-meta-head {
+    -webkit-animation-delay: 1.5s; 
+    -moz-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+  }
+  .user-meta-content {
+    -webkit-animation-delay: .7s; 
+    -moz-animation-delay: .7s;
+    animation-delay: .7s;
+  }
   .user-meta {
     margin: 20px 0;
-    .boxed();
-    background-color: rgba(255, 255, 255, .6);
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, .7);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 3px;
+    margin-top: 40px;
+    form {
+      .boxed();
+      background-color: rgba(255, 255, 255, .6);
+      border: none;
+      border-bottom: 1px solid rgba(0, 0, 0, .7);
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
+      .form-group:last-child {
+        margin-bottom: 0;
+      }
+    }
     img {
       display: block;
-      margin: 15px auto;
+      margin: 5px auto;
     }
     h3 {
-      font-size: 32px;
       .hermes-title();
+      margin-top: 10px;
+      font-size: 32px;
+      text-shadow: 0 1px rgba(0, 0, 0, 0.7);
     }
     h4 {
       text-align: center;
       font-weight: 100;
       font-size: 18px;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+    }
+    a {
+      text-decoration: none;
+      text-shadow: 0 1px rgba(0, 0, 0, 0.4); 
+    }
+    a:hover {
+      color: lighten(@brand-primary, 10%);
     }
   }
 }
@@ -153,5 +174,9 @@ pre {
 
 .ifad-logo-wrapper {
   opacity: .8;
-  margin: 20px 0;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  -webkit-animation-delay: 1.7s; 
+  -moz-animation-delay: 1.7s;
+  animation-delay: 1.7s;
 }
