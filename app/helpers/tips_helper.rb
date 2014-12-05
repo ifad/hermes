@@ -16,4 +16,10 @@ module TipsHelper
     @tutorial ? new_site_tutorial_tip_path(@site, @tutorial) : new_site_tip_path(@site)
   end
 
+  def preview_tip_link(tip)
+    preview_sub_path = "http://#{@site.hostname}#{tip.path}#hermes-preview"
+    m_path = @tutorial ? "#{message_tutorial_path(@tutorial.id, tip.class.model_name.param_key, tip.id)}" : "#{message_path(tip.class.model_name.param_key, tip.id)}"
+    "#{preview_sub_path},#{m_path}"
+  end
+
 end

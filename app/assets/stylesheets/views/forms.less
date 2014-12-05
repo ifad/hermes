@@ -1,3 +1,7 @@
+.field_with_errors input {
+  border: 1px solid @brand-danger;
+}
+
 .input-transparent {
   background-color: transparent;
   .box-shadow(none);
@@ -10,6 +14,10 @@
     border-bottom: 1px solid @gray-light;
   }
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
 :focus::-webkit-input-placeholder {
    color: @gray-light;
 }
@@ -18,6 +26,12 @@
 }
 :-ms-input-placeholder:focus {
    color: @gray-light;
+}
+
+.not_logged_in {
+  .input-transparent {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
 }
 
 .textarea-editable {

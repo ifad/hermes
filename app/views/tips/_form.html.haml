@@ -28,19 +28,20 @@
             = f.hidden_field :selector
 
   - unless @tutorial
-            
-    .form-group
-      .input-group.datetimepicker
-        = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control input-transparent'
-        %span.input-group-addon.add-on
-          %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
-
-    .form-group
-      .input-group.datetimepicker
-        = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control input-transparent'
-        %span.input-group-addon.add-on
-          %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
-
+    .row
+      .col-md-6
+        .form-group
+          .input-group.date.datetimepicker
+            = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+            %span.input-group-addon
+              %span.fa.fa-calendar
+      .col-md-6
+        .form-group
+          .input-group.date.datetimepicker
+            = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+            %span.input-group-addon
+              %span.fa.fa-calendar
+      
   - if f.object.persisted? && !@tutorial
     .checkbox
       = f.label :redisplay do

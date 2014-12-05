@@ -27,7 +27,7 @@
         .navbar-header
           = logo
         = render 'sites_list' if user_signed_in?
-    = render 'breadcrumb'
+    = render 'breadcrumb' if user_signed_in?
     .container
       .row
         = bootstrap_flash
@@ -35,8 +35,9 @@
           = render 'edit_site_modal'
           = yield
         - else
-          .col-md-7
-            = render 'welcome'
-          .col-md-3.animated.zoomInUp
-            = yield
+          .col-md-7.col-md-offset-1= render 'welcome'
+          .col-md-3.animated.zoomInUp= yield
+      - unless user_signed_in?
+        .row.text-center.ifad-logo-wrapper
+          = image_tag 'ifad.png', width: 200, height: 122
     = javascript_include_tag "application"

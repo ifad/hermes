@@ -56,7 +56,7 @@ Create the App and Fire the JS!
   App.prototype._startBootstrap = function() {
     $("a[rel~=popover], .has-popover").popover();
     $("a[rel~=tooltip], .has-tooltip").tooltip();
-    $('.datetimepicker').datetimepicker({ language: 'en-US' });
+    $('.datetimepicker').datetimepicker({ language: 'en-US', pickTime: true });
     $('textarea').autosize();
   }
 

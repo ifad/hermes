@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   before_filter :require_callback
 
   before_filter :find_site
-  before_filter :find_message, only: %w( show update )
+  before_filter :find_message, only: %w( show update show_tutorial_message )
 
   skip_before_action :verify_authenticity_token
 
@@ -24,6 +24,11 @@ class MessagesController < ApplicationController
   # partial in the backend interface.
   #
   def show
+    json = render_to_string partial: 'messages/message', object: @message
+    render json: json, callback: @callback
+  end
+
+  def show_tutorial_message
     json = render_to_string partial: 'messages/message', object: @message
     render json: json, callback: @callback
   end

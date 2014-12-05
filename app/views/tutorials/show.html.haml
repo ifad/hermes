@@ -11,3 +11,5 @@
       %dt Unpublish on
       %dd= l @tutorial.unpublished_at
   = link_to 'create_tips', site_tutorial_tips_path(@site.id, @tutorial.id)
+
+  = render @tutorial.tips

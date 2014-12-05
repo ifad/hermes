@@ -6,6 +6,7 @@
 //= require jquery-ui/draggable
 //= require jquery-ui/effect-highlight
 //= require twitter/bootstrap
+//= require moment
 //= require bootstrap-datetimepicker
 //= require data-confirm-modal
 //= require medium-editor

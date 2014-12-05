@@ -47,5 +47,7 @@ Hermes::Application.routes.draw do
 
     # Message preview, bypassing State check
     get "/message/:type/:id" => "messages#show",    as: :message
+
+    get "/message/tutorial/:tutorial_id/:type/:id" => "messages#show_tutorial_message", as: :message_tutorial
   end
 end

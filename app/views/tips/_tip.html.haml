@@ -7,7 +7,7 @@
     %td= l tip.unpublished_at
   %td
     .btn-group
-      = link_to "http://#{@site.hostname}#{tip.path}#hermes-preview,#{message_path(tip.class.model_name.param_key, tip.id)}", class: 'btn btn-default btn-sm', target: '_blank' do
+      = link_to preview_tip_link(tip), class: 'btn btn-default btn-sm', target: '_blank' do
         %i.fa.fa-eye
       = link_to edit_tip_link(tip), class: 'btn btn-default btn-sm' do
         %i.fa.fa-edit
