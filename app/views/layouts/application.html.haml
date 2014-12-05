@@ -22,7 +22,8 @@
       }(this);
   %body
     - unless user_signed_in?
-      .homepage-cover-img= image_tag 'animated-clouds.png'
+      .homepage-cover-img.layer-1= image_tag 'animated-clouds.png'
+      .homepage-cover-img.layer-2= image_tag 'animated-clouds.png'
     = render 'new_site_modal' if user_signed_in?
     .navbar.navbar-default{role: :navigation, class: user_signed_in? ? '' : 'animated fadeInDown'}
       .container-fluid
