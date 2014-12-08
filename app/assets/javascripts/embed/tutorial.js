@@ -38,7 +38,7 @@ __hermes_embed.init_tutorial = function($) {
 
     Tutorial.prototype.end = function() {
       this.currentTipIndex = -1;
-      this.started = false
+      this.started = false;
       ns.publish('tutorialended', [this]);
       return this;
     }
@@ -54,16 +54,19 @@ __hermes_embed.init_tutorial = function($) {
     }
     
     Tutorial.prototype.init = function() {
+      var startElement = null;
       this.currentTipIndex = -1;
       this.tips = this.options.tips;
       this.selector = this.options.selector;
-      var startElement = null;
+      this.title = this.options.title;
       this.tips.forEach(function(tip){
         tip.tutorial_ref = this;
       }.bind(this));
-      if(this.selector) {
+      if (this.selector) {
         startElement = $(this.selector);
         startElement && startElement.on('click', this.start.bind(this));
+      } else {
+        ns.display({type: 'tutorialStarter', tutorial: this});
       }
       return this;
     }

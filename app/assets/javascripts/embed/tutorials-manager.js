@@ -32,19 +32,17 @@ __hermes_embed.init_tutorials_manager = function($) {
         this.initSelectorTutorials();
         return;
       }
-
-      var currTutorial = new ns.Tutorial(this.queue.shift());
-      currTutorial.start();
+      new ns.Tutorial(this.queue.shift());
     }
 
     TutorialsManager.prototype.setTutorials = function(tutorials) {
       ns.init_tutorial($);
       ns.tutorials = {};
       this.autoStartTutorials = tutorials.filter(function(tutorial){
-        return tutorial.selector === null || tutorial.selector === '';
+        return tutorial.tips.length > 0 && (tutorial.selector === null || tutorial.selector === '');
       });
       this.selectorTutorials = tutorials.filter(function(tutorial){
-        return tutorial.selector !== null;
+        return tutorial.tips.length > 0 && tutorial.selector !== null && tutorial.selector !== '';
       });
       this.enqueue();
     }

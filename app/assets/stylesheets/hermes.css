@@ -1,3 +1,45 @@
+/* tutorial start overlay */
+
+.hermes-tutorial-starter-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10049;
+  background-color: #000000;
+  opacity: .7;
+}
+
+.hermes-tutorial-starter {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+
+.hermes-tutorial-starter-panel {
+  width: 600px;
+  margin: 30px auto;
+}
+
+.hermes-tutorial-starter-panel-content {
+  padding: 20px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.hermes-tutorial-starter-panel-content > span {
+  display: block;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
 /* The broadcast CSS */
 
 .hermes-broadcast {

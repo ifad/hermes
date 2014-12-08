@@ -25,13 +25,23 @@ __hermes_embed.init_displayer = function($) {
               <button class="hermes-next btn btn-primary" type="button">next</button>\
               <button class="hermes-end btn btn-primary" type="button">Got It!</button>\
             </div>\
-          </div>'
+          </div>',
         TUTORIAL_TIP_TEMPLATE = 
           '<div class="hermes-content">\
             <div class="hermes-actions">\
               <button class="hermes-prev btn btn-primary" type="button">prev</button>\
               <button class="hermes-next btn btn-primary" type="button">next</button>\
               <button class="hermes-end btn btn-primary" type="button">Got It!</button>\
+            </div>\
+          </div>',
+        TUTORIAL_STARTER_TEMPLATE = 
+          '<div class="hermes-tutorial-starter-overlay"></div>\
+          <div class="hermes-tutorial-starter">\
+            <div class="hermes-tutorial-starter-panel">\
+              <div class="hermes-tutorial-starter-panel-content">\
+                <span>There\'s a new tutorial <b>{{tutorial_title}}</b> available!</span>\
+                <button class="hermes-start-tutorial btn btn-primary" type="button">Start it!</button>\
+              </div>\
             </div>\
           </div>'
     ;
@@ -82,6 +92,15 @@ __hermes_embed.init_displayer = function($) {
         }.bind(this));
 
       BODY.prepend(content);
+    }
+
+    Displayer.prototype.displayTutorialStarter = function(message) {
+      var content = $(TUTORIAL_STARTER_TEMPLATE.replace('{{tutorial_title}}', message.tutorial.title));
+      content.on('click', '.hermes-start-tutorial', function(event){
+        content.remove();
+        message.tutorial.start();
+      });
+      BODY.prepend(content); 
     }
 
     Displayer.prototype.handleTutorialButtons = function(tip, content) {
@@ -172,6 +191,9 @@ __hermes_embed.init_displayer = function($) {
           } else {
             message.tutorial_ref ? this.displayTutorialTip(message, target) : this.displayTip(message, target);
           } 
+          break;
+        case 'tutorialStarter':
+          this.displayTutorialStarter(message);
           break;
         default:
           message.tutorial_ref ? this.displayTutorialBroadcast(message) : this.displayBroadcast(message);
