@@ -48,10 +48,39 @@
     new ns.JQueryChecker(function($){ this.init($) }.bind(this));
   };
 
+  App.prototype.initPubSub = function($) {
+    // pubsub
+    ns.subscriptions = {};
+
+    ns.publish = function(topic, args) {
+      ns.subscriptions[topic] && $.each(ns.subscriptions[topic], function() {
+        this.apply(ns, args || []);
+      });
+    };
+
+    ns.subscribe = function(topic, callback) {
+      if (!ns.subscriptions[topic]) {
+        ns.subscriptions[topic] = [];
+      }
+      ns.subscriptions[topic].push(callback);
+      return [topic, callback];
+    };
+
+    ns.unsubscribe = function(handle) {
+      var t;
+      t = handle[0];
+      ns.subscriptions[t] && $.each(ns.subscriptions[t], function(idx) {});
+      if (this === handle[1]) {
+        ns.subscriptions[t].splice(idx, 1);
+      }
+    };
+  }
+
   App.prototype.init = function($){
     var hash = document.location.hash, 
         path = ''
     ;
+    this.initPubSub($);
     if ((hash.match(/^#hermes-authoring-tutorial/)) && (window.opener || ns.env === 'development')) {
       this.mode = 'authoring-tutorial';
       ns.init_authoring($);
@@ -67,6 +96,10 @@
       } else {
         this.mode = 'general-messaging';
         ns.init_general_messaging($);
+        // init also tutorials manager (TODO ask on general messaging over or not (selector problems, if on general messaging I click on the tutorial selector?))
+        ns.subscribe('generalMessagingOver', function(){
+          ns.init_tutorials_manager($);
+        });
       }
     }
 

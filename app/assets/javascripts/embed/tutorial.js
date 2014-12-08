@@ -12,11 +12,54 @@ __hermes_embed.init_tutorial = function($) {
       this.options = $.extend(DEFAULTS, options);
       this.init();
     };
-    
-    Tutorial.prototype.init = function() {
+
+    Tutorial.prototype.totalTips = function() {
+      return this.tips.length;
     }
 
-    ns.instances.generalmessaging = new Tutorial;
+    Tutorial.prototype.isEnd = function() {
+      return this.currentTipIndex === (this.tips.length - 1);
+    }
+
+    Tutorial.prototype.isBeginning = function() {
+      return this.currentTipIndex === 0;
+    }
+
+    Tutorial.prototype.next = function() {
+      ns.display(this.tips[++this.currentTipIndex]);
+    }
+
+    Tutorial.prototype.prev = function() {
+      ns.display(this.tips[--this.currentTipIndex]);
+    }
+
+    Tutorial.prototype.end = function() {
+      this.currentTipIndex = -1;
+      this.started = false;
+    }
+
+    Tutorial.prototype.start = function() {
+      if (this.started)
+        return;
+      (this.started = true) && ns.publish('tutorialstarted');
+      this.next();
+    }
+    
+    Tutorial.prototype.init = function() {
+      this.currentTipIndex = -1;
+      this.tips = this.options.tips;
+      this.selector = this.options.selector;
+      var startElement = null;
+      this.tips.forEach(function(tip){
+        tip.tutorial_ref = this;
+      }.bind(this));
+      if(this.selector) {
+        startElement = $(this.selector);
+        startElement && startElement.on('click', this.start.bind(this));
+      }
+    }
+
+    ns.Tutorial = Tutorial;
 
   })(window, __hermes_embed);
 

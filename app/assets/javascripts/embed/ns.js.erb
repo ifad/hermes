@@ -5,31 +5,4 @@
   h.host = "<%= compute_asset_host %>";
   h.env = "<%= Rails.env %>";
 
-  // pubsub
-
-  h.subscriptions = {}
-
-  h.publish = function(topic, args) {
-    h.subscriptions[topic] && $.each(h.subscriptions[topic], function() {
-      this.apply(h, args || []);
-    });
-  };
-
-  h.subscribe = function(topic, callback) {
-    if (!h.subscriptions[topic]) {
-      h.subscriptions[topic] = [];
-    }
-    h.subscriptions[topic].push(callback);
-    return [topic, callback];
-  };
-
-  h.unsubscribe = function(handle) {
-    var t;
-    t = handle[0];
-    h.subscriptions[t] && $.each(h.subscriptions[t], function(idx) {});
-    if (this === handle[1]) {
-      h.subscriptions[t].splice(idx, 1);
-    }
-  };
-
 })(this);

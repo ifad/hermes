@@ -15,5 +15,6 @@
 //= require embed/preview
 //= require embed/displayer
 //= require embed/general-messaging
+//= require embed/tutorials-manager
 //= require embed/tutorial
 //= require embed/main

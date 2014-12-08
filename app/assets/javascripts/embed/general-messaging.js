@@ -5,7 +5,8 @@ __hermes_embed.init_general_messaging = function($) {
     var DOC = $(document),
         BODY = $(document.body),
         DEFAULTS = {
-          snoozeTimeOut: 250 //ms
+          snoozeTimeOut: 250, //ms
+          retrieveMessagesUrl: '/messages.js'
         }
     ;
 
@@ -35,7 +36,11 @@ __hermes_embed.init_general_messaging = function($) {
     }
 
     GeneralMessaging.prototype.dequeue = function() {
-      if (this.queue.length === 0) return;
+      if (this.queue.length === 0) {
+        ns.publish('generalMessagingOver', []);
+        return;
+      }
+
       ns.display(this.queue.shift());
 
       $(w).one('hermes.dismiss-message', function () {
@@ -44,7 +49,7 @@ __hermes_embed.init_general_messaging = function($) {
     }
     
     GeneralMessaging.prototype.init = function() {
-      $.ajax(ns.host + '/messages.js', {
+      $.ajax(ns.host + this.options.retrieveMessagesUrl, {
         dataType: 'jsonp',
         success: this.enqueue.bind(this)
       });

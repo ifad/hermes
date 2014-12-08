@@ -8,13 +8,13 @@
         %h4.modal-title Add a new site
       = form_for Site.new, remote: true do |f|
         .modal-body
-          %div
-            = f.text_field :name, { :class => 'form-control input-lg', placeholder: 'Name' }
-            %span.help-block Enter a name for the site you are adding.
-          %div
-            = f.text_field :hostname , { :class => 'form-control input-lg', placeholder: 'Address' }
-            %span.help-block Enter the URL for the site you are adding.
-          %div
+          .form-group
+            = f.text_field :name, { :class => 'form-control input-lg input-transparent', placeholder: 'Name' }
+            %p.form-control-help Enter a name for the site you are adding.
+          .form-group
+            = f.text_field :hostname , { :class => 'form-control input-lg input-transparent', placeholder: 'Address' }
+            %p.form-control-help Enter the URL for the site you are adding.
+          .form-group
             %span.help-block
               Hint: don't forget to add the
               %code hermes.js

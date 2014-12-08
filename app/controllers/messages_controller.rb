@@ -2,8 +2,8 @@
 # The remote site is identified through the HTTP Referer header.
 #
 class MessagesController < ApplicationController
-  before_filter :require_callback
 
+  before_filter :require_callback
   before_filter :find_site
   before_filter :find_message, only: %w( show update show_tutorial_message )
 
@@ -17,6 +17,16 @@ class MessagesController < ApplicationController
     @messages = @site.tips.published.sorted.within(@source.path).respecting(remote_user)
 
     render json: render_to_string(template: 'messages/index.json'), callback: @callback
+  end
+
+  def tutorials
+    head :not_found and return unless @site
+
+    remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
+
+    @tutorials = @site.tutorials.published.within(@source.path)
+      
+    render json: render_to_string(template: 'messages/tutorials.json'), callback: @callback
   end
 
   # Render a single tip, bypassing the State machinery, for preview purposes.

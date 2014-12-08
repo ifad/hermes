@@ -41,13 +41,15 @@ Hermes::Application.routes.draw do
 
     put '/tips/:id/position'  => 'tips#position'
 
+    # messages (from client)
     get "/messages.js"        => "messages#index"
     # This sucks, we know - but we're stuck with JSONP as of now
     get "/messages/:type/:id" => "messages#update", as: :dismiss_message
-
     # Message preview, bypassing State check
-    get "/message/:type/:id" => "messages#show",    as: :message
+    get "/message/:type/:id"  => "messages#show",    as: :message
 
+    # tutorials (from client)
+    get "/messages/tutorials.js"                   => "messages#tutorials"
     get "/message/tutorial/:tutorial_id/:type/:id" => "messages#show_tutorial_message", as: :message_tutorial
   end
 end
