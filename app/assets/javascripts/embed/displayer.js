@@ -18,6 +18,14 @@ __hermes_embed.init_displayer = function($) {
               <button class="hermes-close btn btn-primary" type="button">Got It!</button>\
             </div>\
           </div>',
+        TUTORIAL_BROADCAST_TEMPLATE = 
+          '<div class="hermes-broadcast">\
+            <div class="hermes-actions">\
+              <button class="hermes-prev btn btn-primary" type="button">prev</button>\
+              <button class="hermes-next btn btn-primary" type="button">next</button>\
+              <button class="hermes-end btn btn-primary" type="button">Got It!</button>\
+            </div>\
+          </div>'
         TUTORIAL_TIP_TEMPLATE = 
           '<div class="hermes-content">\
             <div class="hermes-actions">\
@@ -73,7 +81,43 @@ __hermes_embed.init_displayer = function($) {
           this.hideBroadcast(elem, message, event);
         }.bind(this));
 
-      $(document.body).prepend(content);
+      BODY.prepend(content);
+    }
+
+    Displayer.prototype.handleTutorialButtons = function(tip, content) {
+      // show buttons by looking at tutorial (through tutorial_ref) status
+      if (tip.tutorial_ref.isEnd()) {
+        if (tip.tutorial_ref.totalTips() !== 1) {
+          content.find('.hermes-prev, .hermes-end').show();
+        } else {
+          content.find('.hermes-end').show();
+        }
+      } else if (tip.tutorial_ref.isBeginning()) {
+        content.find('.hermes-next').show();
+      } else {
+        content.find('.hermes-prev, .hermes-next').show();
+      }
+    }
+
+    Displayer.prototype.displayTutorialBroadcast = function(message) {
+      var content = $(TUTORIAL_BROADCAST_TEMPLATE);
+      content
+        .find('.btn').hide().end()
+        .prepend(message.content)
+        .on('click', '.hermes-next', function() {
+          content.remove()
+          message.tutorial_ref.next();
+        })
+        .on('click', '.hermes-prev', function() {
+          content.remove()
+          message.tutorial_ref.prev();
+        })
+        .on('click', '.hermes-end', function() {
+          content.remove()
+          message.tutorial_ref.end();
+        });
+      this.handleTutorialButtons(message, content);
+      BODY.prepend(content);
     }
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
@@ -92,20 +136,9 @@ __hermes_embed.init_displayer = function($) {
         .on('click', '.hermes-end', function() {
           elem.popover('destroy');
           tip.tutorial_ref.end();
-        })
+        });
 
-      // show buttons by looking at tutorial (through tutorial_ref) status
-      if (tip.tutorial_ref.isEnd()) {
-        if (tip.tutorial_ref.totalTips() !== 1) {
-          content.find('.hermes-prev, .hermes-end').show();
-        } else {
-          content.find('.hermes-end').show();
-        }
-      } else if (tip.tutorial_ref.isBeginning()) {
-        content.find('.hermes-next').show();
-      } else {
-        content.find('.hermes-prev, .hermes-next').show();
-      }
+      this.handleTutorialButtons(tip, content);
 
       elem
         .popover({

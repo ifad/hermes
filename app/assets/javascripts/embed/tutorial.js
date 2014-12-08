@@ -11,6 +11,7 @@ __hermes_embed.init_tutorial = function($) {
       this.version = '0.1';
       this.options = $.extend(DEFAULTS, options);
       this.init();
+      return this;
     };
 
     Tutorial.prototype.totalTips = function() {
@@ -27,22 +28,29 @@ __hermes_embed.init_tutorial = function($) {
 
     Tutorial.prototype.next = function() {
       ns.display(this.tips[++this.currentTipIndex]);
+      return this;
     }
 
     Tutorial.prototype.prev = function() {
       ns.display(this.tips[--this.currentTipIndex]);
+      return this;
     }
 
     Tutorial.prototype.end = function() {
       this.currentTipIndex = -1;
-      this.started = false;
+      this.started = false
+      ns.publish('tutorialended', [this]);
+      return this;
     }
 
     Tutorial.prototype.start = function() {
-      if (this.started)
+      if (this.started || ns.activeTutorial instanceof Tutorial) {
         return;
-      (this.started = true) && ns.publish('tutorialstarted');
+      }
+      this.started = true;
+      ns.publish('tutorialstarted', [this]);
       this.next();
+      return this;
     }
     
     Tutorial.prototype.init = function() {
@@ -57,6 +65,7 @@ __hermes_embed.init_tutorial = function($) {
         startElement = $(this.selector);
         startElement && startElement.on('click', this.start.bind(this));
       }
+      return this;
     }
 
     ns.Tutorial = Tutorial;
