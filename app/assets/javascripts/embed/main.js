@@ -42,6 +42,15 @@
 !(function(w, ns){
   'use strict';
 
+
+
+  /**
+  *
+  * App class. Checks jQuery, checks mode through document.location.hash and init various
+  * instances
+  *
+  **/
+
   var App = function() {
     this.version = '0.1';
     this.mode = ''; // authoring / preview / general-messaging / tutorial
@@ -50,6 +59,17 @@
     }.bind(this), 100);
     return this;
   };
+
+
+
+  /**
+    * initPubSub 
+    *
+    * @param {$} function, the jQuery object noconflict
+    *
+    * @return {this} chainability
+    *
+    **/
 
   App.prototype.initPubSub = function($) {
     // pubsub
@@ -77,40 +97,171 @@
         ns.subscriptions[t].splice(idx, 1);
       }
     };
+
+    return this;
   }
+
+
+
+  /**
+    * createTutorialCookies 
+    *
+    * @param {tutorialId} Number, the id of the tutorial being saved on cookies
+    * @param {tipIndex} Number, the index of the current tip
+    *
+    * @return {this} chainability
+    *
+    **/
+
+  App.prototype.createTutorialCookies = function(tutorialId, tipIndex) {
+    ns.cookie.create('hermes-tutorial-started', 'true');
+    ns.cookie.create('hermes-tutorialid', tutorialId);
+    ns.cookie.create('hermes-tipindex', tipIndex);
+    return this;
+  }
+
+
+
+  /**
+    * createTutorialCookies 
+    *
+    * @param {tutorialId} Number, the id of the tutorial being saved on cookies
+    * @param {tipIndex} Number, the index of the current tip
+    *
+    * @return {this} chainability
+    *
+    **/
+
+  App.prototype.deleteTutorialCookies = function() {
+    ns.cookie.erase('hermes-tutorial-started');
+    ns.cookie.erase('hermes-tutorialid');
+    ns.cookie.erase('hermes-tipindex');
+    return this;
+  }
+
+
+
+  /**
+    * initSubscriptions 
+    *
+    * @return {this} chainability
+    *
+    **/
+
+  App.prototype.initSubscriptions = function() {
+    ns.subscribe('tutorialdeleted', function() {
+      this.deleteTutorialCookies();
+      this.mode = 'general-messaging';
+      this.initMode();
+    }.bind(this));
+
+    ns.subscribe('generalMessagingOver', function(){
+      this.mode = 'tutorial';
+      ns.instances.tutorialmanager = new ns.TutorialsManager;
+    }.bind(this));
+
+    return this;
+  }
+
+
+
+  /**
+    * initMode 
+    *
+    * @return {this} chainability
+    *
+    **/
+
+  App.prototype.initMode = function() {
+    switch(this.mode){
+      case 'started-tutorial':
+        new ns.Tutorial({}, {
+          tutorialId : ns.cookie.read('hermes-tutorialid'),
+          tipIndex   : ns.cookie.read('hermes-tipindex')
+        });
+        break;
+      case 'authoring-tutorial':
+      case 'authoring':
+        ns.instances.authoring = new ns.Authoring;
+        break;
+      case 'preview':
+      case 'general-messaging':
+        if (this.mode === 'preview') {
+          ns.instances.preview = new ns.Preview;
+        } else {
+          ns.instances.generalmessaging = new ns.GeneralMessaging;
+        } 
+        break;
+    }
+    return this;
+  }
+
+
+
+  /**
+    * initClasses
+    *
+    * @param {$} function, the jQuery object noconflict 
+    *
+    * @return {this} chainability
+    *
+    **/
+
+
+  App.prototype.initClasses = function($){
+    ns.init_displayer($);
+    ns.init_tutorial($);
+    ns.init_tutorials_manager($);
+    ns.init_popover($);
+    ns.init_authoring($);
+    ns.init_preview($);
+    ns.init_general_messaging($);
+    ns.instances.displayer = new ns.Displayer;
+    ns.display = ns.instances.displayer.display.bind(ns.instances.displayer);
+    return this;
+  }
+
+
+
+  /**
+    * init
+    *
+    * @param {$} function, the jQuery object noconflict 
+    *
+    * @return {this} chainability
+    *
+    **/
 
   App.prototype.init = function($){
     var hash = ns.hash, 
-        path = ''
+        path = '',
+        startedTutorial = ns.cookie.read('hermes-tutorial-started') !== null
     ;
     this.initPubSub($);
+    this.initClasses($);
     if ((hash.match(/^#hermes-authoring-tutorial/)) && (window.opener || ns.env === 'development')) {
       this.mode = 'authoring-tutorial';
-      ns.init_authoring($);
     } else if ((hash.match(/^#hermes-authoring/)) && (window.opener || ns.env === 'development')) {
       this.mode = 'authoring';
-      ns.init_authoring($);
     } else {
-      ns.init_displayer($);
-      ns.init_popover($);
       if (hash.match(/^#hermes-preview/)) {
         this.mode = 'preview';
-        ns.init_preview($);
       } else {
-        this.mode = 'general-messaging';
-        ns.init_general_messaging($);
-        // init also tutorials manager (TODO ask on general messaging over or not (selector problems, if on general messaging I click on the tutorial selector?))
-        ns.subscribe('generalMessagingOver', function(){
-          ns.init_tutorials_manager($);
-        });
+        if (startedTutorial) {
+          this.mode = 'started-tutorial';
+        } else{
+          this.mode = 'general-messaging';
+        }
       }
     }
-
+    this.initSubscriptions();
+    this.initMode();
+    return this;
   };
 
-  ns.App = App;
-
-  ns.instances = {}
+  // create the instances object
+  ns.instances = {};
+  // create the app instance
   ns.instances.app = new App;
 
 })(this, __hermes_embed);

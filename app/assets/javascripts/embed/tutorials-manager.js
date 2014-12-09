@@ -63,7 +63,7 @@ __hermes_embed.init_tutorials_manager = function($) {
       }.bind(this));
     }
 
-    ns.instances.tutorialsmanager = new TutorialsManager;
+    ns.TutorialsManager = TutorialsManager;
 
   })(window, __hermes_embed);
 

@@ -61,7 +61,7 @@ __hermes_embed.init_general_messaging = function($) {
       }.bind(this));
     }
 
-    ns.instances.generalmessaging = new GeneralMessaging;
+    ns.GeneralMessaging = GeneralMessaging;
 
   })(window, __hermes_embed);
 

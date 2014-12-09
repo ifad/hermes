@@ -1,16 +1,26 @@
 __hermes_embed.init_tutorial = function($) {
-  
+
   !(function(w, ns){
     
+    if (ns.Tutorial) {
+      return;
+    }
+
     var DOC = $(document),
         BODY = $(document.body),
-        DEFAULTS = {}
+        DEFAULTS = {
+          retrieveTutorialUrl: '/messages/tutorials/{{tutorial_id}}.js'
+        }
     ;
 
-    var Tutorial = function(options) {
+    var Tutorial = function(options, startedOptions) {
       this.version = '0.1';
       this.options = $.extend(DEFAULTS, options);
-      this.init();
+      if (startedOptions == null){
+        this.init();
+      } else {
+        this.initStarted(startedOptions);
+      }
       return this;
     };
 
@@ -26,19 +36,30 @@ __hermes_embed.init_tutorial = function($) {
       return this.currentTipIndex === 0;
     }
 
+    Tutorial.prototype.checkPathAndDisplay = function(tip) {
+      ns.instances.app.deleteTutorialCookies();
+      ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
+      if (w.location.pathname === tip.path) {
+        ns.display(tip);
+      } else {
+        window.location.href = tip.path;
+      }
+    }
+
     Tutorial.prototype.next = function() {
-      ns.display(this.tips[++this.currentTipIndex]);
+      this.checkPathAndDisplay(this.tips[++this.currentTipIndex])
       return this;
     }
 
     Tutorial.prototype.prev = function() {
-      ns.display(this.tips[--this.currentTipIndex]);
+      this.checkPathAndDisplay(this.tips[--this.currentTipIndex]);
       return this;
     }
 
     Tutorial.prototype.end = function() {
       this.currentTipIndex = -1;
       this.started = false;
+      ns.instances.app.deleteTutorialCookies();
       ns.publish('tutorialended', [this]);
       return this;
     }
@@ -53,9 +74,25 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
     
-    Tutorial.prototype.init = function() {
+    Tutorial.prototype.initStarted = function(startedOptions) {
+      var url = this.options.retrieveTutorialUrl.replace('{{tutorial_id}}', startedOptions.tutorialId);
+      $.ajax(ns.host + url, {
+        dataType: 'jsonp',
+        success: function(data) {
+          if(data.length === 0) {
+            ns.publish('tutorialdeleted')
+          } else {
+            this.options = $.extend(this.options, data[0]);
+            this.init(startedOptions.tipIndex);
+          }
+        }.bind(this)
+      });
+    }
+
+    Tutorial.prototype.init = function(tipIndex) {
       var startElement = null;
-      this.currentTipIndex = -1;
+      this.id = this.options.id;
+      this.currentTipIndex = tipIndex ? tipIndex-1 : -1;
       this.tips = this.options.tips;
       this.selector = this.options.selector;
       this.title = this.options.title;
@@ -65,8 +102,9 @@ __hermes_embed.init_tutorial = function($) {
       if (this.selector) {
         startElement = $(this.selector);
         startElement && startElement.on('click', this.start.bind(this));
+        tipIndex && this.start();
       } else {
-        ns.display({type: 'tutorialStarter', tutorial: this});
+        tipIndex ? this.start() : ns.display({type: 'tutorialStarter', tutorial: this});
       }
       return this;
     }

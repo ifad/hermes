@@ -44,7 +44,7 @@
 
 .hermes-broadcast {
   position: fixed;
-  z-index: 10000000;
+  z-index: 10051;
 
   padding: 10px;
   margin: 0;
@@ -86,11 +86,14 @@
 
 /* The popover CSS */
 
+.hermes-popover {
+  z-index: 10010;
+}
+
 .popover {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1010;
   display: none;
   max-width: 276px;
   padding: 1px;

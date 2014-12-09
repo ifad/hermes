@@ -5,5 +5,7 @@
   h.host = "<%= compute_asset_host %>";
   h.env = "<%= Rails.env %>";
   h.hash = document.location.hash;
+  document.location.hash = '';
+  h.pagepath = w.location.protocol + h.host;
 
 })(this);

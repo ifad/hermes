@@ -31,10 +31,10 @@ __hermes_embed.init_authoring = function($) {
 
     Authoring.prototype.prepareOverlay = function() {
       this.overlay = {
-        N: $('<div/>', {id: 'hermes_overlayN', class: 'hermes--overlay'}).css(this.options.overlayStyle),
-        S: $('<div/>', {id: 'hermes_overlayS', class: 'hermes--overlay'}).css(this.options.overlayStyle),
-        E: $('<div/>', {id: 'hermes_overlayE', class: 'hermes--overlay'}).css(this.options.overlayStyle),
-        W: $('<div/>', {id: 'hermes_overlayW', class: 'hermes--overlay'}).css(this.options.overlayStyle)
+        N: $('<div/>', {id: 'hermes_overlayN', class: 'hermes-overlay'}).css(this.options.overlayStyle),
+        S: $('<div/>', {id: 'hermes_overlayS', class: 'hermes-overlay'}).css(this.options.overlayStyle),
+        E: $('<div/>', {id: 'hermes_overlayE', class: 'hermes-overlay'}).css(this.options.overlayStyle),
+        W: $('<div/>', {id: 'hermes_overlayW', class: 'hermes-overlay'}).css(this.options.overlayStyle)
       };
       for (i in this.overlay) {
         this.overlay[i].bind('click.hermes', this.callback);
@@ -91,7 +91,7 @@ __hermes_embed.init_authoring = function($) {
 
         if (element.tagName === 'BODY' 
             || element === this.selectedElement 
-            || element.classList.contains('hermes--overlay'))
+            || element.classList.contains('hermes-overlay'))
           return;
 
         this.buildOverlay(element);
@@ -160,7 +160,7 @@ __hermes_embed.init_authoring = function($) {
       BODY.on('mousemove', ns.utils.throttle(this.mousemove.bind(this), 100));
     }
 
-    ns.instances.authoring = new Authoring;
+    ns.Authoring = Authoring;
 
   })(window, __hermes_embed);
 

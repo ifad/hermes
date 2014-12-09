@@ -61,7 +61,6 @@ THE SOFTWARE.
       targetBlank: true,
       disableDoubleReturn: true
     });
-    console.log(this.contentEditor)
     this.element.on('submit', 'form', this.submitForm.bind(this))
     return this;
   };

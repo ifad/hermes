@@ -5,7 +5,7 @@
     %li{class: is_site ? 'active' : ''}
       = is_site ? "Site: #{@site.name}" : link_to("Site: #{@site.name}", site_path(@site))
     - if @tutorial
-      %li= link_to 'Tutorials', site_tutorials_path(@site, @tutorial)
+      %li= link_to 'Tutorials', site_tutorials_path(@site)
     - if @tutorial && @tutorial.persisted?
       - is_tutorial = !@tips && !@tip
       %li{class: is_tutorial ? 'active' : ''}

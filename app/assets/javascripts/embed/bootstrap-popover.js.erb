@@ -421,7 +421,7 @@ __hermes_embed.init_popover = function (jQuery) {
       placement: 'right'
     , trigger: 'click'
     , content: ''
-    , template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+    , template: '<div class="popover hermes-popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
     })
 
 
@@ -502,12 +502,5 @@ __hermes_embed.init_popover = function (jQuery) {
     }
 
   }(jQuery)
-  
-  // Load the CSS
-  var style = document.createElement('style');
-  style.type = 'text/css';
-  style.innerHTML = "<%= ActionView::Base.new.escape_javascript(File.read('app/assets/stylesheets/hermes.css').gsub("\n", '')) %>";
-  
-  (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(style);
 
 }; // init_popover

@@ -19,6 +19,14 @@ class MessagesController < ApplicationController
     render json: render_to_string(template: 'messages/index.json'), callback: @callback
   end
 
+  def tutorial
+    head :not_found and return unless @site
+
+    @tutorials = @site.tutorials.where(id: params[:tutorial_id])
+      
+    render json: render_to_string(template: 'messages/tutorials.json'), callback: @callback
+  end
+
   def tutorials
     head :not_found and return unless @site
 

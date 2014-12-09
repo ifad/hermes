@@ -6,8 +6,10 @@
 // utils
 //= require embed/utils
 
-// popover + css embed
+// popover + css embed + cookie
 //= require embed/bootstrap-popover
+//= require embed/cssloader
+//= require embed/cookie
 
 // modules (main should always be the last, order for other is not important)
 //= require embed/authoring

@@ -1,7 +1,7 @@
 __hermes_embed.init_displayer = function($) {
   
   !(function(w, ns){
-    
+
     var DOC = $(document),
         BODY = $(document.body),
         DEFAULTS = {
@@ -204,8 +204,7 @@ __hermes_embed.init_displayer = function($) {
     Displayer.prototype.init = function() {
     }
 
-    ns.instances.displayer = new Displayer;
-    ns.display = ns.instances.displayer.display.bind(ns.instances.displayer);
+    ns.Displayer = Displayer;
 
   })(window, __hermes_embed);
 
