@@ -85,9 +85,9 @@ __hermes_embed.init_authoring = function($) {
       });
     }
 
-    Authoring.prototype.mousemove = function(evt) {
+    Authoring.prototype.mouseover = function(evt) {
       try {
-        var element = evt.toElement;
+        var element = evt.target;
 
         if (element.tagName === 'BODY' 
             || element === this.selectedElement 
@@ -157,7 +157,7 @@ __hermes_embed.init_authoring = function($) {
                             ns.hash.match(/^#hermes-authoring,(https?)/)[1] ;
       this.prepareOverlay();
       this.selectedElement = null;
-      BODY.on('mousemove', ns.utils.throttle(this.mousemove.bind(this), 100));
+      BODY.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
     }
 
     ns.Authoring = Authoring;
