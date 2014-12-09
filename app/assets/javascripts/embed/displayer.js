@@ -88,7 +88,7 @@ __hermes_embed.init_displayer = function($) {
       content
         .prepend(message.content)
         .on('click', '.hermes-close', function (event) {
-          this.hideBroadcast(elem, message, event);
+          this.hideBroadcast(content, message, event);
         }.bind(this));
 
       BODY.prepend(content);

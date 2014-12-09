@@ -128,7 +128,7 @@ __hermes_embed.init_authoring = function($) {
       evt.preventDefault();
       evt.stopPropagation();
       evt.stopImmediatePropagation();
-      console.log($selected)
+
       if (ns.instances.app.mode === 'authoring-tutorial') {
         if ($selected.is('a') 
           || $selected.parents('a').length > 0

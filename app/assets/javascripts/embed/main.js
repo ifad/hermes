@@ -45,7 +45,10 @@
   var App = function() {
     this.version = '0.1';
     this.mode = ''; // authoring / preview / general-messaging / tutorial
-    new ns.JQueryChecker(function($){ this.init($) }.bind(this));
+    setTimeout(function(){
+      new ns.JQueryChecker(function($){ this.init($) }.bind(this));
+    }.bind(this), 100);
+    return this;
   };
 
   App.prototype.initPubSub = function($) {
