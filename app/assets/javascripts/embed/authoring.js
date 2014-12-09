@@ -153,8 +153,8 @@ __hermes_embed.init_authoring = function($) {
 
     Authoring.prototype.init = function() {
       this.openerProtocol = ns.instances.app.mode === 'authoring-tutorial' ?  
-                            document.location.hash.match(/^#hermes-authoring-tutorial,(https?)/)[1] :
-                            document.location.hash.match(/^#hermes-authoring,(https?)/)[1] ;
+                            ns.hash.match(/^#hermes-authoring-tutorial,(https?)/)[1] :
+                            ns.hash.match(/^#hermes-authoring,(https?)/)[1] ;
       this.prepareOverlay();
       this.selectedElement = null;
       BODY.on('mousemove', ns.utils.throttle(this.mousemove.bind(this), 100));

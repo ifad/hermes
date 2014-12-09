@@ -80,7 +80,7 @@
   }
 
   App.prototype.init = function($){
-    var hash = document.location.hash, 
+    var hash = ns.hash, 
         path = ''
     ;
     this.initPubSub($);

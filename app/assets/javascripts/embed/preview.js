@@ -14,7 +14,7 @@ __hermes_embed.init_preview = function($) {
     };
     
     Preview.prototype.init = function() {
-      this.path = document.location.hash.match(/#hermes-preview,([\w\/]+)/)[1];
+      this.path = ns.hash.match(/#hermes-preview,([\w\/]+)/)[1];
       $.ajax(ns.host + this.path, {
         dataType: 'jsonp',
         success: ns.display
