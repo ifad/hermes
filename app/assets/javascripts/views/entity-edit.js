@@ -30,13 +30,13 @@ THE SOFTWARE.
 
   /**
   *
-  * TutorialEdit object constructor. It handles the tutorial edit form.
+  * EntityEdit object constructor. It handles the tip edit form.
   *
   * @return {this} (current instance, chaining purpose)
   *
   **/
 
-  var TutorialEdit = function(element) {
+  var EntityEdit = function(element) {
     this.version = '0.1';
     this.element = element || b;
     this.init();
@@ -44,7 +44,9 @@ THE SOFTWARE.
   };
 
 
-
+  EntityEdit.prototype.submitForm = function(evt) {
+    this.element.find('.textarea-target').val(this.contentEditor.serialize()['element-0'].value);
+  }
 
   /**
   * Init method, called when the object is being created via the constructor function.
@@ -52,13 +54,19 @@ THE SOFTWARE.
   * @return {this} (current instance, chaining purpose)
   **/
 
-  TutorialEdit.prototype.init = function() {
+  EntityEdit.prototype.init = function() {
     this.element.externalconnector();
+    this.contentEditor = new MediumEditor('.textarea-editable', {
+      buttons: ['bold', 'italic', 'underline', 'anchor', 'orderedlist', 'unorderedlist'],
+      targetBlank: true,
+      disableDoubleReturn: true
+    });
+    this.element.on('submit', 'form', this.submitForm.bind(this))
     return this;
   };
 
   // export it via provided namespace
 
-  ns.TutorialEdit = TutorialEdit;
+  ns.EntityEdit = EntityEdit;
 
 })(jQuery, HERMES, this);

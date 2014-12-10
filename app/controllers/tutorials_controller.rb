@@ -62,7 +62,7 @@ class TutorialsController < ApplicationController
         require(:tutorial).
         permit(:title, :published_at,
                :unpublished_at, :path, :position,
-               :selector)
+               :selector, :welcome_message)
     end
 
     # This is a token to passed between the #tip-connector and the

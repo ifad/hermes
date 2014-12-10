@@ -342,6 +342,17 @@ Node.prototype.nodeNameInCorrectCase = function(){
       }
 
       return new this.DOMNodePathStep(result, false);
+    },
+
+
+    onBeforeUnloadTutorialFn: function(evt) {
+      return "You're in the middle of a tutorial. By navigating away you will lose the current status.";
+    },
+
+    strip: function(html){
+       var tmp = document.createElement("DIV");
+       tmp.innerHTML = html;
+       return (tmp.textContent || tmp.innerText || "").trim();
     }
 
   }

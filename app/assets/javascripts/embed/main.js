@@ -54,9 +54,7 @@
   var App = function() {
     this.version = '0.1';
     this.mode = ''; // authoring / preview / general-messaging / tutorial
-    setTimeout(function(){
-      new ns.JQueryChecker(function($){ this.init($) }.bind(this));
-    }.bind(this), 100);
+    new ns.JQueryChecker(function($){ $(this.init($)); }.bind(this));
     return this;
   };
 

@@ -17,6 +17,5 @@
 
 // require views (main should always be the last, order for others doesn't matter)
 //= require views/tip-collection
-//= require views/tip-edit
-//= require views/tutorial-edit
+//= require views/entity-edit
 //= require views/main

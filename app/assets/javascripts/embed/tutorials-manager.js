@@ -22,19 +22,6 @@ __hermes_embed.init_tutorials_manager = function($) {
       });
     }
 
-    TutorialsManager.prototype.enqueue = function() {
-      this.queue = this.autoStartTutorials;
-      this.dequeue();
-    }
-
-    TutorialsManager.prototype.dequeue = function() {
-      if (this.queue.length === 0) {
-        this.initSelectorTutorials();
-        return;
-      }
-      new ns.Tutorial(this.queue.shift());
-    }
-
     TutorialsManager.prototype.setTutorials = function(tutorials) {
       ns.init_tutorial($);
       ns.tutorials = {};
@@ -44,7 +31,9 @@ __hermes_embed.init_tutorials_manager = function($) {
       this.selectorTutorials = tutorials.filter(function(tutorial){
         return tutorial.tips.length > 0 && tutorial.selector !== null && tutorial.selector !== '';
       });
-      this.enqueue();
+      if (this.autoStartTutorials.length > 0) {
+        ns.display({type: 'availableTutorials', tutorials: this.autoStartTutorials});
+      }
     }
 
     TutorialsManager.prototype.init = function() {
@@ -59,7 +48,6 @@ __hermes_embed.init_tutorials_manager = function($) {
       ns.subscribe('tutorialended', function() {
         // reset active tutorial
         ns.activeTutorial = null;
-        !this.selectorTutorialInit && this.dequeue();
       }.bind(this));
     }
 

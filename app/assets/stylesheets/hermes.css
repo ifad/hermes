@@ -1,3 +1,63 @@
+/* available tutorials */
+
+.hermes-available-tutorials {
+  position: fixed;
+  z-index: 10049;
+  bottom: 0;
+  left: 20px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, .9);
+  border-radius: 2px 2px 0 0;
+  color: #fff;
+}
+
+.hermes-available-tutorials > div {
+  cursor: pointer;
+}
+
+.hermes-available-tutorials > div:after {
+  content: '';
+  position: relative;
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  top: -2px;
+  margin-left: 5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+}
+
+.hermes-available-tutorials ul {
+  display: none;
+}
+
+.hermes-available-tutorials.open ul {
+  display: block;
+}
+
+.hermes-available-tutorials.open > div:after {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.hermes-available-tutorials-list {
+  margin: 0;
+  padding: 0;
+}
+
+.hermes-available-tutorials-list li {
+  list-style: none;
+  padding: 5px;
+  font-size: 12px;
+  text-align: left;
+}
+
+.hermes-available-tutorials-list li button {
+  float: right;
+}
+
 /* tutorial start overlay */
 
 .hermes-tutorial-starter-overlay {
@@ -88,6 +148,7 @@
 
 .hermes-popover {
   z-index: 10010;
+  min-width: 200px;
 }
 
 .popover {
@@ -130,7 +191,7 @@
   border-radius: 5px 5px 0 0;
 }
 .popover-content {
-  padding: 9px 14px;
+  padding: 5px;
 }
 .popover .arrow,
 .popover .arrow:after {
@@ -224,6 +285,26 @@
   padding: 5px 10px;
   margin: 10px 0;
   float: right;
+}
+
+/* popover/broadcast content */
+
+.hermes-actions {
+  border-top: 1px solid #eee;
+  padding-top: 5px;
+  overflow: hidden;
+}
+
+.hermes-actions .btn-group {
+  float: left;
+}
+
+.hermes-actions .btn-group .btn {
+  font-size: 11px !important;
+}
+
+.hermes-broadcast .hermes-actions {
+  border-top: 1px solid #76A7D2;
 }
 
 /* WYSIWYG Colors */

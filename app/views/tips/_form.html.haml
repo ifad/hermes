@@ -2,7 +2,7 @@
   .form-group
     = f.text_field :title, class: 'form-control input-transparent', placeholder: 'Title'
   .form-group
-    = f.hidden_field :content
+    = f.hidden_field :content, class: 'textarea-target'
     .textarea-editable{data: {placeholder: 'Content'}}= f.object.content.html_safe if f.object.content
     %p.form-control-help.text-right
       Insert the content of the tip. Select text to change style

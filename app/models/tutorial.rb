@@ -9,4 +9,6 @@ class Tutorial < ActiveRecord::Base
 
   validates :title, :site_id, presence: true
   validates :site,    associated: true
+
+  sanitizes :welcome_message
 end

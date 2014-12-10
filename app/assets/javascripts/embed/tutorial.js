@@ -37,11 +37,12 @@ __hermes_embed.init_tutorial = function($) {
     }
 
     Tutorial.prototype.checkPathAndDisplay = function(tip) {
-      ns.instances.app.deleteTutorialCookies();
-      ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
       if (w.location.pathname === tip.path) {
         ns.display(tip);
       } else {
+        ns.instances.app.deleteTutorialCookies();
+        ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
+        $(w).off('beforeunload');
         window.location.href = tip.path;
       }
     }
@@ -60,6 +61,7 @@ __hermes_embed.init_tutorial = function($) {
       this.currentTipIndex = -1;
       this.started = false;
       ns.instances.app.deleteTutorialCookies();
+      $(w).off('beforeunload');
       ns.publish('tutorialended', [this]);
       return this;
     }
@@ -69,6 +71,7 @@ __hermes_embed.init_tutorial = function($) {
         return;
       }
       this.started = true;
+      $(w).on('beforeunload', ns.utils.onBeforeUnloadTutorialFn);
       ns.publish('tutorialstarted', [this]);
       this.next();
       return this;
@@ -80,7 +83,7 @@ __hermes_embed.init_tutorial = function($) {
         dataType: 'jsonp',
         success: function(data) {
           if(data.length === 0) {
-            ns.publish('tutorialdeleted')
+            ns.publish('tutorialdeleted');
           } else {
             this.options = $.extend(this.options, data[0]);
             this.init(startedOptions.tipIndex);
@@ -96,15 +99,18 @@ __hermes_embed.init_tutorial = function($) {
       this.tips = this.options.tips;
       this.selector = this.options.selector;
       this.title = this.options.title;
+      this.welcome = this.options.welcome;
       this.tips.forEach(function(tip){
         tip.tutorial_ref = this;
       }.bind(this));
       if (this.selector) {
         startElement = $(this.selector);
-        startElement && startElement.on('click', this.start.bind(this));
+        startElement && startElement.on('click', function() {
+          ns.utils.strip(this.welcome) === "" ? this.start() : ns.display({type: 'tutorialStarter', tutorial: this});
+        }.bind(this));
         tipIndex && this.start();
       } else {
-        tipIndex ? this.start() : ns.display({type: 'tutorialStarter', tutorial: this});
+        tipIndex || ns.utils.strip(this.welcome) === "" ? this.start() : ns.display({type: 'tutorialStarter', tutorial: this});
       }
       return this;
     }
