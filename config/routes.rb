@@ -1,35 +1,35 @@
 Hermes::Application.routes.draw do
   url_root = ENV['RAILS_RELATIVE_URL_ROOT'] || ''
 
-  scope url_root do
-    devise_for :users, path: "#{url_root}/users", failure_app: (
-      # This is an hack to overcome a bug in Devise with relative url roots.
-      # The original FailureApp prefixes the relative_url_root to the path
-      # returned by the route helpers, that already contain it, resulting in a
-      # double path being generated. So, here we temporarily remove the URL
-      # root from the Rails configuration, to reinstate it after calling the
-      # parent method.
-      #
-      #  - vjt  Thu Jan 10 20:46:55 CET 2013
-      #
-      if url_root.present?
-        Class.new(Devise::FailureApp) do
-          def scope_path
-            config = Rails.application.config
-            root   = config.relative_url_root
-            begin
-              config.relative_url_root = nil
-              super
-            ensure
-              config.relative_url_root = root
-            end
+  devise_for :users, path: "#{url_root}/users", failure_app: (
+    # This is an hack to overcome a bug in Devise with relative url roots.
+    # The original FailureApp prefixes the relative_url_root to the path
+    # returned by the route helpers, that already contain it, resulting in a
+    # double path being generated. So, here we temporarily remove the URL
+    # root from the Rails configuration, to reinstate it after calling the
+    # parent method.
+    #
+    #  - vjt  Thu Jan 10 20:46:55 CET 2013
+    #
+    if url_root.present?
+      Class.new(Devise::FailureApp) do
+        def scope_url
+          config = Rails.application.config
+          root   = config.relative_url_root
+          begin
+            config.relative_url_root = nil
+            super
+          ensure
+            config.relative_url_root = root
           end
         end
-      else
-        Devise::FailureApp
       end
-    )
+    else
+      Devise::FailureApp
+    end
+  )
 
+  scope url_root do
     root :to => 'sites#index'
 
     resources :sites do
