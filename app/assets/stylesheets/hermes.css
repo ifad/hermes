@@ -9,6 +9,13 @@
   background-color: rgba(0, 0, 0, .9);
   border-radius: 2px 2px 0 0;
   color: #fff;
+  opacity: .4;
+
+  -webkit-transition : -webkit-transform .3s, opacity .3s;
+  -moz-transition    : -moz-transform .3s, opacity .3s;
+  -ms-transition     : -ms-transform .3s, opacity .3s;
+  -o-transition      : -o-transform .3s, opacity .3s;
+  transition         : transform .3s, opacity .3s;
 }
 
 .hermes-available-tutorials > div {
@@ -30,6 +37,11 @@
 
 .hermes-available-tutorials ul {
   display: none;
+}
+
+.hermes-available-tutorials:hover,
+.hermes-available-tutorials.open {
+  opacity: 1;
 }
 
 .hermes-available-tutorials.open ul {

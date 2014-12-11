@@ -51,7 +51,7 @@ __hermes_embed.init_displayer = function($) {
           </div>',
         AVAILABLE_TUTORIALS_TEMPLATE = 
           '<div class="hermes-available-tutorials">\
-            <div>Show available tutorials</div>\
+            <div><img src="' + ns.assets.logo + '" width="20" height="20" alt="hermes" /> Show available tutorials</div>\
             <ul class="hermes-available-tutorials-list"></ul>\
           </div>',
         AVAILABLE_TUTORIAL_TEMPLATE = 
