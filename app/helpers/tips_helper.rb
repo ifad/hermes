@@ -17,9 +17,10 @@ module TipsHelper
   end
 
   def preview_tip_link(tip)
-    preview_sub_path = "http://#{@site.hostname}#{tip.path}#hermes-preview"
     m_path = @tutorial ? "#{message_tutorial_path(@tutorial.id, tip.class.model_name.param_key, tip.id)}" : "#{message_path(tip.class.model_name.param_key, tip.id)}"
-    "#{preview_sub_path},#{m_path}"
+    link_to "http://#{@site.hostname}#{tip.path}", class: 'btn btn-default btn-sm ext', data: {messagepath: m_path} do
+      content_tag :i, '', class: 'fa fa-eye'
+    end
   end
 
 end

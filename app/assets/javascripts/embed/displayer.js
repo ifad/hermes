@@ -151,7 +151,6 @@ __hermes_embed.init_displayer = function($) {
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
       var content = $(TUTORIAL_TIP_TEMPLATE);
-      console.log(elem);
       content
         .find('.btn').hide().end()
         .prepend(tip.content)

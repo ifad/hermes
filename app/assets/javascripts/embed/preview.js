@@ -30,10 +30,18 @@ __hermes_embed.init_preview = function($) {
       **/
     
     Preview.prototype.init = function() {
-      this.path = ns.hash.match(/#hermes-preview,([\w\/]+)/)[1];
-      $.ajax(ns.host + this.path, {
-        dataType: 'jsonp',
-        success: ns.display
+      w.addEventListener('message', function(evt) {
+        $.ajax(ns.host + evt.data, {
+          dataType: 'jsonp',
+          success: ns.display
+        });
+      });
+      w.opener.postMessage('__get__tip__path', ns.protocol + ':' + ns.host);
+      ns.subscribe('tipHidden', function() {
+        w.close();
+      });
+      ns.subscribe('broadcastHidden', function() {
+        w.close();
       });
       return this;
     }

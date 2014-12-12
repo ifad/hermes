@@ -64,10 +64,10 @@
         val = val === '' ? '/' : val.split('')[0] !== '/' ? '/' + val : val,
         url = [
           $target.data('hostname'),
-          val,
-          '', $target.data('token'),
+          val
         ].join('')
     ;
+    alert(url)
     $input.val(val);
     $target.attr('href', url);
 
@@ -84,9 +84,12 @@
   **/
 
   ExternalConnector.prototype._receiveMessage = function(evt) {
-    this.$output.find('input').val(evt.data);
-    this.$output.removeClass('hide');
-
+    if (evt.data === '__get__mode__') {
+      this.openedWindow.postMessage(this.openedMode, this.openedWindowHref);
+    } else {
+      this.$output.find('input').val(evt.data);
+      this.$output.removeClass('hide');
+    }
     return this;
   }
 
@@ -106,7 +109,9 @@
     var $connector = this.components.connectLink;
     this.$output = this.$output || $($connector.data('output'));
 
-    w.open($connector.attr('href'));
+    this.openedWindow = w.open($connector.attr('href'));
+    this.openedMode = $connector.data('token');
+    this.openedWindowHref = $connector.attr('href');
 
     return this;
   }

@@ -37,7 +37,7 @@ __hermes_embed.init_authoring = function($) {
         W: $('<div/>', {id: 'hermes_overlayW', class: 'hermes-overlay'}).css(this.options.overlayStyle)
       };
       for (i in this.overlay) {
-        this.overlay[i].bind('click.hermes', this.callback);
+        this.overlay[i].bind('click.hermes', this.callback.bind(this));
         BODY.append(this.overlay[i]);
       }
     }
@@ -86,10 +86,8 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.mouseover = function(evt) {
-      console.log('dc')
       try {
         var element = evt.target;
-
         if (element.tagName === 'BODY' 
             || element === this.selectedElement 
             || element.classList.contains('hermes-overlay'))
@@ -107,7 +105,6 @@ __hermes_embed.init_authoring = function($) {
             .unbind('click.hermes', this.callback.bind(this));
         }
         this.selectedElement = element;
-
         // Set the onclick handler to our callback
         //
         $(this.selectedElement).data('hermes-restore-css', {
@@ -122,7 +119,7 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.callback = function(evt) {
-      
+
       var path = '',
           $selected = $(this.selectedElement)
       ;
@@ -144,7 +141,7 @@ __hermes_embed.init_authoring = function($) {
       path = ns.utils.getCSSPath(this.selectedElement);
 
       if (w.opener) {
-        w.opener.postMessage(path, this.openerProtocol + ':' + ns.host);
+        w.opener.postMessage(path, ns.protocol + ':' + ns.host);
         w.close();
       } else {
         console.log('no opener specified\npath:', path);
@@ -153,16 +150,9 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.init = function() {
-      this.openerProtocol = ns.instances.app.mode === 'authoring-tutorial' ?  
-                            ns.hash.match(/^#hermes-authoring-tutorial,(https?)/)[1] :
-                            ns.hash.match(/^#hermes-authoring,(https?)/)[1] ;
       this.prepareOverlay();
       this.selectedElement = null;
-      // console.log($, BODY)
-      BODY.on('click', function(){
-        alert('dc')
-      })
-      // BODY.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
+      BODY.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
     }
 
     ns.Authoring = Authoring;

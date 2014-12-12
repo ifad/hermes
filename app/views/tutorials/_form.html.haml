@@ -32,7 +32,7 @@
         No
       %label.btn.btn-default.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
         %input{"data-output" => "#selector-connect", :name => "selector", :type => "radio", checked: f.object.selector.present?}
-        = link_to 'Connect', [@site.url, f.object.path, @tutorial_connector_token].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tutorial_connector_token, :'data-output' => '#selector-connected'
+        = link_to 'Connect', [@site.url, f.object.path].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tutorial_connector_token, :'data-output' => '#selector-connected'
         Yes
         %span#selector-connected{:class => f.object.selector.blank? ? 'hide' : ''}
           %i.fa.fa-check

@@ -103,6 +103,6 @@ class TipsController < ApplicationController
     # is only used to pass the opener scheme to postMessage.
     #
     def generate_xd_token
-      @tip_connector_token = "#hermes-authoring,#{request.scheme}"
+      @tip_connector_token = "authoring"
     end
 end

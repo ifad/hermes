@@ -7,8 +7,7 @@
     %td= l tip.unpublished_at
   %td
     .btn-group
-      = link_to preview_tip_link(tip), class: 'btn btn-default btn-sm', target: '_blank' do
-        %i.fa.fa-eye
+      = preview_tip_link tip
       = link_to edit_tip_link(tip), class: 'btn btn-default btn-sm' do
         %i.fa.fa-edit
       = link_to destroy_tip_link(tip), remote: true, method: :delete, :'data-confirm' => 'This action will delete your message.', class: 'btn btn-default btn-sm' do

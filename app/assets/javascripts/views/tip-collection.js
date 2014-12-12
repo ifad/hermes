@@ -43,6 +43,24 @@ THE SOFTWARE.
     return this;
   };
 
+  TipCollection.prototype._receiveMessage = function(evt) {
+    if (evt.data === '__get__mode__') {
+      this.openedWindow.postMessage('preview', this.openedWindowHref);
+    } else if (evt.data === '__get__tip__path') {
+      this.openedWindow.postMessage(this.currentTarget.data('messagepath'), this.openedWindowHref);
+    }
+    return this;
+  }
+
+  TipCollection.prototype.openExternalLink = function(evt) {
+    evt.preventDefault();
+    var $target = $(evt.target);
+    $target = $target.is('a') ? $target : $target.parent('a');
+    this.currentTarget = $target; 
+    this.openedWindow = w.open($target.attr('href'));
+    this.openedWindowHref = $target.attr('href');
+  }
+
   TipCollection.prototype.init = function() {
     this.element.find('#tips-list').sortable({
       revert: true,
@@ -58,8 +76,9 @@ THE SOFTWARE.
         });
       }
     });
-
     this.element.find('#tips-list').disableSelection();
+    this.element.on('click', 'a.ext', this.openExternalLink.bind(this));
+    w.addEventListener('message', this._receiveMessage.bind(this), false);
     return this;
   };
 

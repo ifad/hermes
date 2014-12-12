@@ -18,7 +18,7 @@ __hermes_embed.init_tutorials_manager = function($) {
     TutorialsManager.prototype.initSelectorTutorials = function() {
       this.selectorTutorialInit = true;
       this.selectorTutorials.forEach(function(selectorTutorial){
-        ns.tutorials['tutorial' + selectorTutorial.id] = new ns.Tutorial(selectorTutorial);
+        new ns.Tutorial(selectorTutorial);
       });
     }
 
@@ -33,6 +33,9 @@ __hermes_embed.init_tutorials_manager = function($) {
       });
       if (this.autoStartTutorials.length > 0) {
         ns.display({type: 'availableTutorials', tutorials: this.autoStartTutorials});
+      }
+      if (this.selectorTutorials.length > 0) {
+        this.initSelectorTutorials();
       }
     }
 

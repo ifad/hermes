@@ -268,20 +268,14 @@
     ;
     this.initPubSub($);
     this.initClasses($);
-    if ((hash.match(/^#hermes-authoring-tutorial/)) && (window.opener || ns.env === 'development')) {
-      this.mode = 'authoring-tutorial';
-    } else if ((hash.match(/^#hermes-authoring/)) && (window.opener || ns.env === 'development')) {
-      this.mode = 'authoring';
-    } else {
-      if (hash.match(/^#hermes-preview/)) {
-        this.mode = 'preview';
-      } else {
-        if (startedTutorial) {
-          this.mode = 'started-tutorial';
-        } else{
+    if (ns.mode === '__init__') {
+      if (startedTutorial) {
+        this.mode = 'started-tutorial';
+      } else{
           this.mode = 'general-messaging';
-        }
       }
+    } else {
+      this.mode = ns.mode;
     }
     ns.instances.app = this;
     this.initSubscriptions();
@@ -290,6 +284,22 @@
 
   // create the instances object
   ns.instances = {};
-  new App;
+
+  var messageReceived = function(evt) {
+    w.removeEventListener('message', messageReceived);
+    ns.mode = evt.data;
+    new App;
+  }
+
+  w.addEventListener('message', messageReceived);
+
+  w.onload = function() {
+    if(w.opener) {
+      w.opener.postMessage('__get__mode__', ns.protocol + ':' + ns.host);
+    } else {
+      ns.mode = '__init__';
+      new App;
+    }
+  };
   
 })(this, __hermes_embed);

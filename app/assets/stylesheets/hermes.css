@@ -306,13 +306,6 @@
   font-weight: 600 !important;
 }
 
-.popover .hermes-content .hermes-actions .hermes-close {
-  cursor: pointer !important;
-  padding: 5px 10px;
-  margin: 10px 0;
-  float: right;
-}
-
 /* popover/broadcast content */
 
 .hermes-actions {

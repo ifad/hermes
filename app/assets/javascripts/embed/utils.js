@@ -25,6 +25,12 @@ THE SOFTWARE.
 Various utils
   + Path finder. Given a node, find the css path
 
+test it
+
+[].slice.call(document.querySelectorAll('body *')).forEach(function(el){
+  console.log($(__hermes_embed.utils.getCSSPath(el)).length);
+});
+
 */
 
 // prototypes utilities
