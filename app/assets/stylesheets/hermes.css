@@ -11,11 +11,25 @@
   color: #fff;
   opacity: .4;
 
-  -webkit-transition : -webkit-transform .3s, opacity .3s;
-  -moz-transition    : -moz-transform .3s, opacity .3s;
-  -ms-transition     : -ms-transform .3s, opacity .3s;
-  -o-transition      : -o-transform .3s, opacity .3s;
-  transition         : transform .3s, opacity .3s;
+  -webkit-transition : -webkit-transform .3s cubic-bezier(0.175,  0.885, 0.320, 1.275), opacity .3s;
+  -moz-transition    : -moz-transform .3s cubic-bezier(0.175,  0.885, 0.320, 1.275), opacity .3s;
+  -ms-transition     : -ms-transform .3s cubic-bezier(0.175,  0.885, 0.320, 1.275), opacity .3s;
+  -o-transition      : -o-transform .3s cubic-bezier(0.175,  0.885, 0.320, 1.275), opacity .3s;
+  transition         : transform .3s cubic-bezier(0.175,  0.885, 0.320, 1.275), opacity .3s;
+
+  -webkit-transform : translate3d(0, 100px, 0);
+  -moz-transform    : translate3d(0, 100px, 0);
+  -ms-transform     : translate3d(0, 100px, 0);
+  -o-transform      : translate3d(0, 100px, 0);
+  transform         : translate3d(0, 100px, 0);
+}
+
+.hermes-available-tutorials.displayed {
+  -webkit-transform : translate3d(0, 0, 0);
+  -moz-transform    : translate3d(0, 0, 0);
+  -ms-transform     : translate3d(0, 0, 0);
+  -o-transform      : translate3d(0, 0, 0);
+  transform         : translate3d(0, 0, 0);
 }
 
 .hermes-available-tutorials > div {

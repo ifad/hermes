@@ -15,7 +15,7 @@ __hermes_embed.init_displayer = function($) {
         TIP_TEMPLATE = 
           '<div class="hermes-content">\
             <div class="hermes-actions">\
-              <button class="hermes-close btn btn-primary" type="button">Got It!</button>\
+              <button class="hermes-close btn btn-primary btn-xs" type="button">Got It!</button>\
             </div>\
           </div>',
         TUTORIAL_BROADCAST_TEMPLATE = 
@@ -151,6 +151,7 @@ __hermes_embed.init_displayer = function($) {
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
       var content = $(TUTORIAL_TIP_TEMPLATE);
+      console.log(elem);
       content
         .find('.btn').hide().end()
         .prepend(tip.content)
@@ -190,9 +191,12 @@ __hermes_embed.init_displayer = function($) {
         })
         .on('click', '.hermes-skip-tutorial', function() {
           content.remove();
+          ns.publish('showAvailableTutorials');
         });
 
       BODY.prepend(content); 
+
+      ns.publish('hideAvailableTutorials');
     }
 
     Displayer.prototype.displayAvailableTutorials = function(message) {
@@ -212,6 +216,10 @@ __hermes_embed.init_displayer = function($) {
 
       content.find('ul').append(tutorialsDOM);
       BODY.prepend(content); 
+      setTimeout(function(){
+        content.addClass('displayed');
+      }, 200);
+      ns.DOM.availableTutorialsDisplayer = content;
     }
 
     Displayer.prototype.display = function(message) {

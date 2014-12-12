@@ -86,6 +86,7 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.mouseover = function(evt) {
+      console.log('dc')
       try {
         var element = evt.target;
 
@@ -157,7 +158,11 @@ __hermes_embed.init_authoring = function($) {
                             ns.hash.match(/^#hermes-authoring,(https?)/)[1] ;
       this.prepareOverlay();
       this.selectedElement = null;
-      BODY.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
+      // console.log($, BODY)
+      BODY.on('click', function(){
+        alert('dc')
+      })
+      // BODY.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
     }
 
     ns.Authoring = Authoring;

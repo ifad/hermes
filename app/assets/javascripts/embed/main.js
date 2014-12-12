@@ -54,7 +54,7 @@
   var App = function() {
     this.version = '0.1';
     this.mode = ''; // authoring / preview / general-messaging / tutorial
-    new ns.JQueryChecker(function($){ $(this.init($)); }.bind(this));
+    new ns.JQueryChecker(function($){ this.init($) }.bind(this));
     return this;
   };
 
@@ -147,15 +147,45 @@
     **/
 
   App.prototype.initSubscriptions = function() {
+
     ns.subscribe('tutorialdeleted', function() {
       this.deleteTutorialCookies();
       this.mode = 'general-messaging';
       this.initMode();
+      ns.publish('showAvailableTutorials');
     }.bind(this));
 
-    ns.subscribe('generalMessagingOver', function(){
+    ns.subscribe('generalMessagingOver', function() {
       this.mode = 'tutorial';
       ns.instances.tutorialmanager = new ns.TutorialsManager;
+    }.bind(this));
+
+    ns.subscribe('hideAvailableTutorials', function() {
+      if (ns.DOM.availableTutorialsDisplayer) {
+        ns.DOM.availableTutorialsDisplayer.removeClass('open displayed');
+      }
+    });
+
+    ns.subscribe('showAvailableTutorials', function() {
+      if (ns.DOM.availableTutorialsDisplayer) {
+        ns.DOM.availableTutorialsDisplayer.addClass('displayed');
+      }
+    });
+
+    ns.subscribe('tutorialstarted', function(tutorial) {
+      // flag the app w/ active tutorial (no other tutorials can be started while one is executing!)
+      ns.activeTutorial = tutorial;
+      ns.publish('hideAvailableTutorials');
+    });
+
+    ns.subscribe('tutorialended', function() {
+      // reset active tutorial
+      ns.activeTutorial = null;
+      ns.publish('showAvailableTutorials');
+      if (this.mode === 'started-tutorial') {
+        this.mode = 'general-messaging';
+        this.initMode();
+      };
     }.bind(this));
 
     return this;
@@ -177,6 +207,7 @@
           tutorialId : ns.cookie.read('hermes-tutorialid'),
           tipIndex   : ns.cookie.read('hermes-tipindex')
         });
+        this.deleteTutorialCookies();
         break;
       case 'authoring-tutorial':
       case 'authoring':
@@ -252,14 +283,13 @@
         }
       }
     }
+    ns.instances.app = this;
     this.initSubscriptions();
     this.initMode();
-    return this;
   };
 
   // create the instances object
   ns.instances = {};
-  // create the app instance
-  ns.instances.app = new App;
-
+  new App;
+  
 })(this, __hermes_embed);

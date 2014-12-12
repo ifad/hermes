@@ -9,17 +9,17 @@
       To set up Hermes for your website, add the following code to your pages
       just before the ending
       %code &lt;/body&gt;
-      tag:
+      tag and <b>before</b> your page scripts:
     .embed-element
       %pre#embed_static
-        &lt;script src="#{root_url + 'assets/hermes.js'}"&gt;&lt;/script&gt;
+        &lt;script src="#{asset_url('hermes.js')}"&gt;&lt;/script&gt;
       %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
         %i.fa.fa-files-o
         copy
     %p or you can dinamically import it via JavaScript:
     .embed-element
       %pre#embed_dynamic
-        (function(t,d,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{root_url + 'assets/hermes.js'}';l.parentNode.insertBefore(s,l)}(this,document));
+        (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{asset_url('hermes.js')}';l.parentNode.insertBefore(s,l)}(document));
       %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
         %i.fa.fa-files-o
         copy

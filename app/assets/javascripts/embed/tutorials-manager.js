@@ -41,14 +41,6 @@ __hermes_embed.init_tutorials_manager = function($) {
         dataType: 'jsonp',
         success: this.setTutorials.bind(this)
       });
-      ns.subscribe('tutorialstarted', function(tutorial) {
-        // flag the app w/ active tutorial (no other tutorials can be started while one is executing!)
-        ns.activeTutorial = tutorial;
-      });
-      ns.subscribe('tutorialended', function() {
-        // reset active tutorial
-        ns.activeTutorial = null;
-      }.bind(this));
     }
 
     ns.TutorialsManager = TutorialsManager;
