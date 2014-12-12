@@ -7,7 +7,7 @@
     %p.form-control-help.text-right
       Insert the content of the tip. Select text to change style
   .form-group
-    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path : f.object.path
     %p.form-control-help.text-right
       insert the path where the tip will be displayed (<b>/</b> default)
   .form-group

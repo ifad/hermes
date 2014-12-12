@@ -18,13 +18,13 @@ __hermes_embed.init_tutorials_manager = function($) {
     TutorialsManager.prototype.initSelectorTutorials = function() {
       this.selectorTutorialInit = true;
       this.selectorTutorials.forEach(function(selectorTutorial){
-        new ns.Tutorial(selectorTutorial);
+        ns.publish('loadTutorial', [selectorTutorial]);
       });
     }
 
     TutorialsManager.prototype.setTutorials = function(tutorials) {
       ns.init_tutorial($);
-      ns.tutorials = {};
+      ns.tutorials = ns.tutorials || {};
       this.autoStartTutorials = tutorials.filter(function(tutorial){
         return tutorial.tips.length > 0 && (tutorial.selector === null || tutorial.selector === '');
       });

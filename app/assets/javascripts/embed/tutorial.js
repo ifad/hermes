@@ -60,6 +60,7 @@ __hermes_embed.init_tutorial = function($) {
     Tutorial.prototype.end = function() {
       this.currentTipIndex = -1;
       this.started = false;
+      this.tutorialStarterDisplayed = false;
       ns.instances.app.deleteTutorialCookies();
       $(w).off('beforeunload');
       ns.publish('tutorialended', [this]);
@@ -70,10 +71,15 @@ __hermes_embed.init_tutorial = function($) {
       if (this.started || ns.activeTutorial instanceof Tutorial) {
         return;
       }
-      this.started = true;
-      $(w).on('beforeunload', ns.utils.onBeforeUnloadTutorialFn);
-      ns.publish('tutorialstarted', [this]);
-      this.next();
+      if (ns.utils.strip(this.welcome) !== "" && (!this.tutorialStarterDisplayed) && this.currentTipIndex === -1) {
+        this.tutorialStarterDisplayed = true;
+        ns.display({type: 'tutorialStarter', tutorial: this});
+      } else {
+        this.started = true;
+        $(w).on('beforeunload', ns.utils.onBeforeUnloadTutorialFn);
+        ns.publish('tutorialstarted', [this]);
+        this.next();
+      }
       return this;
     }
     
@@ -100,17 +106,16 @@ __hermes_embed.init_tutorial = function($) {
       this.selector = this.options.selector;
       this.title = this.options.title;
       this.welcome = this.options.welcome;
+      this.tutorialStarterDisplayed = false;
       this.tips.forEach(function(tip){
         tip.tutorial_ref = this;
       }.bind(this));
       if (this.selector) {
         startElement = $(this.selector);
-        startElement && startElement.on('click', function() {
-          ns.utils.strip(this.welcome) === "" ? this.start() : ns.display({type: 'tutorialStarter', tutorial: this});
-        }.bind(this));
+        startElement && startElement.on('click', this.start.bind(this));
         tipIndex && this.start();
       } else {
-        tipIndex || ns.utils.strip(this.welcome) === "" ? this.start() : ns.display({type: 'tutorialStarter', tutorial: this});
+        this.start();
       }
       return this;
     }

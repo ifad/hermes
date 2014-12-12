@@ -188,6 +188,17 @@
       };
     }.bind(this));
 
+    ns.subscribe('loadTutorial', function(tutorial) {
+      var isLoadedTutorial = ns.tutorials['tutorial' + tutorial.id];
+      if (!!isLoadedTutorial) {
+        if (!tutorial.selector){
+          isLoadedTutorial.start();
+        }
+      } else {
+        ns.tutorials['tutorial' + tutorial.id] = new ns.Tutorial(tutorial);   
+      }
+    });
+
     return this;
   }
 
@@ -203,7 +214,10 @@
   App.prototype.initMode = function() {
     switch(this.mode){
       case 'started-tutorial':
-        new ns.Tutorial({}, {
+        ns.tutorials = ns.tutorials || {}; // not yet defined as we're in the middle of a tutorial
+                                           // so no tutorial manager instantiated (check for future in case
+                                           // we will enable tutorials manager)
+        ns.tutorials['tutorial' + ns.cookie.read('hermes-tutorialid')] = new ns.Tutorial({}, {
           tutorialId : ns.cookie.read('hermes-tutorialid'),
           tipIndex   : ns.cookie.read('hermes-tipindex')
         });

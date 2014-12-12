@@ -326,6 +326,18 @@
   border-top: 1px solid #76A7D2;
 }
 
+.hermes-more {
+  float: right;
+}
+
+.hermes-more span {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(200, 200, 200, .3);
+}
+
 /* WYSIWYG Colors */
 .wysiwyg-color-black {
   color: black;

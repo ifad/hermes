@@ -10,21 +10,24 @@ __hermes_embed.init_displayer = function($) {
         },
         BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
-            <button class="hermes-close" type="button">&times;</button>\
+            <button class="js--hermes-close" type="button">&times;</button>\
           </div>',
         TIP_TEMPLATE = 
           '<div class="hermes-content">\
             <div class="hermes-actions">\
-              <button class="hermes-close btn btn-primary btn-xs" type="button">Got It!</button>\
+              <button class="js--hermes-close btn btn-primary btn-xs" type="button">Got It!</button>\
             </div>\
           </div>',
         TUTORIAL_BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
             <div class="hermes-actions">\
+              <div class="hermes-more">
+                <span class="js--hermes-exit">exit</span>
+              </div>
               <div class="btn-group" role="group" aria-label="tutorial broadcast actions">\
-                <button class="hermes-prev btn btn-primary btn-xs" type="button">prev</button>\
-                <button class="hermes-next btn btn-primary btn-xs" type="button">next</button>\
-                <button class="hermes-end btn btn-success btn-xs" type="button">Got It!</button>\
+                <button class="js--hermes-prev btn btn-primary btn-xs" type="button">prev</button>\
+                <button class="js--hermes-next btn btn-primary btn-xs" type="button">next</button>\
+                <button class="js--hermes-end btn btn-success btn-xs" type="button">Got It!</button>\
               </div>\
             </div>\
           </div>',
@@ -32,9 +35,9 @@ __hermes_embed.init_displayer = function($) {
           '<div class="hermes-content">\
             <div class="hermes-actions">\
               <div class="btn-group" role="group" aria-label="tutorial tip actions">\
-                <button class="hermes-prev btn btn-primary btn-xs" type="button">prev</button>\
-                <button class="hermes-next btn btn-primary btn-xs" type="button">next</button>\
-                <button class="hermes-end btn btn-success btn-xs" type="button">Got It!</button>\
+                <button class="js--hermes-prev btn btn-primary btn-xs" type="button">prev</button>\
+                <button class="js--hermes-next btn btn-primary btn-xs" type="button">next</button>\
+                <button class="js--hermes-end btn btn-success btn-xs" type="button">Got It!</button>\
               </div>\
             </div>\
           </div>',
@@ -44,8 +47,8 @@ __hermes_embed.init_displayer = function($) {
             <div class="hermes-tutorial-starter-panel">\
               <div class="hermes-tutorial-starter-panel-content">\
                 {{welcome_message}}\
-                <button class="hermes-start-tutorial btn btn-primary" type="button">Start it!</button>\
-                <button class="hermes-skip-tutorial btn btn-danger" type="button">Skip</button>\
+                <button class="js--hermes-start-tutorial btn btn-primary" type="button">Start it!</button>\
+                <button class="js--hermes-skip-tutorial btn btn-danger" type="button">Skip</button>\
               </div>\
             </div>\
           </div>',
@@ -56,7 +59,7 @@ __hermes_embed.init_displayer = function($) {
           </div>',
         AVAILABLE_TUTORIAL_TEMPLATE = 
           '<li class="hermes-available-tutorial">\
-            <button class="hermes-show-tutorial btn btn-primary btn-xs" type="button">start</button>\
+            <button class="js--hermes-show-tutorial btn btn-primary btn-xs" type="button">start</button>\
             {{title}}\
           </li>'
     ;
@@ -81,7 +84,7 @@ __hermes_embed.init_displayer = function($) {
       var content = $(TIP_TEMPLATE);
       content
         .prepend(tip.content)
-        .on('click', '.hermes-close', function (event) {
+        .on('click', '.js--hermes-close', function (event) {
           this.hideTip(elem, tip, event);
         }.bind(this));
 
@@ -102,7 +105,7 @@ __hermes_embed.init_displayer = function($) {
       var content = $(BROADCAST_TEMPLATE);
       content
         .prepend(message.content)
-        .on('click', '.hermes-close', function (event) {
+        .on('click', '.js--hermes-close', function (event) {
           this.hideBroadcast(content, message, event);
         }.bind(this));
 
@@ -113,18 +116,18 @@ __hermes_embed.init_displayer = function($) {
       // show buttons by looking at tutorial (through tutorial_ref) status
       if (tip.tutorial_ref.isEnd()) {
         if (tip.tutorial_ref.totalTips() !== 1) {
-          content.find('.hermes-prev, .hermes-end').show();
-          content.find('.hermes-next').remove();
+          content.find('.js--hermes-prev, .js--hermes-end').show();
+          content.find('.js--hermes-next').remove();
         } else {
-          content.find('.hermes-end').show();
-          content.find('.hermes-prev, .hermes-next').remove();
+          content.find('.js--hermes-end').show();
+          content.find('.js--hermes-prev, .js--hermes-next').remove();
         }
       } else if (tip.tutorial_ref.isBeginning()) {
-        content.find('.hermes-next').show();
-        content.find('.hermes-prev, .hermes-end').remove();
+        content.find('.js--hermes-next').show();
+        content.find('.js--hermes-prev, .js--hermes-end').remove();
       } else {
-        content.find('.hermes-prev, .hermes-next').show();
-        content.find('.hermes-end').remove();
+        content.find('.js--hermes-prev, .js--hermes-next').show();
+        content.find('.js--hermes-end').remove();
       }
     }
 
@@ -133,15 +136,15 @@ __hermes_embed.init_displayer = function($) {
       content
         .find('.btn').hide().end()
         .prepend(message.content)
-        .on('click', '.hermes-next', function() {
+        .on('click', '.js--hermes-next', function() {
           content.remove()
           message.tutorial_ref.next();
         })
-        .on('click', '.hermes-prev', function() {
+        .on('click', '.js--hermes-prev', function() {
           content.remove()
           message.tutorial_ref.prev();
         })
-        .on('click', '.hermes-end', function() {
+        .on('click', '.js--hermes-end', function() {
           content.remove()
           message.tutorial_ref.end();
         });
@@ -154,15 +157,15 @@ __hermes_embed.init_displayer = function($) {
       content
         .find('.btn').hide().end()
         .prepend(tip.content)
-        .on('click', '.hermes-next', function() {
+        .on('click', '.js--hermes-next', function() {
           elem.popover('destroy');
           tip.tutorial_ref.next();
         })
-        .on('click', '.hermes-prev', function() {
+        .on('click', '.js--hermes-prev', function() {
           elem.popover('destroy');
           tip.tutorial_ref.prev();
         })
-        .on('click', '.hermes-end', function() {
+        .on('click', '.js--hermes-end', function() {
           elem.popover('destroy');
           tip.tutorial_ref.end();
         });
@@ -184,12 +187,13 @@ __hermes_embed.init_displayer = function($) {
     Displayer.prototype.displayTutorialStarter = function(message) {
       var content = $(TUTORIAL_STARTER_TEMPLATE.replace('{{welcome_message}}', message.tutorial.welcome));
       content
-        .on('click', '.hermes-start-tutorial', function(event){
+        .on('click', '.js--hermes-start-tutorial', function(event){
           content.remove();
           message.tutorial.start();
         })
-        .on('click', '.hermes-skip-tutorial', function() {
+        .on('click', '.js--hermes-skip-tutorial', function() {
           content.remove();
+          message.tutorial.end();
           ns.publish('showAvailableTutorials');
         });
 
@@ -207,8 +211,8 @@ __hermes_embed.init_displayer = function($) {
 
       message.tutorials.forEach(function(tutorial, index){
         var li = $(AVAILABLE_TUTORIAL_TEMPLATE.replace('{{title}}', tutorial.title));
-        li.on('click', '.hermes-show-tutorial', function() {
-          new ns.Tutorial(tutorial); 
+        li.on('click', '.js--hermes-show-tutorial', function() {
+          ns.publish('loadTutorial', [tutorial]);
         });
         tutorialsDOM.push(li);
       });

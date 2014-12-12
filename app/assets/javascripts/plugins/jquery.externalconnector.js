@@ -67,7 +67,6 @@
           val
         ].join('')
     ;
-    alert(url)
     $input.val(val);
     $target.attr('href', url);
 
