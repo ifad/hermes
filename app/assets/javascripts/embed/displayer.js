@@ -21,9 +21,9 @@ __hermes_embed.init_displayer = function($) {
         TUTORIAL_BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
             <div class="hermes-actions">\
-              <div class="hermes-more">
-                <span class="js--hermes-exit">exit</span>
-              </div>
+              <div class="hermes-more">\
+                <span class="js--hermes-exit">exit</span>\
+              </div>\
               <div class="btn-group" role="group" aria-label="tutorial broadcast actions">\
                 <button class="js--hermes-prev btn btn-primary btn-xs" type="button">prev</button>\
                 <button class="js--hermes-next btn btn-primary btn-xs" type="button">next</button>\
@@ -34,6 +34,9 @@ __hermes_embed.init_displayer = function($) {
         TUTORIAL_TIP_TEMPLATE = 
           '<div class="hermes-content">\
             <div class="hermes-actions">\
+              <div class="hermes-more">\
+                <span class="js--hermes-exit">exit</span>\
+              </div>\
               <div class="btn-group" role="group" aria-label="tutorial tip actions">\
                 <button class="js--hermes-prev btn btn-primary btn-xs" type="button">prev</button>\
                 <button class="js--hermes-next btn btn-primary btn-xs" type="button">next</button>\
@@ -117,10 +120,10 @@ __hermes_embed.init_displayer = function($) {
       if (tip.tutorial_ref.isEnd()) {
         if (tip.tutorial_ref.totalTips() !== 1) {
           content.find('.js--hermes-prev, .js--hermes-end').show();
-          content.find('.js--hermes-next').remove();
+          content.find('.js--hermes-next, .js--hermes-exit').remove();
         } else {
           content.find('.js--hermes-end').show();
-          content.find('.js--hermes-prev, .js--hermes-next').remove();
+          content.find('.js--hermes-prev, .js--hermes-next, .js--hermes-exit').remove();
         }
       } else if (tip.tutorial_ref.isBeginning()) {
         content.find('.js--hermes-next').show();
@@ -144,7 +147,7 @@ __hermes_embed.init_displayer = function($) {
           content.remove()
           message.tutorial_ref.prev();
         })
-        .on('click', '.js--hermes-end', function() {
+        .on('click', '.js--hermes-end, .js--hermes-exit', function() {
           content.remove()
           message.tutorial_ref.end();
         });
@@ -165,7 +168,7 @@ __hermes_embed.init_displayer = function($) {
           elem.popover('destroy');
           tip.tutorial_ref.prev();
         })
-        .on('click', '.js--hermes-end', function() {
+        .on('click', '.js--hermes-end, .js--hermes-exit', function() {
           elem.popover('destroy');
           tip.tutorial_ref.end();
         });
