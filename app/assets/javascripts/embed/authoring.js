@@ -152,7 +152,7 @@ __hermes_embed.init_authoring = function($) {
     Authoring.prototype.init = function() {
       this.prepareOverlay();
       this.selectedElement = null;
-      BODY.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
+      DOC.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
     }
 
     ns.Authoring = Authoring;

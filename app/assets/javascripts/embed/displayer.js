@@ -86,9 +86,18 @@ __hermes_embed.init_displayer = function($) {
       this.init();
     };
 
-    Displayer.prototype.displayProgressBar = function(tutorial) {
-      var content = $(PROGRESS_BAR);
-      BODY.prepend(content);
+    Displayer.prototype.displayProgressBar = function(message) {
+      var position = message.tutorial.getCurrentIndex()+1, // starts from 0
+          tot = message.tutorial.getTotalTips(),
+          content = null; 
+      if (!ns.DOM.progressBar) {
+        content = $(PROGRESS_BAR);
+        ns.DOM.progressBar = content;
+        BODY.prepend(content);
+      }
+      ns.DOM.progressBar.show().find('.hermes-progress-bar-indicator').css({
+        width: ~~(position * 100 / tot) + "%"
+      });
       // tutorial curr index & tutorial tot to calculate position in %
     }
 
@@ -143,7 +152,7 @@ __hermes_embed.init_displayer = function($) {
     Displayer.prototype.handleTutorialButtons = function(tip, content) {
       // show buttons by looking at tutorial (through tutorial_ref) status
       if (tip.tutorial_ref.isEnd()) {
-        if (tip.tutorial_ref.totalTips() !== 1) {
+        if (tip.tutorial_ref.getTotalTips() !== 1) {
           content.find('.js--hermes-prev, .js--hermes-end').show();
           content.find('.js--hermes-next, .js--hermes-exit').remove();
         } else {
@@ -152,7 +161,7 @@ __hermes_embed.init_displayer = function($) {
         }
       } else if (tip.tutorial_ref.isBeginning()) {
         content.find('.js--hermes-next').show();
-        content.find('.js--hermes-prev, .js--hermes-end').remove();
+        content.find('.js--hermes-prev, .js--hermes-end, .js--hermes-restart').remove();
       } else {
         content.find('.js--hermes-prev, .js--hermes-next').show();
         content.find('.js--hermes-end').remove();
@@ -288,6 +297,9 @@ __hermes_embed.init_displayer = function($) {
           break;
         case 'availableTutorials':
           this.displayAvailableTutorials(message);
+          break;
+        case 'progressBar':
+          this.displayProgressBar(message);
           break;
         default:
           message.tutorial_ref ? this.displayTutorialBroadcast(message) : this.displayBroadcast(message);

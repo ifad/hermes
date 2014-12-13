@@ -24,7 +24,11 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     };
 
-    Tutorial.prototype.totalTips = function() {
+    Tutorial.prototype.getCurrentIndex = function() {
+      return this.currentTipIndex;
+    }
+
+    Tutorial.prototype.getTotalTips = function() {
       return this.tips.length;
     }
 
@@ -43,6 +47,7 @@ __hermes_embed.init_tutorial = function($) {
     Tutorial.prototype.checkPathAndDisplay = function(tip) {
       if (w.location.pathname === tip.path) {
         ns.display(tip);
+        this.options.progress_bar && ns.display({type: 'progressBar', tutorial: this});
       } else {
         ns.instances.app.deleteTutorialCookies();
         ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
