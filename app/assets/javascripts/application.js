@@ -11,6 +11,7 @@
 //= require data-confirm-modal
 //= require medium-editor
 //= require zeroclipboard
+//= require jquery.placeholder
 
 // require own plugins
 //= require_directory ./plugins

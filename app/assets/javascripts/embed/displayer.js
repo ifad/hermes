@@ -22,6 +22,7 @@ __hermes_embed.init_displayer = function($) {
           '<div class="hermes-broadcast">\
             <div class="hermes-actions">\
               <div class="hermes-more">\
+                <span class="js--hermes-restart">restart</span>\
                 <span class="js--hermes-exit">exit</span>\
               </div>\
               <div class="btn-group" role="group" aria-label="tutorial broadcast actions">\
@@ -35,6 +36,7 @@ __hermes_embed.init_displayer = function($) {
           '<div class="hermes-content">\
             <div class="hermes-actions">\
               <div class="hermes-more">\
+                <span class="js--hermes-restart">restart</span>\
                 <span class="js--hermes-exit">exit</span>\
               </div>\
               <div class="btn-group" role="group" aria-label="tutorial tip actions">\
@@ -64,7 +66,18 @@ __hermes_embed.init_displayer = function($) {
           '<li class="hermes-available-tutorial">\
             <button class="js--hermes-show-tutorial btn btn-primary btn-xs" type="button">start</button>\
             {{title}}\
-          </li>'
+          </li>',
+        PROGRESS_BAR = 
+          '<div class="hermes-progress-bar">\
+            <div class="hermes-progress-bar-indicator"></div>\
+          </div>',
+        OVERLAY =
+          '<div class="hermes-overlay">\
+            <div class="hermes-overlay-n"></div>\
+            <div class="hermes-overlay-s"></div>\
+            <div class="hermes-overlay-w"></div>\
+            <div class="hermes-overlay-e"></div>\
+          </div>'
     ;
 
     var Displayer = function(options) {
@@ -72,6 +85,18 @@ __hermes_embed.init_displayer = function($) {
       this.options = $.extend(DEFAULTS, options);
       this.init();
     };
+
+    Displayer.prototype.displayProgressBar = function(tutorial) {
+      var content = $(PROGRESS_BAR);
+      BODY.prepend(content);
+      // tutorial curr index & tutorial tot to calculate position in %
+    }
+
+    Displayer.prototype.displayOverlay = function(tipElement) {
+      var content = $(OVERLAY);
+      BODY.prepend(content);
+      // elem bound to the tip
+    }
 
     Displayer.prototype.hideTip = function(elem, tip, evt) {
       elem.popover('destroy');
@@ -147,6 +172,10 @@ __hermes_embed.init_displayer = function($) {
           content.remove()
           message.tutorial_ref.prev();
         })
+        .on('click', '.js--hermes-restart', function() {
+          content.remove()
+          message.tutorial_ref.restart();
+        })
         .on('click', '.js--hermes-end, .js--hermes-exit', function() {
           content.remove()
           message.tutorial_ref.end();
@@ -167,6 +196,10 @@ __hermes_embed.init_displayer = function($) {
         .on('click', '.js--hermes-prev', function() {
           elem.popover('destroy');
           tip.tutorial_ref.prev();
+        })
+        .on('click', '.js--hermes-restart', function() {
+          elem.popover('destroy');
+          tip.tutorial_ref.restart();
         })
         .on('click', '.js--hermes-end, .js--hermes-exit', function() {
           elem.popover('destroy');
@@ -234,6 +267,7 @@ __hermes_embed.init_displayer = function($) {
           var target = $(message.selector),
               pos = target.offset(),
               fired = false // double callback on html, body animate (to support multiple browsers!)
+                            // could've used a closure, but it's more readable in this way.
           ;
           if (Math.abs(BODY.scrollTop() - pos.top) > ($(w).innerHeight() - this.options.topOffset)) {
             $('html, body').animate({scrollTop: pos.top - this.options.topOffset},

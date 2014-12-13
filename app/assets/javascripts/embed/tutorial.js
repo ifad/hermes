@@ -28,6 +28,10 @@ __hermes_embed.init_tutorial = function($) {
       return this.tips.length;
     }
 
+    Tutorial.prototype.isStarted = function() {
+      return this.started;
+    }
+
     Tutorial.prototype.isEnd = function() {
       return this.currentTipIndex === (this.tips.length - 1);
     }
@@ -57,6 +61,16 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
 
+    Tutorial.prototype.restart = function() {
+      this.currentTipIndex = -1;
+      this.started = false;
+      this.tutorialStarterDisplayed = false;
+      ns.instances.app.deleteTutorialCookies();
+      $(w).off('beforeunload');
+      ns.publish('tutorialrestarted', [this]);
+      return this;
+    }
+
     Tutorial.prototype.end = function() {
       this.currentTipIndex = -1;
       this.started = false;
@@ -71,7 +85,10 @@ __hermes_embed.init_tutorial = function($) {
       if (this.started || ns.activeTutorial instanceof Tutorial) {
         return;
       }
-      if (ns.utils.strip(this.welcome) !== "" && (!this.tutorialStarterDisplayed) && this.currentTipIndex === -1) {
+      if (ns.utils.strip(this.welcome) !== "" 
+          && (!this.tutorialStarterDisplayed) 
+          && this.currentTipIndex === -1
+          && ns.instances.app.mode !== 'started-tutorial') {
         this.tutorialStarterDisplayed = true;
         ns.display({type: 'tutorialStarter', tutorial: this});
       } else {
@@ -88,6 +105,7 @@ __hermes_embed.init_tutorial = function($) {
       $.ajax(ns.host + url, {
         dataType: 'jsonp',
         success: function(data) {
+          var tipIndex = null;
           if(data.length === 0) {
             ns.publish('tutorialdeleted');
           } else {

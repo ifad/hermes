@@ -10,6 +10,14 @@
     = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
     %p.form-control-help.text-right
       insert the path where the tutorial will be displayed (<b>/</b> default)
+  .checkbox
+    %label
+      = f.check_box :overlay
+      Show black (semi-transparent) overlay
+  .checkbox
+    %label
+      = f.check_box :progress_bar
+      Show progress bar during tutorial
   .row
     .col-md-6
       .form-group

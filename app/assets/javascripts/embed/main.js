@@ -172,6 +172,12 @@
       }
     });
 
+    ns.subscribe('tutorialrestarted', function(tutorial) {
+      // reset active tutorial
+      ns.activeTutorial = null;
+      tutorial.start();
+    }.bind(this));
+
     ns.subscribe('tutorialstarted', function(tutorial) {
       // flag the app w/ active tutorial (no other tutorials can be started while one is executing!)
       ns.activeTutorial = tutorial;
