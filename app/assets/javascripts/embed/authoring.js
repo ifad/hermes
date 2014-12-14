@@ -25,7 +25,7 @@ __hermes_embed.init_authoring = function($) {
 
     var Authoring = function(options) {
       this.version = '0.1';
-      this.options = $.extend(DEFAULTS, options);
+      this.options = $.extend({}, DEFAULTS, options);
       this.init();
     };
 

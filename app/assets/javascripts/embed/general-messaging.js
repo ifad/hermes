@@ -12,7 +12,7 @@ __hermes_embed.init_general_messaging = function($) {
 
     var GeneralMessaging = function(options) {
       this.version = '0.1';
-      this.options = $.extend(DEFAULTS, options);
+      this.options = $.extend({}, DEFAULTS, options);
       this.queue = [];
       this.init();
     };

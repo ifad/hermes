@@ -15,7 +15,7 @@ __hermes_embed.init_tutorial = function($) {
 
     var Tutorial = function(options, startedOptions) {
       this.version = '0.1';
-      this.options = $.extend(DEFAULTS, options);
+      this.options = $.extend({}, DEFAULTS, options);
       if (startedOptions == null){
         this.init();
       } else {
@@ -114,7 +114,7 @@ __hermes_embed.init_tutorial = function($) {
           if(data.length === 0) {
             ns.publish('tutorialdeleted');
           } else {
-            this.options = $.extend(this.options, data[0]);
+            $.extend(this.options, data[0]);
             this.init(startedOptions.tipIndex);
           }
         }.bind(this)

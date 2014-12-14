@@ -176,6 +176,10 @@
       // reset active tutorial
       ns.activeTutorial = null;
       ns.DOM.progressBar && ns.DOM.progressBar.hide();
+      if (ns.DOM.overlay) {
+        $(document.body).css('overflow', ns.DOM.bodyOldOverflow);
+        ns.DOM.overlay.hide();
+      }
       tutorial.start();
     }.bind(this));
 
@@ -190,6 +194,10 @@
       ns.activeTutorial = null;
       ns.publish('showAvailableTutorials');
       ns.DOM.progressBar && ns.DOM.progressBar.hide();
+      if (ns.DOM.overlay) {
+        $(document.body).css('overflow', ns.DOM.bodyOldOverflow);
+        ns.DOM.overlay.hide();
+      }
       if (this.mode === 'started-tutorial') {
         this.mode = 'general-messaging';
         this.initMode();

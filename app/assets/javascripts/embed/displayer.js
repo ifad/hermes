@@ -6,7 +6,8 @@ __hermes_embed.init_displayer = function($) {
         BODY = $(document.body),
         DEFAULTS = {
           bodyScrollDuration: 300, // ms
-          topOffset: 200
+          topOffset: 200,
+          overlayPadding: 3
         },
         BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
@@ -69,20 +70,20 @@ __hermes_embed.init_displayer = function($) {
           </li>',
         PROGRESS_BAR = 
           '<div class="hermes-progress-bar">\
-            <div class="hermes-progress-bar-indicator"></div>\
+            <div class="hermes-progress-bar-indicator js--hermes-progress-indicator"></div>\
           </div>',
         OVERLAY =
           '<div class="hermes-overlay">\
-            <div class="hermes-overlay-n"></div>\
-            <div class="hermes-overlay-s"></div>\
-            <div class="hermes-overlay-w"></div>\
-            <div class="hermes-overlay-e"></div>\
+            <div class="js--hermes-overlay-n hermes-overlay-section"></div>\
+            <div class="js--hermes-overlay-s hermes-overlay-section"></div>\
+            <div class="js--hermes-overlay-w hermes-overlay-section"></div>\
+            <div class="js--hermes-overlay-e hermes-overlay-section"></div>\
           </div>'
     ;
 
     var Displayer = function(options) {
       this.version = '0.1';
-      this.options = $.extend(DEFAULTS, options);
+      this.options = $.extend({}, DEFAULTS, options);
       this.init();
     };
 
@@ -95,16 +96,84 @@ __hermes_embed.init_displayer = function($) {
         ns.DOM.progressBar = content;
         BODY.prepend(content);
       }
-      ns.DOM.progressBar.show().find('.hermes-progress-bar-indicator').css({
+      ns.DOM.progressBar.show().find('.js--hermes-progress-indicator').css({
         width: ~~(position * 100 / tot) + "%"
       });
       // tutorial curr index & tutorial tot to calculate position in %
     }
 
-    Displayer.prototype.displayOverlay = function(tipElement) {
-      var content = $(OVERLAY);
-      BODY.prepend(content);
-      // elem bound to the tip
+    Displayer.prototype.displayElementOverlay = function(elem) {
+      var elemOffset = elem.offset(),
+          size = {
+            x: elem.outerWidth(),
+            y: elem.outerHeight()
+          },
+          position = {
+            x: elemOffset.left,
+            y: elemOffset.top
+          },
+          bottomTop = position.y + size.y,
+          o = this.options
+      ;
+
+      ns.DOM.overlays.n.show().css({
+        top: 0,
+        height: position.y - o.overlayPadding,
+        width: '100%'
+      });
+      ns.DOM.overlays.s.show().css({
+        height: DOC.height() - bottomTop - o.overlayPadding,
+        top: bottomTop + o.overlayPadding,
+        width: '100%'
+      });
+      ns.DOM.overlays.w.show().css({
+        height: size.y + (o.overlayPadding * 2),
+        top: position.y - o.overlayPadding,
+        width: position.x - o.overlayPadding,
+        left: 0
+      });
+      ns.DOM.overlays.e.show().css({
+        height: size.y + (o.overlayPadding * 2),
+        top: position.y - o.overlayPadding,
+        width: BODY.width() - position.x - size.x - o.overlayPadding,
+        right: 0
+      });
+      // @ TODO set fixed mask if element is fixed (should find a way to get it :S)
+    }
+
+    Displayer.prototype.displayGlobalOverlay = function() {
+      ns.DOM.overlays.s.hide();
+      ns.DOM.overlays.e.hide();
+      ns.DOM.overlays.w.hide();
+      ns.DOM.overlays.n.show().css({
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0
+      });
+    }
+
+    Displayer.prototype.displayOverlay = function(elem) {
+      var content = null;
+      if (!ns.DOM.overlay) {
+        content = $(OVERLAY);
+        ns.DOM.overlay = content;
+        ns.DOM.overlays = {
+          n: ns.DOM.overlay.find('.js--hermes-overlay-n'),
+          s: ns.DOM.overlay.find('.js--hermes-overlay-s'),
+          e: ns.DOM.overlay.find('.js--hermes-overlay-e'),
+          w: ns.DOM.overlay.find('.js--hermes-overlay-w')
+        }
+        BODY.prepend(content);
+        ns.DOM.bodyOldOverflow = BODY.css('overflow')
+      }
+      BODY.css({overflow: 'hidden'});
+      ns.DOM.overlay.show();
+      if (elem == null) { // full overlay, just north
+        this.displayGlobalOverlay();
+      } else { // otherwise calculate it
+        this.displayElementOverlay(elem);
+      }
     }
 
     Displayer.prototype.hideTip = function(elem, tip, evt) {
@@ -191,6 +260,7 @@ __hermes_embed.init_displayer = function($) {
         });
       this.handleTutorialButtons(message, content);
       BODY.prepend(content);
+      message.tutorial_ref.options.overlay && this.displayOverlay();
     }
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
@@ -227,6 +297,8 @@ __hermes_embed.init_displayer = function($) {
           container: 'body'
         })
         .popover('show');
+
+      tip.tutorial_ref.options.overlay && this.displayOverlay(elem);
     }
 
     Displayer.prototype.displayTutorialStarter = function(message) {
@@ -307,7 +379,10 @@ __hermes_embed.init_displayer = function($) {
       }
     }
 
+    Displayer.prototype.recalculate = function() {}
+
     Displayer.prototype.init = function() {
+      // w.on('resize', ns.utils.throttle(this.recalculate.bind(this), 100));
     }
 
     ns.Displayer = Displayer;

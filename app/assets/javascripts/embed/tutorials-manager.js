@@ -11,7 +11,7 @@ __hermes_embed.init_tutorials_manager = function($) {
 
     var TutorialsManager = function(options) {
       this.version = '0.1';
-      this.options = $.extend(DEFAULTS, options);
+      this.options = $.extend({}, DEFAULTS, options);
       this.init();
     };
 

@@ -16,7 +16,7 @@ __hermes_embed.init_preview = function($) {
 
     var Preview = function(options) {
       this.version = '0.1';
-      this.options = $.extend(DEFAULTS, options);
+      this.options = $.extend({}, DEFAULTS, options);
       this.init();
     };
 
