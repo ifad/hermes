@@ -281,6 +281,10 @@
   }
 
 
+  App.prototype.validate = function() {
+    // target.length === 0 || !target.is(':visible')
+  }
+
 
   /**
     * init

@@ -15,10 +15,11 @@ __hermes_embed.init_tutorial = function($) {
 
     var Tutorial = function(options, startedOptions) {
       this.version = '0.1';
-      this.options = $.extend({}, DEFAULTS, options);
       if (startedOptions == null){
+        this.options = $.extend({}, DEFAULTS, this.sanitize(options));
         this.init();
       } else {
+        this.options = $.extend({}, DEFAULTS);
         this.initStarted(startedOptions);
       }
       return this;
@@ -104,6 +105,22 @@ __hermes_embed.init_tutorial = function($) {
       }
       return this;
     }
+
+    Tutorial.prototype.sanitize = function(data) {
+      var tips = data.tips,
+          len = tips.length,
+          elem = null,
+          currTip
+      ;
+      while (len--) {
+        currTip = tips[len];
+        if(currTip.type === 'tip') {
+          elem = $(currTip.selector);
+          (w.location.pathname === currTip.path && (elem.length === 0 || !elem.is(':visible'))) && tips.splice(len, 1);
+        }
+      };
+      return data;
+    }
     
     Tutorial.prototype.initStarted = function(startedOptions) {
       var url = this.options.retrieveTutorialUrl.replace('{{tutorial_id}}', startedOptions.tutorialId);
@@ -114,7 +131,7 @@ __hermes_embed.init_tutorial = function($) {
           if(data.length === 0) {
             ns.publish('tutorialdeleted');
           } else {
-            $.extend(this.options, data[0]);
+            $.extend(this.options, this.sanitize(data[0]));
             this.init(startedOptions.tipIndex);
           }
         }.bind(this)
@@ -134,7 +151,7 @@ __hermes_embed.init_tutorial = function($) {
         tip.tutorial_ref = this;
       }.bind(this));
       if (this.selector) {
-        startElement = $(this.selector);
+        startElement = $(this.selector).first();
         startElement && startElement.on('click', this.start.bind(this));
         tipIndex && this.start();
       } else {

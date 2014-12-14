@@ -110,7 +110,7 @@
 }
 
 .hermes-tutorial-starter-panel {
-  width: 600px;
+  width: 90%;
   margin: 30px auto;
 }
 
@@ -438,4 +438,10 @@
 
 .wysiwyg-color-orange {
   color: orange;
+}
+
+@media only screen and (min-width: 768px) {
+  .hermes-tutorial-starter-panel {
+    width: 600px;
+  } 
 }

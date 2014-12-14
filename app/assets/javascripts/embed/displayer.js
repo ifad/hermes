@@ -6,7 +6,7 @@ __hermes_embed.init_displayer = function($) {
         BODY = $(document.body),
         DEFAULTS = {
           bodyScrollDuration: 300, // ms
-          topOffset: 200,
+          topOffset: 100,
           overlayPadding: 3
         },
         BROADCAST_TEMPLATE = 
@@ -138,19 +138,6 @@ __hermes_embed.init_displayer = function($) {
         width: BODY.width() - position.x - size.x - o.overlayPadding,
         right: 0
       });
-      // @ TODO set fixed mask if element is fixed (should find a way to get it :S)
-    }
-
-    Displayer.prototype.displayGlobalOverlay = function() {
-      ns.DOM.overlays.s.hide();
-      ns.DOM.overlays.e.hide();
-      ns.DOM.overlays.w.hide();
-      ns.DOM.overlays.n.show().css({
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0
-      });
     }
 
     Displayer.prototype.displayOverlay = function(elem) {
@@ -169,11 +156,7 @@ __hermes_embed.init_displayer = function($) {
       }
       BODY.css({overflow: 'hidden'});
       ns.DOM.overlay.show();
-      if (elem == null) { // full overlay, just north
-        this.displayGlobalOverlay();
-      } else { // otherwise calculate it
-        this.displayElementOverlay(elem);
-      }
+      this.displayElementOverlay(elem);
     }
 
     Displayer.prototype.hideTip = function(elem, tip, evt) {
@@ -260,7 +243,8 @@ __hermes_embed.init_displayer = function($) {
         });
       this.handleTutorialButtons(message, content);
       BODY.prepend(content);
-      message.tutorial_ref.options.overlay && this.displayOverlay();
+      this.currentObject = {element: content, tip: message, content: content, type: 'broadcast'};
+      message.tutorial_ref.options.overlay && this.displayOverlay(content);
     }
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
@@ -297,7 +281,7 @@ __hermes_embed.init_displayer = function($) {
           container: 'body'
         })
         .popover('show');
-
+      this.currentObject = {element: elem, tip: tip, content: content, type: 'tip'};
       tip.tutorial_ref.options.overlay && this.displayOverlay(elem);
     }
 
@@ -345,12 +329,12 @@ __hermes_embed.init_displayer = function($) {
     Displayer.prototype.display = function(message) {
       switch(message.type) {
         case 'tip':
-          var target = $(message.selector),
+          var target = $(message.selector).first(),
               pos = target.offset(),
               fired = false // double callback on html, body animate (to support multiple browsers!)
                             // could've used a closure, but it's more readable in this way.
           ;
-          if (Math.abs(BODY.scrollTop() - pos.top) > ($(w).innerHeight() - this.options.topOffset)) {
+          if (!ns.utils.isElementInViewport(target[0])) {
             $('html, body').animate({scrollTop: pos.top - this.options.topOffset},
               this.options.bodyScrollDuration,
               function() { 
@@ -379,10 +363,24 @@ __hermes_embed.init_displayer = function($) {
       }
     }
 
-    Displayer.prototype.recalculate = function() {}
+    Displayer.prototype.recalculate = function() {
+      var obj = this.currentObject;
+      if (obj) {
+        if(obj.type === 'broadcast') {
+          obj.tip.tutorial_ref.options.overlay && this.displayOverlay(obj.content);
+        } else {
+          if (obj.element.is(':visible')) {
+            obj.tip.tutorial_ref.options.overlay && this.displayOverlay(obj.element);
+            obj.element.popover('show');
+          } else {
+            ns.DOM.overlay.hide();
+          }
+        }
+      }
+    }
 
     Displayer.prototype.init = function() {
-      // w.on('resize', ns.utils.throttle(this.recalculate.bind(this), 100));
+      $(w).on('resize', ns.utils.throttle(this.recalculate.bind(this), 100));
     }
 
     ns.Displayer = Displayer;
