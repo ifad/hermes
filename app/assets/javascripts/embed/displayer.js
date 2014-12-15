@@ -168,6 +168,28 @@ __hermes_embed.init_displayer = function($) {
       ns.publish('broadcastHidden', [message, evt])
     }
 
+    Displayer.prototype.getPopoverContainer = function(elem) {
+      var isFixed = elem.css('position') === 'fixed',
+          parents = null,
+          parentElement = null;
+      if (isFixed) {
+        return elem;
+      } else {
+        parents = elem.parents();
+        parents.each(function(){
+          if($(this).css('position') === 'fixed') {
+            isFixed = true;
+            parentElement = $(this);
+            return false;
+          }
+        });
+        if (isFixed) {
+          return parentElement;
+        }
+      }
+      return 'body';
+    }
+
     Displayer.prototype.displayTip = function(tip, elem) {
       var content = $(TIP_TEMPLATE);
       content
@@ -183,7 +205,7 @@ __hermes_embed.init_displayer = function($) {
           trigger: 'manual',
           title: tip.title,
           content: content,
-          container: 'body'
+          container: this.getPopoverContainer(elem)
         })
         .popover('show');
 
