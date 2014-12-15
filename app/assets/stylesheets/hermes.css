@@ -1,3 +1,9 @@
+/* body modifiers */
+
+.hermes--is-overflow-hidden {
+  overflow: hidden;
+}
+
 /* available tutorials */
 
 .hermes-available-tutorials {
@@ -100,6 +106,7 @@
 .hermes-tutorial-starter {
   overflow: hidden;
   position: fixed;
+  overflow-y: scroll;
   top: 0;
   right: 0;
   bottom: 0;

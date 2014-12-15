@@ -11,7 +11,7 @@ __hermes_embed.init_displayer = function($) {
         },
         BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
-            <button class="js--hermes-close" type="button">&times;</button>\
+            <button class="js--hermes-close hermes-close" type="button">&times;</button>\
           </div>',
         TIP_TEMPLATE = 
           '<div class="hermes-content">\
@@ -52,7 +52,8 @@ __hermes_embed.init_displayer = function($) {
           <div class="hermes-tutorial-starter">\
             <div class="hermes-tutorial-starter-panel">\
               <div class="hermes-tutorial-starter-panel-content">\
-                {{welcome_message}}\
+                <span><b>{{title}}</b></span>\
+                <p>{{welcome_message}}</p>\
                 <button class="js--hermes-start-tutorial btn btn-primary" type="button">Start it!</button>\
                 <button class="js--hermes-skip-tutorial btn btn-danger" type="button">Skip</button>\
               </div>\
@@ -99,7 +100,6 @@ __hermes_embed.init_displayer = function($) {
       ns.DOM.progressBar.show().find('.js--hermes-progress-indicator').css({
         width: ~~(position * 100 / tot) + "%"
       });
-      // tutorial curr index & tutorial tot to calculate position in %
     }
 
     Displayer.prototype.displayElementOverlay = function(elem) {
@@ -152,9 +152,8 @@ __hermes_embed.init_displayer = function($) {
           w: ns.DOM.overlay.find('.js--hermes-overlay-w')
         }
         BODY.prepend(content);
-        ns.DOM.bodyOldOverflow = BODY.css('overflow')
       }
-      BODY.css({overflow: 'hidden'});
+      BODY.addClass('hermes--is-overflow-hidden');
       ns.DOM.overlay.show();
       this.displayElementOverlay(elem);
     }
@@ -286,19 +285,23 @@ __hermes_embed.init_displayer = function($) {
     }
 
     Displayer.prototype.displayTutorialStarter = function(message) {
-      var content = $(TUTORIAL_STARTER_TEMPLATE.replace('{{welcome_message}}', message.tutorial.welcome));
+      var contentStr = TUTORIAL_STARTER_TEMPLATE.replace('{{welcome_message}}', message.tutorial.welcome).replace('{{title}}', message.tutorial.title) 
+          content = $(contentStr)
+      ;
       content
         .on('click', '.js--hermes-start-tutorial', function(event){
           content.remove();
+          BODY.removeClass('hermes--is-overflow-hidden');
           message.tutorial.start();
         })
         .on('click', '.js--hermes-skip-tutorial', function() {
           content.remove();
+          BODY.removeClass('hermes--is-overflow-hidden');
           message.tutorial.end();
           ns.publish('showAvailableTutorials');
         });
 
-      BODY.prepend(content); 
+      BODY.prepend(content).addClass('hermes--is-overflow-hidden');
 
       ns.publish('hideAvailableTutorials');
     }
@@ -363,24 +366,24 @@ __hermes_embed.init_displayer = function($) {
       }
     }
 
-    Displayer.prototype.recalculate = function() {
-      var obj = this.currentObject;
-      if (obj) {
-        if(obj.type === 'broadcast') {
-          obj.tip.tutorial_ref.options.overlay && this.displayOverlay(obj.content);
-        } else {
-          if (obj.element.is(':visible')) {
-            obj.tip.tutorial_ref.options.overlay && this.displayOverlay(obj.element);
-            obj.element.popover('show');
-          } else {
-            ns.DOM.overlay.hide();
-          }
-        }
-      }
-    }
+    // Displayer.prototype.recalculate = function() {
+    //   var obj = this.currentObject;
+    //   if (obj) {
+    //     if(obj.type === 'broadcast') {
+    //       obj.tip.tutorial_ref.options.overlay && this.displayOverlay(obj.content);
+    //     } else {
+    //       if (obj.element.is(':visible')) {
+    //         obj.tip.tutorial_ref.options.overlay && this.displayOverlay(obj.element);
+    //         obj.element.popover('show');
+    //       } else {
+    //         ns.DOM.overlay.hide();
+    //       }
+    //     }
+    //   }
+    // }
 
     Displayer.prototype.init = function() {
-      $(w).on('resize', ns.utils.throttle(this.recalculate.bind(this), 100));
+      // $(w).on('resize', ns.utils.throttle(this.recalculate.bind(this), 100));
     }
 
     ns.Displayer = Displayer;

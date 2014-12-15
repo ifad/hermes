@@ -27,13 +27,17 @@ class TipsController < ApplicationController
 
   def create
     @tip = @site.tips.new(tip_params)
+    @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
     if @tip.save
-      @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
       @tutorial.tips << @tip if @tutorial
       redirect_to @tutorial ? site_tutorial_tips_path(@site, @tutorial) : site_tips_path(@site)
     else
       flash.now[:error] = 'There was an error saving your message.'
-      render :new
+      if @tutorial
+        render :new, tutorial_id: params[:tutorial_id]
+      else
+        render :new
+      end
     end
   end
 

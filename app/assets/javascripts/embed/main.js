@@ -177,7 +177,7 @@
       ns.activeTutorial = null;
       ns.DOM.progressBar && ns.DOM.progressBar.hide();
       if (ns.DOM.overlay) {
-        $(document.body).css('overflow', ns.DOM.bodyOldOverflow);
+        $(document.body).removeClass('hermes--is-overflow-hidden');
         ns.DOM.overlay.hide();
       }
       tutorial.start();
@@ -195,7 +195,7 @@
       ns.publish('showAvailableTutorials');
       ns.DOM.progressBar && ns.DOM.progressBar.hide();
       if (ns.DOM.overlay) {
-        $(document.body).css('overflow', ns.DOM.bodyOldOverflow);
+        $(document.body).removeClass('hermes--is-overflow-hidden');
         ns.DOM.overlay.hide();
       }
       if (this.mode === 'started-tutorial') {
@@ -278,11 +278,6 @@
     ns.instances.displayer = new ns.Displayer;
     ns.display = ns.instances.displayer.display.bind(ns.instances.displayer);
     return this;
-  }
-
-
-  App.prototype.validate = function() {
-    // target.length === 0 || !target.is(':visible')
   }
 
 

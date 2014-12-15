@@ -46,7 +46,7 @@ Hermes::Application.routes.draw do
     get "/messages/tutorials/:tutorial_id.js"      => "messages#tutorial"
     get "/message/tutorial/:tutorial_id/:type/:id" => "messages#show_tutorial_message", as: :message_tutorial
 
-        # messages (from client)
+    # messages (from client)
     get "/messages.js"        => "messages#index"
     get "/messages/:type/:id" => "messages#update", as: :dismiss_message
     get "/message/:type/:id"  => "messages#show",   as: :message

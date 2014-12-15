@@ -36,12 +36,21 @@ __hermes_embed.init_general_messaging = function($) {
     }
 
     GeneralMessaging.prototype.dequeue = function() {
+      var currentTip = null,
+          tipElement = null;
       if (this.queue.length === 0) {
         ns.publish('generalMessagingOver', []);
         return;
       }
-
-      ns.display(this.queue.shift());
+      currentTip = this.queue.shift();
+      if (currentTip.type === 'tip') {
+        tipElement = $(currentTip.selector);
+        if (tipElement.length === 0 || !tipElement.is(':visible')) {
+          this.dequeue();
+          return;
+        }
+      }
+      ns.display(currentTip);
 
       $(w).one('hermes.dismiss-message', function () {
         setTimeout(this.dequeue.bind(this), this.options.snoozeTimeOut);

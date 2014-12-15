@@ -116,7 +116,9 @@ __hermes_embed.init_tutorial = function($) {
         currTip = tips[len];
         if(currTip.type === 'tip') {
           elem = $(currTip.selector);
-          (w.location.pathname === currTip.path && (elem.length === 0 || !elem.is(':visible'))) && tips.splice(len, 1);
+          (w.location.pathname === currTip.path 
+            && (elem.length === 0 || !elem.is(':visible'))
+          ) && tips.splice(len, 1);
         }
       };
       return data;

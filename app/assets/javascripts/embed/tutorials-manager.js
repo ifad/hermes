@@ -23,6 +23,7 @@ __hermes_embed.init_tutorials_manager = function($) {
     }
 
     TutorialsManager.prototype.setTutorials = function(tutorials) {
+      var len = 0;
       ns.init_tutorial($);
       ns.tutorials = ns.tutorials || {};
       this.autoStartTutorials = tutorials.filter(function(tutorial){
@@ -31,6 +32,15 @@ __hermes_embed.init_tutorials_manager = function($) {
       this.selectorTutorials = tutorials.filter(function(tutorial){
         return tutorial.tips.length > 0 && tutorial.selector !== null && tutorial.selector !== '';
       });
+      len = this.selectorTutorials.length;
+      while (len--) {
+        currTutorial = this.selectorTutorials[len];
+        if ($(currTutorial.selector).length === 0) {
+          currTutorial.selector = '';
+          this.autoStartTutorials.push(currTutorial);
+          this.selectorTutorials.splice(len, 1);
+        }
+      };
       if (this.autoStartTutorials.length > 0) {
         ns.display({type: 'availableTutorials', tutorials: this.autoStartTutorials});
       }
