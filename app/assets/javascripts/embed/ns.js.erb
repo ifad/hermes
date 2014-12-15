@@ -5,7 +5,7 @@
   h.assets = {
     logo: "<%= asset_url('hermes-logo.png') %>"
   };
-  h.protocol = 'http'; // todo create ENV protocol
+  h.protocol = "<%= ENV['protocol'] || 'http' %>"; // see env/production.rb
   h.host = "<%= compute_asset_host %>";
   h.env = "<%= Rails.env %>";
   h.pagepath = w.location.protocol + h.host;

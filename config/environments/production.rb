@@ -82,4 +82,7 @@ Hermes::Application.configure do
     :email_prefix => "[HERMES] ",
     :sender_address => %{hermes@antani.r13.railsrumble.com},
     :exception_recipients => %w{antani-r13@googlegroups.com}
+
+  # env variable to specify the protocol being used
+  ENV['protocol'] = 'https'
 end
