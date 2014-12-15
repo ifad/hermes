@@ -291,8 +291,7 @@
     **/
 
   App.prototype.init = function($){
-    var hash = ns.hash, 
-        path = '',
+    var path = '',
         startedTutorial = ns.cookie.read('hermes-tutorial-started') !== null
     ;
     this.initPubSub($);

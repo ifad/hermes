@@ -58,6 +58,7 @@ Create the App and Fire the JS!
     $("a[rel~=tooltip], .has-tooltip").tooltip();
     $('.datetimepicker').datetimepicker({ language: 'en-US', pickTime: true });
     $('textarea').autosize();
+    $('input, textarea').placeholder();
   }
 
   App.prototype._startZeroClipboard = function() {

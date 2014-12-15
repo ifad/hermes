@@ -97,7 +97,7 @@ __hermes_embed.init_displayer = function($) {
 
     Displayer.prototype.displayStatus = function(message) {
       var content = $(STATUS_MESSAGE.replace('{{title}}', message.text));
-      BODY.prepend(content);
+      BODY.append(content);
       setTimeout(function(){
         content.addClass('displayed');
       }, 200);
@@ -110,7 +110,7 @@ __hermes_embed.init_displayer = function($) {
       if (!ns.DOM.progressBar) {
         content = $(PROGRESS_BAR);
         ns.DOM.progressBar = content;
-        BODY.prepend(content);
+        BODY.append(content);
       }
       ns.DOM.progressBar.show().find('.js--hermes-progress-indicator').css({
         width: ~~(position * 100 / tot) + "%"
@@ -166,7 +166,7 @@ __hermes_embed.init_displayer = function($) {
           e: ns.DOM.overlay.find('.js--hermes-overlay-e'),
           w: ns.DOM.overlay.find('.js--hermes-overlay-w')
         }
-        BODY.prepend(content);
+        BODY.append(content);
       }
       BODY.addClass('hermes--is-overflow-hidden');
       ns.DOM.overlay.show();
@@ -175,6 +175,7 @@ __hermes_embed.init_displayer = function($) {
 
     Displayer.prototype.hideTip = function(elem, tip, evt) {
       elem.popover('destroy');
+      elem.off('.popover').removeData('bs.popover');
       ns.publish('tipHidden', [tip, evt])
     }
 
@@ -220,7 +221,7 @@ __hermes_embed.init_displayer = function($) {
           this.hideBroadcast(content, message, event);
         }.bind(this));
 
-      BODY.prepend(content);
+      BODY.append(content);
     }
 
     Displayer.prototype.handleTutorialButtons = function(tip, content) {
@@ -264,7 +265,7 @@ __hermes_embed.init_displayer = function($) {
           message.tutorial_ref.end();
         });
       this.handleTutorialButtons(message, content);
-      BODY.prepend(content);
+      BODY.append(content);
       this.currentObject = {element: content, tip: message, content: content, type: 'broadcast'};
       message.tutorial_ref.options.overlay && this.displayOverlay(content);
     }
@@ -289,6 +290,7 @@ __hermes_embed.init_displayer = function($) {
         })
         .on('click', '.js--hermes-end, .js--hermes-exit, .js--hermes-restart, .js--hermes-prev, .js--hermes-next', function(){
           elem.popover('destroy');
+          elem.off('.popover').removeData('bs.popover');
           if (container !== 'body') {
             container.removeClass('hermes-force-element-z-index')
           }
@@ -332,7 +334,7 @@ __hermes_embed.init_displayer = function($) {
           ns.publish('showAvailableTutorials');
         });
 
-      BODY.prepend(content).addClass('hermes--is-overflow-hidden');
+      BODY.append(content).addClass('hermes--is-overflow-hidden');
 
       ns.publish('hideAvailableTutorials');
     }
@@ -353,7 +355,7 @@ __hermes_embed.init_displayer = function($) {
       });
 
       content.find('ul').append(tutorialsDOM);
-      BODY.prepend(content); 
+      BODY.append(content); 
       setTimeout(function(){
         content.addClass('displayed');
       }, 200);

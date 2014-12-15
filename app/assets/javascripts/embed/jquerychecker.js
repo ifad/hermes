@@ -37,9 +37,10 @@
           maj = parseInt(ver[0]),
           min = parseInt(ver[1])
       ;
-      if (maj > 1 || (maj == 1 && min > 4)) {
+      if (maj > 1 || (maj == 1 && min > 8)) {
         this.onLoadedCallback(w.jQuery);
       } else {
+        alert('ok')
         this.loadScript(JQUERYURL, this.loadHandler);
       }
     }
