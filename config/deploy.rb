@@ -93,7 +93,7 @@ namespace :deploy do
   namespace :assets do
     desc "[internal] Precompile assets."
     task :precompile, :roles => :web do
-      run "cd #{release_path}; #{rake} assets:precompile hermes:symlink RAILS_RELATIVE_URL_ROOT=/hermes"
+      run "cd #{release_path}; #{rake} assets:precompile hermes:symlink"
     end
     after "deploy:update_code", "deploy:assets:precompile"
   end
