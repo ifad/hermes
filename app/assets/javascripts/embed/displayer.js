@@ -299,7 +299,7 @@ __hermes_embed.init_displayer = function($) {
           trigger: 'manual',
           title: tip.title,
           content: content,
-          container: 'body'
+          container: this.getPopoverContainer(elem)
         })
         .popover('show');
       this.currentObject = {element: elem, tip: tip, content: content, type: 'tip'};
