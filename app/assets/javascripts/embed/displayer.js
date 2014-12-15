@@ -9,6 +9,13 @@ __hermes_embed.init_displayer = function($) {
           topOffset: 100,
           overlayPadding: 3
         },
+
+        // templates
+
+        STATUS_MESSAGE = 
+          '<div class="hermes-status-message">\
+            <div><img src="' + ns.assets.logo + '" width="20" height="20" alt="hermes" /> {{title}}</div>\
+          </div>',
         BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
             <button class="js--hermes-close hermes-close" type="button">&times;</button>\
@@ -87,6 +94,14 @@ __hermes_embed.init_displayer = function($) {
       this.options = $.extend({}, DEFAULTS, options);
       this.init();
     };
+
+    Displayer.prototype.displayStatus = function(message) {
+      var content = $(STATUS_MESSAGE.replace('{{title}}', message.text));
+      BODY.prepend(content);
+      setTimeout(function(){
+        content.addClass('displayed');
+      }, 200);
+    }
 
     Displayer.prototype.displayProgressBar = function(message) {
       var position = message.tutorial.getCurrentIndex()+1, // starts from 0
@@ -168,33 +183,15 @@ __hermes_embed.init_displayer = function($) {
       ns.publish('broadcastHidden', [message, evt])
     }
 
-    Displayer.prototype.getPopoverContainer = function(elem) {
-      var isFixed = elem.css('position') === 'fixed',
-          parents = null,
-          parentElement = null;
-      if (isFixed) {
-        return elem;
-      } else {
-        parents = elem.parents();
-        parents.each(function(){
-          if($(this).css('position') === 'fixed') {
-            isFixed = true;
-            parentElement = $(this);
-            return false;
-          }
-        });
-        if (isFixed) {
-          return parentElement;
-        }
-      }
-      return 'body';
-    }
-
     Displayer.prototype.displayTip = function(tip, elem) {
-      var content = $(TIP_TEMPLATE);
+      var content = $(TIP_TEMPLATE),
+          container = ns.utils.checkFixedElement(elem);
       content
         .prepend(tip.content)
         .on('click', '.js--hermes-close', function (event) {
+          if (container !== 'body') {
+            container.removeClass('hermes-force-element-z-index')
+          }
           this.hideTip(elem, tip, event);
         }.bind(this));
 
@@ -205,9 +202,13 @@ __hermes_embed.init_displayer = function($) {
           trigger: 'manual',
           title: tip.title,
           content: content,
-          container: this.getPopoverContainer(elem)
+          container: ns.utils.checkFixedElement(elem)
         })
         .popover('show');
+
+      if (container !== 'body') {
+        container.addClass('hermes-force-element-z-index')
+      }
 
     }
 
@@ -269,25 +270,28 @@ __hermes_embed.init_displayer = function($) {
     }
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
-      var content = $(TUTORIAL_TIP_TEMPLATE);
+      var content = $(TUTORIAL_TIP_TEMPLATE),
+          container = ns.utils.checkFixedElement(elem);
       content
         .find('.btn').hide().end()
         .prepend(tip.content)
         .on('click', '.js--hermes-next', function() {
-          elem.popover('destroy');
           tip.tutorial_ref.next();
         })
         .on('click', '.js--hermes-prev', function() {
-          elem.popover('destroy');
           tip.tutorial_ref.prev();
         })
         .on('click', '.js--hermes-restart', function() {
-          elem.popover('destroy');
           tip.tutorial_ref.restart();
         })
         .on('click', '.js--hermes-end, .js--hermes-exit', function() {
-          elem.popover('destroy');
           tip.tutorial_ref.end();
+        })
+        .on('click', '.js--hermes-end, .js--hermes-exit, .js--hermes-restart, .js--hermes-prev, .js--hermes-next', function(){
+          elem.popover('destroy');
+          if (container !== 'body') {
+            container.removeClass('hermes-force-element-z-index')
+          }
         });
 
       this.handleTutorialButtons(tip, content);
@@ -299,9 +303,14 @@ __hermes_embed.init_displayer = function($) {
           trigger: 'manual',
           title: tip.title,
           content: content,
-          container: this.getPopoverContainer(elem)
+          container: container
         })
         .popover('show');
+
+      if (container !== 'body') {
+        container.addClass('hermes-force-element-z-index')
+      }
+
       this.currentObject = {element: elem, tip: tip, content: content, type: 'tip'};
       tip.tutorial_ref.options.overlay && this.displayOverlay(elem);
     }
@@ -381,6 +390,12 @@ __hermes_embed.init_displayer = function($) {
           break;
         case 'progressBar':
           this.displayProgressBar(message);
+          break;
+        case 'authoring':
+          this.displayStatus(message);
+          break;
+        case 'preview':
+          this.displayStatus(message);
           break;
         default:
           message.tutorial_ref ? this.displayTutorialBroadcast(message) : this.displayBroadcast(message);

@@ -4,8 +4,16 @@
   overflow: hidden;
 }
 
+/* force fixed element that has popover to have a proper z-index (same z-index as popover) */
+
+.hermes-force-element-z-index {
+  z-index: 10010 !important;
+}
+
+/* status message */
 /* available tutorials */
 
+.hermes-status-message,
 .hermes-available-tutorials {
   position: fixed;
   z-index: 10049;
@@ -30,12 +38,17 @@
   transform         : translate3d(0, 100px, 0);
 }
 
+.hermes-status-message.displayed,
 .hermes-available-tutorials.displayed {
   -webkit-transform : translate3d(0, 0, 0);
   -moz-transform    : translate3d(0, 0, 0);
   -ms-transform     : translate3d(0, 0, 0);
   -o-transform      : translate3d(0, 0, 0);
   transform         : translate3d(0, 0, 0);
+}
+
+.hermes-status-message.displayed {
+  opacity: .7;
 }
 
 .hermes-available-tutorials > div {
@@ -211,11 +224,6 @@
 
 /* The popover CSS */
 
-.hermes-popover {
-  z-index: 10010;
-  min-width: 200px;
-}
-
 .popover {
   position: absolute;
   top: 0;
@@ -343,6 +351,11 @@
 
 .popover h3.popover-title {
   font-weight: 600 !important;
+}
+
+.hermes-popover {
+  z-index: 10010 !important;
+  min-width: 200px;
 }
 
 /* popover/broadcast content */

@@ -369,6 +369,28 @@ Node.prototype.nodeNameInCorrectCase = function(){
         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
         rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
       );
+    },
+
+    checkFixedElement: function(elem) {
+      var isFixed = elem.css('position') === 'fixed',
+          parents = null,
+          parentElement = null;
+      if (isFixed) {
+        return elem;
+      } else {
+        parents = elem.parents();
+        parents.each(function(){
+          if($(this).css('position') === 'fixed') {
+            isFixed = true;
+            parentElement = $(this);
+            return false;
+          }
+        });
+        if (isFixed) {
+          return parentElement;
+        }
+      }
+      return 'body';
     }
 
   }

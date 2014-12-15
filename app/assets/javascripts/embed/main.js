@@ -324,7 +324,7 @@
 
   w.onload = function() {
     if(w.opener) {
-      w.opener.postMessage('__get__mode__', ns.protocol + ':' + ns.host);
+      w.opener.postMessage('__get__mode__', ns.host);
     } else {
       ns.mode = '__init__';
       new App;

@@ -30,13 +30,14 @@ __hermes_embed.init_preview = function($) {
       **/
     
     Preview.prototype.init = function() {
+      ns.display({type: 'preview', text: 'Hermes preview mode'});
       w.addEventListener('message', function(evt) {
         $.ajax(ns.host + evt.data, {
           dataType: 'jsonp',
           success: ns.display
         });
       });
-      w.opener.postMessage('__get__tip__path', ns.protocol + ':' + ns.host);
+      w.opener.postMessage('__get__tip__path', ns.host);
       ns.subscribe('tipHidden', function() {
         w.close();
       });

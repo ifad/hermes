@@ -19,7 +19,8 @@ __hermes_embed.init_authoring = function($) {
             'background-color': 'rgba(33, 143, 255, 0.5)',
             'background-image': 'none',
             cursor: 'pointer'
-          }
+          },
+          confirmFixedLabel: 'The item you\'re going to bind has position:fixed(or it has a parent with position:fixed). The tip will be bound to that element to preserve page scrolling. Check whether that fixed element doesn\'t have overflow:hidden. Proceed?'
         }
     ;
 
@@ -87,10 +88,13 @@ __hermes_embed.init_authoring = function($) {
 
     Authoring.prototype.mouseover = function(evt) {
       try {
-        var element = evt.target;
+        var element = evt.target,
+            $element = $(element);
         if (element.tagName === 'BODY' 
             || element === this.selectedElement 
-            || element.classList.contains('hermes-overlay'))
+            || $element.hasClass('hermes-overlay')
+            || $element.hasClass('hermes-status-message')
+            || $element.parents('.hermes-status-message').length > 0)
           return;
 
         this.buildOverlay(element);
@@ -136,12 +140,16 @@ __hermes_embed.init_authoring = function($) {
           alert('you can\'t bind a tutorial start on <a> or <button type="submit"> elements! :(');
           return;
         }
-      } 
+      }
+
+      if(ns.utils.checkFixedElement($selected) !== 'body' && !confirm(this.options.confirmFixedLabel)) {
+        return;
+      }
 
       path = ns.utils.getCSSPath(this.selectedElement);
 
       if (w.opener) {
-        w.opener.postMessage(path, ns.protocol + ':' + ns.host);
+        w.opener.postMessage(path, ns.host);
         w.close();
       } else {
         console.log('no opener specified\npath:', path);
@@ -150,6 +158,7 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.init = function() {
+      ns.display({type: 'authoring', text: 'Hermes authoring mode'});
       this.prepareOverlay();
       this.selectedElement = null;
       DOC.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
