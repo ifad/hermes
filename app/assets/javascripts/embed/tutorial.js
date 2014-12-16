@@ -78,13 +78,30 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
 
-    Tutorial.prototype.end = function() {
+    Tutorial.prototype.updateTutorialList = function() {
+      if (!!this.options.to_view) {
+        var listElement = $('#hermes-tutorial-starter-' + this.id),
+            totNewElement = listElement.parents('.hermes-available-tutorials').find('> div .label-success > span'),
+            totNew = ~~totNewElement.text().trim()
+        ;
+        listElement.find('.label-success').remove();
+        listElement.find(' > span').append($('<span><b>(already viewed)</b></span>'));
+        if (totNew > 1) {
+          totNewElement.text(totNew-1);
+        } else {
+          totNewElement.parent().remove();
+        }
+      }
+    }
+
+    Tutorial.prototype.end = function(skip) {
       this.currentTipIndex = -1;
       this.started = false;
       this.tutorialStarterDisplayed = false;
+      !skip && this.updateTutorialList();
       ns.instances.app.deleteTutorialCookies();
       $(w).off('beforeunload');
-      ns.publish('tutorialended', [this.options.url]);
+      ns.publish('tutorialended', [this.options.url, skip]);
       return this;
     }
 

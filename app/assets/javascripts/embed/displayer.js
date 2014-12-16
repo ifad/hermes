@@ -72,7 +72,10 @@ __hermes_embed.init_displayer = function($) {
           </div>',
         AVAILABLE_TUTORIALS_TEMPLATE = 
           '<div class="hermes-available-tutorials">\
-            <div><img src="' + ns.assets.logo + '" width="20" height="20" alt="hermes" /> Show available tutorials</div>\
+            <div>\
+              <img src="' + ns.assets.logo + '" width="20" height="20" alt="hermes" />\
+              <span class="hermes-available-tutorials-show-label">Show</span><span class="hermes-available-tutorials-hide-label">Hide</span> available tutorials \
+            </div>\
             <ul class="hermes-available-tutorials-list"></ul>\
           </div>',
         AVAILABLE_TUTORIAL_TEMPLATE = 
@@ -180,6 +183,7 @@ __hermes_embed.init_displayer = function($) {
     Displayer.prototype.hideTip = function(elem, tip, evt) {
       elem.popover('destroy');
       elem.off('.popover').removeData('bs.popover');
+      $('.popover').remove();
       ns.publish('tipHidden', [tip, evt])
     }
 
@@ -255,19 +259,23 @@ __hermes_embed.init_displayer = function($) {
         .find('.hermes-broadcast-title').append(message.title).end()
         .find('.hermes-broadcast-content').append(message.content).end()
         .on('click', '.js--hermes-next', function() {
-          content.remove()
+          content.remove();
           message.tutorial_ref.next();
         })
         .on('click', '.js--hermes-prev', function() {
-          content.remove()
+          content.remove();
           message.tutorial_ref.prev();
         })
         .on('click', '.js--hermes-restart', function() {
-          content.remove()
+          content.remove();
           message.tutorial_ref.restart();
         })
-        .on('click', '.js--hermes-end, .js--hermes-exit', function() {
-          content.remove()
+        .on('click', '.js--hermes-exit', function() {
+          content.remove();
+          message.tutorial_ref.end(true);
+        })
+        .on('click', '.js--hermes-end', function() {
+          content.remove();
           message.tutorial_ref.end();
         });
       this.handleTutorialButtons(message, content);
@@ -291,12 +299,16 @@ __hermes_embed.init_displayer = function($) {
         .on('click', '.js--hermes-restart', function() {
           tip.tutorial_ref.restart();
         })
-        .on('click', '.js--hermes-end, .js--hermes-exit', function() {
+        .on('click', '.js--hermes-exit', function() {
+          tip.tutorial_ref.end(true);
+        })
+        .on('click', '.js--hermes-end', function() {
           tip.tutorial_ref.end();
         })
         .on('click', '.js--hermes-end, .js--hermes-exit, .js--hermes-restart, .js--hermes-prev, .js--hermes-next', function(){
           elem.popover('destroy');
           elem.off('.popover').removeData('bs.popover');
+          $('.popover').remove();
           if (container !== 'body') {
             container.removeClass('hermes-force-element-z-index')
           }
@@ -336,8 +348,7 @@ __hermes_embed.init_displayer = function($) {
         .on('click', '.js--hermes-skip-tutorial', function() {
           content.remove();
           BODY.removeClass('hermes--is-overflow-hidden');
-          message.tutorial.end();
-          ns.publish('showAvailableTutorials');
+          message.tutorial.end(true); // end w/ skip parameter (don't update state db)
         });
 
       BODY.append(content).addClass('hermes--is-overflow-hidden');
@@ -352,8 +363,15 @@ __hermes_embed.init_displayer = function($) {
         content.toggleClass('open');
       });
 
+      if (message.tutorials.to_view.length > 0) {
+        content.find(' > div').append($('<span class="label label-success"><span>' + message.tutorials.to_view.length + '</span> new</span>'))
+      }
+
       message.tutorials.to_view.forEach(function(tutorial, index){
         var li = $(AVAILABLE_TUTORIAL_TEMPLATE.replace('{{title}}', " " + tutorial.title));
+        tutorial.to_view = true;
+        li.attr('id', 'hermes-tutorial-starter-' + tutorial.id);
+        li.data('ref-tot-tutorials', content.find('.label-success > span'))
         li.on('click', '.js--hermes-show-tutorial', function() {
           ns.publish('loadTutorial', [tutorial]);
         });

@@ -148,6 +148,8 @@
 
   App.prototype.initSubscriptions = function() {
 
+    var availableTutorialsTO = null;
+
     ns.subscribe('tutorialdeleted', function() {
       this.deleteTutorialCookies();
       this.mode = 'general-messaging';
@@ -163,12 +165,20 @@
     ns.subscribe('hideAvailableTutorials', function() {
       if (ns.DOM.availableTutorialsDisplayer) {
         ns.DOM.availableTutorialsDisplayer.removeClass('open displayed');
+        clearTimeout(availableTutorialsTO);
+        availableTutorialsTO = setTimeout(function(){
+          ns.DOM.availableTutorialsDisplayer.hide();
+        }, 300);
       }
     });
 
     ns.subscribe('showAvailableTutorials', function() {
       if (ns.DOM.availableTutorialsDisplayer) {
-        ns.DOM.availableTutorialsDisplayer.addClass('displayed');
+        ns.DOM.availableTutorialsDisplayer.show();
+        clearTimeout(availableTutorialsTO);
+        availableTutorialsTO = setTimeout(function(){
+          ns.DOM.availableTutorialsDisplayer.addClass('displayed');
+        }, 10);
       }
     });
 
@@ -189,12 +199,14 @@
       ns.publish('hideAvailableTutorials');
     });
 
-    ns.subscribe('tutorialended', function(url) {
+    ns.subscribe('tutorialended', function(url, skip) {
+      if (!skip) {
+        $.ajax(url, {
+          dataType: 'jsonp',
+          complete: function(jqXHR, status) { /* Nothing, for now */ }
+        });
+      }
       // reset active tutorial
-      $.ajax(url, {
-        dataType: 'jsonp',
-        complete: function(jqXHR, status) { /* Nothing, for now */ }
-      });
       ns.activeTutorial = null;
       ns.publish('showAvailableTutorials');
       ns.DOM.progressBar && ns.DOM.progressBar.hide();
