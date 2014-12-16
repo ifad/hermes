@@ -33,7 +33,6 @@ __hermes_embed.init_tutorials_manager = function($) {
       this.availableTutorials.to_view = tutorials.to_view.filter(function(tutorial){
         return tutorial.tips.length > 0;
       });
-      console.log(tutorials.with_selector)
       this.selectorTutorials = tutorials.with_selector.filter(function(tutorial){
         return tutorial.tips.length > 0;
       });
