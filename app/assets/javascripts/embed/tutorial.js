@@ -53,6 +53,7 @@ __hermes_embed.init_tutorial = function($) {
         ns.instances.app.deleteTutorialCookies();
         ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
         $(w).off('beforeunload');
+        ns.DOM.overlay.hide();
         window.location.href = tip.path;
       }
     }
@@ -83,7 +84,7 @@ __hermes_embed.init_tutorial = function($) {
       this.tutorialStarterDisplayed = false;
       ns.instances.app.deleteTutorialCookies();
       $(w).off('beforeunload');
-      ns.publish('tutorialended', [this]);
+      ns.publish('tutorialended', [this.options.url]);
       return this;
     }
 

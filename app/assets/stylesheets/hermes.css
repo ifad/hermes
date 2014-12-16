@@ -20,10 +20,11 @@
   bottom: 0;
   left: 20px;
   padding: 10px;
+  max-width: 250px;
   background-color: rgba(0, 0, 0, .9);
   border-radius: 2px 2px 0 0;
   color: #fff;
-  opacity: .4;
+  opacity: .6;
 
   -webkit-transition : -webkit-transform .3s cubic-bezier(0.175,  0.885, 0.320, 1.275), opacity .3s;
   -moz-transition    : -moz-transform .3s cubic-bezier(0.175,  0.885, 0.320, 1.275), opacity .3s;
@@ -70,6 +71,7 @@
 
 .hermes-available-tutorials ul {
   display: none;
+  margin-top: 10px;
 }
 
 .hermes-available-tutorials:hover,
@@ -93,14 +95,21 @@
 }
 
 .hermes-available-tutorials-list li {
-  list-style: none;
+  overflow: hidden;
   padding: 5px;
   font-size: 12px;
   text-align: left;
+  border-bottom: 1px solid #333;
+  list-style: none;
+}
+
+.hermes-available-tutorials-list li:last-child {
+  border-bottom: none;
 }
 
 .hermes-available-tutorials-list li button {
   float: right;
+  margin-left: 10px;
 }
 
 /* tutorial start overlay */
@@ -185,6 +194,7 @@
   z-index: 10051;
 
   padding: 10px;
+  padding-bottom: 0;
   margin: 0;
   bottom: 15px; left: 15px; right: 15px;
 
@@ -198,13 +208,15 @@
   box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.5);
 }
 
-.hermes-broadcast * {
-  font-size: 20px !important;
-  line-height: 20px !important;
+.hermes-broadcast-title {
+  font-weight: bold;
+  font-size: 18px;
 }
 
-.hermes-broadcast p {
-  margin: 0 0 4px !important;
+.hermes-broadcast-content {
+  font-size: 14px;
+  margin: 5px 0;
+  margin-bottom: 0;
 }
 
 .hermes-broadcast .hermes-close {
@@ -213,9 +225,8 @@
   background: none !important;
   border: none !important;
   position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  right: 1%;
+  top: 10px;
+  right: 10px;
   color: #fff;
   width: 30px;
   height: 30px;
@@ -389,6 +400,10 @@
   line-height: 11px !important;
   cursor: pointer;
   border-bottom: 1px solid rgba(200, 200, 200, .3);
+}
+
+.hermes-broadcast .hermes-actions { 
+  margin-bottom: 5px;
 }
 
 /* WYSIWYG Colors */

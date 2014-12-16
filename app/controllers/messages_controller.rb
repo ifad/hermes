@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
 
     @tutorials = @site.tutorials.where(id: params[:tutorial_id])
       
-    render json: render_to_string(template: 'messages/tutorials.json'), callback: @callback
+    render json: render_to_string(template: 'messages/tutorial.json'), callback: @callback
   end
 
   def tutorials
@@ -32,7 +32,9 @@ class MessagesController < ApplicationController
 
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
 
-    @tutorials = @site.tutorials.published.within(@source.path)
+    @tutorials = @site.tutorials.published.noselector.within(@source.path).respecting(remote_user)
+    @tutorials_already_viewed = @site.tutorials.published.noselector.within(@source.path).not_respecting(remote_user)
+    @tutorials_with_selector = @site.tutorials.published.withselector.within(@source.path)
       
     render json: render_to_string(template: 'messages/tutorials.json'), callback: @callback
   end

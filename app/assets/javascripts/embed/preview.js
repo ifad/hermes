@@ -34,7 +34,17 @@ __hermes_embed.init_preview = function($) {
       w.addEventListener('message', function(evt) {
         $.ajax(ns.host + evt.data, {
           dataType: 'jsonp',
-          success: ns.display
+          success: function(message) {
+            if(message.type === 'tip') {
+              var elem = $(message.selector);
+              if(elem.length === 0 || !elem.is(':visible')) {
+                alert('The element attached to the tip is no more present in this page! (hint: Is it maybe attached to a dynamically generated element?)');
+                w.close();
+                return;
+              }
+            }
+            ns.display(message);
+          }
         });
       });
       w.opener.postMessage('__get__tip__path', ns.host);

@@ -26,11 +26,16 @@ __hermes_embed.init_tutorials_manager = function($) {
       var len = 0;
       ns.init_tutorial($);
       ns.tutorials = ns.tutorials || {};
-      this.autoStartTutorials = tutorials.filter(function(tutorial){
-        return tutorial.tips.length > 0 && (tutorial.selector === null || tutorial.selector === '');
+      this.availableTutorials = {};
+      this.availableTutorials.already_viewed = tutorials.already_viewed.filter(function(tutorial){
+        return tutorial.tips.length > 0;
       });
-      this.selectorTutorials = tutorials.filter(function(tutorial){
-        return tutorial.tips.length > 0 && tutorial.selector !== null && tutorial.selector !== '';
+      this.availableTutorials.to_view = tutorials.to_view.filter(function(tutorial){
+        return tutorial.tips.length > 0;
+      });
+      console.log(tutorials.with_selector)
+      this.selectorTutorials = tutorials.with_selector.filter(function(tutorial){
+        return tutorial.tips.length > 0;
       });
       len = this.selectorTutorials.length;
       while (len--) {
@@ -41,8 +46,8 @@ __hermes_embed.init_tutorials_manager = function($) {
           this.selectorTutorials.splice(len, 1);
         }
       };
-      if (this.autoStartTutorials.length > 0) {
-        ns.display({type: 'availableTutorials', tutorials: this.autoStartTutorials});
+      if (this.availableTutorials.already_viewed.length > 0 || this.availableTutorials.to_view.length > 0) {
+        ns.display({type: 'availableTutorials', tutorials: this.availableTutorials});
       }
       if (this.selectorTutorials.length > 0) {
         this.initSelectorTutorials();

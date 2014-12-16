@@ -189,8 +189,12 @@
       ns.publish('hideAvailableTutorials');
     });
 
-    ns.subscribe('tutorialended', function() {
+    ns.subscribe('tutorialended', function(url) {
       // reset active tutorial
+      $.ajax(url, {
+        dataType: 'jsonp',
+        complete: function(jqXHR, status) { /* Nothing, for now */ }
+      });
       ns.activeTutorial = null;
       ns.publish('showAvailableTutorials');
       ns.DOM.progressBar && ns.DOM.progressBar.hide();

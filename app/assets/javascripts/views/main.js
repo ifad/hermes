@@ -87,7 +87,7 @@ Create the App and Fire the JS!
     $('[data-view]:not([data-instantiated=true])').each(function(i, el){
       var viewName = $(el).data('view').toViewTitle();
       $(el).attr('data-instantiated', true);
-      this.components[viewName] = new ns[viewName]();
+      this.components[viewName] = new ns[viewName]($(el));
     }.bind(this))
   }
 

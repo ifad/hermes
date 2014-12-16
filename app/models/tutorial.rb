@@ -2,6 +2,7 @@ class Tutorial < ActiveRecord::Base
   include Publicable
   include Politeness
   include PathScoping
+  include SelectorChecking
 
   belongs_to :site, inverse_of: :tutorials
 

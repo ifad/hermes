@@ -1,0 +1,1 @@
+json.partial! 'message', collection: @tutorials, as: :message

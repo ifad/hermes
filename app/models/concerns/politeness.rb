@@ -11,6 +11,10 @@ module Politeness
     def self.respecting(remote_user)
       where("id NOT IN (#{State.for_type(self).unwanted_by(remote_user).to_sql})")
     end
+
+    def self.not_respecting(remote_user)
+      where("id IN (#{State.for_type(self).unwanted_by(remote_user).to_sql})")
+    end
   end
 
   def dismiss!(remote_user, up_to = nil)

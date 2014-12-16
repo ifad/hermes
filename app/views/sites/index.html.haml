@@ -12,14 +12,14 @@
       tag and <b>before</b> your page scripts:
     .embed-element
       %pre#embed_static
-        &lt;script src="#{asset_url('hermes.js')}"&gt;&lt;/script&gt;
+        &lt;script src="#{hermes_embed_url}"&gt;&lt;/script&gt;
       %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
         %i.fa.fa-files-o
         copy
     %p or you can dinamically import it via JavaScript:
     .embed-element
       %pre#embed_dynamic
-        (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{asset_url('hermes.js')}';l.parentNode.insertBefore(s,l)}(document));
+        (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
       %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
         %i.fa.fa-files-o
         copy
@@ -31,7 +31,7 @@
         Add new site
   .explain
     %p
-      Once you added a site, you can add as many messages as you wish to it: they will be shown to your visitor until they dismiss them.
+      Once you added a site, you can add messages as you wish to it: they will be shown to your visitor until they dismiss them.
     %p
       You can decide, for every single message:
     %ul

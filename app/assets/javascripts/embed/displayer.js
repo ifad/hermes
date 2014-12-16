@@ -18,6 +18,8 @@ __hermes_embed.init_displayer = function($) {
           </div>',
         BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
+            <div class="hermes-broadcast-title"></div>\
+            <div class="hermes-broadcast-content"></div>\
             <button class="js--hermes-close hermes-close" type="button">&times;</button>\
           </div>',
         TIP_TEMPLATE = 
@@ -28,6 +30,8 @@ __hermes_embed.init_displayer = function($) {
           </div>',
         TUTORIAL_BROADCAST_TEMPLATE = 
           '<div class="hermes-broadcast">\
+            <div class="hermes-broadcast-title"></div>\
+            <div class="hermes-broadcast-content"></div>\
             <div class="hermes-actions">\
               <div class="hermes-more">\
                 <span class="js--hermes-restart">restart</span>\
@@ -74,7 +78,7 @@ __hermes_embed.init_displayer = function($) {
         AVAILABLE_TUTORIAL_TEMPLATE = 
           '<li class="hermes-available-tutorial">\
             <button class="js--hermes-show-tutorial btn btn-primary btn-xs" type="button">start</button>\
-            {{title}}\
+            <span> {{title}} </span>\
           </li>',
         PROGRESS_BAR = 
           '<div class="hermes-progress-bar">\
@@ -216,7 +220,8 @@ __hermes_embed.init_displayer = function($) {
     Displayer.prototype.displayBroadcast = function(message) {
       var content = $(BROADCAST_TEMPLATE);
       content
-        .prepend(message.content)
+        .find('.hermes-broadcast-title').append(message.title).end()
+        .find('.hermes-broadcast-content').append(message.content).end()
         .on('click', '.js--hermes-close', function (event) {
           this.hideBroadcast(content, message, event);
         }.bind(this));
@@ -247,7 +252,8 @@ __hermes_embed.init_displayer = function($) {
       var content = $(TUTORIAL_BROADCAST_TEMPLATE);
       content
         .find('.btn').hide().end()
-        .prepend(message.content)
+        .find('.hermes-broadcast-title').append(message.title).end()
+        .find('.hermes-broadcast-content').append(message.content).end()
         .on('click', '.js--hermes-next', function() {
           content.remove()
           message.tutorial_ref.next();
@@ -346,11 +352,21 @@ __hermes_embed.init_displayer = function($) {
         content.toggleClass('open');
       });
 
-      message.tutorials.forEach(function(tutorial, index){
+      message.tutorials.to_view.forEach(function(tutorial, index){
+        var li = $(AVAILABLE_TUTORIAL_TEMPLATE.replace('{{title}}', " " + tutorial.title));
+        li.on('click', '.js--hermes-show-tutorial', function() {
+          ns.publish('loadTutorial', [tutorial]);
+        });
+        li.find(' > span').prepend($('<span class="label label-success"><b>new</b></span>'))
+        tutorialsDOM.push(li);
+      });
+
+      message.tutorials.already_viewed.forEach(function(tutorial, index){
         var li = $(AVAILABLE_TUTORIAL_TEMPLATE.replace('{{title}}', tutorial.title));
         li.on('click', '.js--hermes-show-tutorial', function() {
           ns.publish('loadTutorial', [tutorial]);
         });
+        li.find(' > span').append($('<span><b>(already viewed)</b></span>'))
         tutorialsDOM.push(li);
       });
 

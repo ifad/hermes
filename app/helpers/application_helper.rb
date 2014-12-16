@@ -9,10 +9,14 @@ module ApplicationHelper
 
   def gravatar(email, size)
     gravatar_id = Digest::MD5.hexdigest(email.downcase)
-    return "http://gravatar.com/avatar/#{gravatar_id}?size=#{size}&default=identicon"
+    return "//gravatar.com/avatar/#{gravatar_id}?size=#{size}&default=identicon"
   end
 
   def logo_big
     image_tag 'hermes-logo.png', class: 'logo', width: 71, height: 67
+  end
+
+  def hermes_embed_url
+    "#{root_url}assets/hermes.js"
   end
 end
