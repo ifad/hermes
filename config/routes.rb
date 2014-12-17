@@ -3,6 +3,8 @@ Hermes::Application.routes.draw do
 
   root :to => 'sites#index'
 
+  post '/sites/general_broadcast' => 'sites#general_broadcast', as: :general_broadcast
+
   resources :sites do
     resources :tips
     resources :tutorials do

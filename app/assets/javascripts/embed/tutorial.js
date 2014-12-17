@@ -46,6 +46,11 @@ __hermes_embed.init_tutorial = function($) {
     }
 
     Tutorial.prototype.checkPathAndDisplay = function(tip) {
+      if (!tip) {
+        alert(ns.labels.noMoreTips);
+        this.end();
+        return;
+      }
       if (w.location.pathname === tip.path) {
         ns.display(tip);
         this.options.progress_bar && ns.display({type: 'progressBar', tutorial: this});

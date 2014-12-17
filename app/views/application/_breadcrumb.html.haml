@@ -1,4 +1,4 @@
-- if @site.persisted?
+- if @site && @site.persisted?
   %ol.breadcrumb
     %li= link_to 'Home', root_path
     - is_site = !@tutorial && !@tip && !@tutorials && !@tips

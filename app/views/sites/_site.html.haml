@@ -1,6 +1,7 @@
 %li.list-group-item
-  = link_to site_path(site), id: dom_id(site) do
-    %h4.list-group-item-heading= site.name
+  %h4.list-group-item-heading
+    = link_to site_path(site), id: dom_id(site) do
+      = site.name
   %p.small.courier
     = site.hostname
   %p.list-group-item-text
@@ -8,29 +9,15 @@
       = link_to site_tips_path(site) do
         = pluralize(site.tips.count, 'tip')
     = link_to new_site_tip_path(site), class: 'btn btn-primary btn-xs btn-circular' do
-      %i.fa.fa-plus  
+      new
     &nbsp;
     %span.small
       = link_to site_tutorials_path(site) do
         = pluralize(site.tutorials.count, 'tutorial')
-    = link_to new_site_tutorial_path(site), class: 'btn btn-primary btn-xs btn-circular' do
-      %i.fa.fa-plus
+    = link_to new_site_tutorial_path(site), class: 'btn btn-primary btn-xs' do
+      new
   .list-group-item-actions
-    = link_to edit_site_path(site), remote: true, class: 'btn btn-xs btn-circular' do
+    = link_to edit_site_path(site), remote: true, class: 'btn btn-xs btn-primary' do
       %i.fa.fa-pencil
-    = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-xs btn-circular', :'data-confirm' => 'This action will remove your site'  do
+    = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-xs btn-primary', :'data-confirm' => 'This action will remove your site'  do
       %i.fa.fa-trash
-
--# %li
--#   %span.actions.btn-group
--#     = link_to edit_site_path(site), remote: true, class: 'btn btn-sm btn-default edit' do
--#       %i.fa.fa-pencil
--#     = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-sm btn-default remove', :'data-confirm' => 'This action will remove your site'  do
--#       %i.fa.fa-remove
--#   = link_to site_path(site) do |link|
--#     %b= site.name
--#     - if site.tips.any?
--#       %span.label= site.tips.count
--#   %small
--#     / span class="label"><haml:loud> pluralize(site.tutorials.count, &amp;#39;tutorials&amp;#39;) </haml:loud></span
--# %li.divider

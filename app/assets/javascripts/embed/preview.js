@@ -38,7 +38,7 @@ __hermes_embed.init_preview = function($) {
             if(message.type === 'tip') {
               var elem = $(message.selector);
               if(elem.length === 0 || !elem.is(':visible')) {
-                alert('The element attached to the tip is no more present in this page! (hint: Is it maybe attached to a dynamically generated element?)');
+                alert(ns.labels.elementNoMorePresent);
                 w.close();
                 return;
               }

@@ -6,65 +6,45 @@ a {
   -o-transition:      -o-transform .2s @cubic;
   transition:         transform .2s @cubic;
   &:active {
-    .transform(scale(.9));
-  }
-}
-a:active {
-  .transform(scale(.95));
-}
-
-.btn-circular {
-  position: relative;
-  .square(50px);
-  border-radius: 50%;
-  border-color: transparent;
-  text-align: center;
-  font-size: 20px;
-  .label {
-    border-radius: 50%;
-    position: absolute;
-    top: -1px;
-    right: -7px;
-    font-size: 10px;
-    z-index: 1;
-  }
-  &.btn-danger {
-    background-color: @brand-danger;
-  }
-  &.current {
-    opacity: 1;
-    .box-shadow(0 2px 8px -1px rgba(0, 0, 0, .4) inset);
-  }
-  .glyphicon {
-    line-height: 33px;
-  }
-  i {
-    line-height: 36px; 
-  }
-  &.btn-gray {
-    color: #fff;
-    background-color: @gray-light;
+    .transform(scale(.95));
   }
 }
 
-.btn-circular.btn-sm {
-  .square(35px);
-  font-size: 14px;
-  .glyphicon {
-    line-height: 23px;
-  }
-  i {
-    line-height: 23px; 
+.btn {
+  border-radius: 999em;
+}
+
+.btn-primary {
+  .button-variant(lighten(@brand-primary, 15%), #fff, lighten(@brand-primary, 20%));
+  &:hover {
+    background-color: transparent;
+    border-color: @brand-primary;
   }
 }
 
-.btn-circular.btn-xs {
-  .square(20px);
-  font-size: 10px;
-  .glyphicon {
-    line-height: 17px;
+html:not(.not_logged_in) {
+  .btn-success {
+    .button-variant(lighten(@brand-success, 15%), #fff, lighten(@brand-success, 20%));
+    &:hover {
+      background-color: transparent;
+      border-color: @brand-success;
+    }
   }
-  i {
-    line-height: 18px; 
+
+  .btn-danger {
+    .button-variant(lighten(@brand-danger, 15%), #fff, lighten(@brand-danger, 20%));
+    &:hover {
+      background-color: transparent;
+      border-color: @brand-danger;
+    }
   }
+
+  .btn-default {
+    .button-variant(lighten(@gray-light, 15%), #fff, lighten(@gray-light, 20%));
+    &:hover {
+      background-color: transparent;
+      border-color: @gray-light;
+    }
+  }
+
 }

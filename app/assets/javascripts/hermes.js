@@ -5,6 +5,7 @@
 
 // utils
 //= require embed/utils
+//= require embed/labels
 
 // popover + css embed + cookie
 //= require embed/bootstrap-popover

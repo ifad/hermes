@@ -227,7 +227,7 @@
           isLoadedTutorial.start();
         }
       } else {
-        ns.tutorials['tutorial' + tutorial.id] = new ns.Tutorial(tutorial);   
+        ns.tutorials['tutorial' + tutorial.id] = new ns.Tutorial(tutorial);
       }
     });
 

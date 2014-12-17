@@ -10,7 +10,8 @@ body {
   letter-spacing: -0.02em;
   color: rgba(0,0,0,0.8);
   font-family: 'Open Sans', sans-serif;
-  background-color: @lightblue-smoke;
+  background-color: #fff;
+  padding-top: 70px;
 }
 
 html.not_logged_in {
@@ -26,6 +27,24 @@ html.not_logged_in {
     -webkit-animation-delay: 1.5s; 
     -moz-animation-delay: 1.5s;
     animation-delay: 1.5s;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: rgba(0, 0, 0, .7);
+  font-weight: 200;
+}
+
+.navbar-default {
+  background-color: rgba(255, 255, 255, .95);
+  border-bottom: 1px solid @gray-lighter;
+  .navbar-btn {
+    margin-right: 5px;
   }
 }
 

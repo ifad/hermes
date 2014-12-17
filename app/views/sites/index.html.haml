@@ -1,34 +1,40 @@
-- if Site.by_user(current_user).any?
+- if any_sites?
   .col-md-3= render 'side'
-%div{class: Site.by_user(current_user).any? ? 'col-md-9' : ''}
+%div{class: any_sites? ? 'col-md-9' : ''}
   .welcome
-    = logo_big
-    %h3 Welcome to <span class="hermes-title">Hermes</span>
+    %h1 
+      Hey, welcome to 
+      = logo_big
+      %span.hermes-title Hermes
+      = ":)"
   .explain
-    %p
-      To set up Hermes for your website, add the following code to your pages
-      just before the ending
-      %code &lt;/body&gt;
-      tag and <b>before</b> your page scripts:
-    .embed-element
-      %pre#embed_static
-        &lt;script src="#{hermes_embed_url}"&gt;&lt;/script&gt;
-      %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
-        %i.fa.fa-files-o
-        copy
-    %p or you can dinamically import it via JavaScript:
-    .embed-element
-      %pre#embed_dynamic
-        (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
-      %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
-        %i.fa.fa-files-o
-        copy
-    %p
-      Then
-    %p.text-center
-      = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
-        %i.fa.fa-plus
-        Add new site
+    %ul
+      %li
+        To set up Hermes for your website:
+        %ul
+          %li 
+            add the following code to your pages just before the ending
+            %code &lt;/body&gt;
+            tag and <b>before</b> your page scripts:
+            .embed-element
+              %pre#embed_static
+                &lt;script src="#{hermes_embed_url}"&gt;&lt;/script&gt;
+              %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
+                %i.fa.fa-files-o
+                copy
+          %li 
+            or you can dinamically import it via JavaScript:
+            .embed-element
+              %pre#embed_dynamic
+                (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
+              %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
+                %i.fa.fa-files-o
+                copy
+      %li
+        Then
+        %p.text-center
+          = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
+            Add new site
   .explain
     %p
       Once you added a site, you can add messages as you wish to it: they will be shown to your visitor until they dismiss them.

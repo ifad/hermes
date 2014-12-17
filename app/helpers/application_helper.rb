@@ -13,10 +13,14 @@ module ApplicationHelper
   end
 
   def logo_big
-    image_tag 'hermes-logo.png', class: 'logo', width: 71, height: 67
+    image_tag 'hermes-logo.png', class: 'logo', width: 35, height: 33
   end
 
   def hermes_embed_url
     "#{root_url}assets/hermes.js"
+  end
+
+  def any_sites?
+    @any_sites ||= Site.by_user(current_user).any?
   end
 end

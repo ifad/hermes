@@ -59,8 +59,7 @@ THE SOFTWARE.
     this.element.externalconnector();
     this.contentEditor = new MediumEditor('.textarea-editable', {
       buttons: ['bold', 'italic', 'underline', 'anchor', 'orderedlist', 'unorderedlist'],
-      targetBlank: true,
-      disableDoubleReturn: true
+      targetBlank: true
     });
     this.element.on('submit', 'form', this.submitForm.bind(this))
     return this;

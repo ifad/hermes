@@ -19,8 +19,7 @@ __hermes_embed.init_authoring = function($) {
             'background-color': 'rgba(33, 143, 255, 0.5)',
             'background-image': 'none',
             cursor: 'pointer'
-          },
-          confirmFixedLabel: 'The item you\'re going to bind has position:fixed(or it has a parent with position:fixed). The tip will be bound to that element to preserve page scrolling. Check whether that fixed element doesn\'t have overflow:hidden. Proceed?'
+          }
         }
     ;
 
@@ -101,7 +100,7 @@ __hermes_embed.init_authoring = function($) {
 
         // Reset the old selected element
         //
-        if (this.selectedElement) {
+        if (this.selectedElement && $.contains(document, this.selectedElement)) {
           this.selectedElement = $(this.selectedElement);
           this.selectedElement
             .css(this.selectedElement.data('hermes-restore-css'))
@@ -123,7 +122,6 @@ __hermes_embed.init_authoring = function($) {
     }
 
     Authoring.prototype.callback = function(evt) {
-
       var path = '',
           $selected = $(this.selectedElement)
       ;
@@ -137,12 +135,12 @@ __hermes_embed.init_authoring = function($) {
           || $selected.is('button:submit')
           || $selected.parents('button:submit').length > 0) {
 
-          alert('you can\'t bind a tutorial start on <a> or <button type="submit"> elements! :(');
+          alert(ns.labels.alertBindTutorial);
           return;
         }
       }
 
-      if(ns.utils.checkFixedElement($selected) !== 'body' && !confirm(this.options.confirmFixedLabel)) {
+      if(ns.utils.checkFixedElement($selected) !== 'body' && !confirm(ns.labels.elementPositionFixedWarning)) {
         return;
       }
 
