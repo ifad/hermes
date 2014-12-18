@@ -1,4 +1,3 @@
 .col-md-8.col-md-offset-2.tip-edit{data: {view: 'entity-edit'}}
-  %h3 Edit tip
   = form_for @tip, :url => @tutorial ? site_tutorial_tip_path(@site, @tutorial, @tip) : site_tip_path(@site, @tip), html: { role: 'form' } do |f|
     = render 'form', :f => f

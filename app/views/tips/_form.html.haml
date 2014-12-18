@@ -1,14 +1,26 @@
 .form-group
-  = f.text_field :title, class: 'form-control input-transparent input-lg', placeholder: 'Title'
+  = f.text_field :title, class: 'form-control input-transparent-no-border input-lg', placeholder: 'Type the title of the tip'
 .form-group
   = f.hidden_field :content, class: 'textarea-target'
-  .textarea-editable{data: {placeholder: 'Content'}}= f.object.content.html_safe if f.object.content
-  %p.form-control-help.text-right
-    Insert the content of the tip. Select text to change style
+  .textarea-editable{data: {placeholder: 'Type the content of the tip. Select text to change style'}}= f.object.content.html_safe if f.object.content
 .form-group
   = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path : f.object.path
   %p.form-control-help.text-right
     insert the path where the tip will be displayed (<b>/</b> default)
+- unless @tutorial
+  .row
+    .col-md-6
+      .form-group
+        .input-group.date.datetimepicker
+          = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+          %span.input-group-addon
+            %span.fa.fa-calendar
+    .col-md-6
+      .form-group
+        .input-group.date.datetimepicker
+          = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+          %span.input-group-addon
+            %span.fa.fa-calendar
 .form-group
   %label
     Layout type
@@ -25,21 +37,6 @@
           %i.fa.fa-check
           Connected!
           = f.hidden_field :selector
-
-- unless @tutorial
-  .row
-    .col-md-6
-      .form-group
-        .input-group.date.datetimepicker
-          = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
-          %span.input-group-addon
-            %span.fa.fa-calendar
-    .col-md-6
-      .form-group
-        .input-group.date.datetimepicker
-          = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
-          %span.input-group-addon
-            %span.fa.fa-calendar
     
 - if f.object.persisted? && !@tutorial
   .checkbox
@@ -49,6 +46,6 @@
 .form-actions.text-center
   %p
     - if f.object.persisted?
-      = f.button 'Update message', class: 'btn btn-success'
+      = f.button 'Update', class: 'btn btn-success btn-lg'
     - else
-      = f.button 'Create new message', class: 'btn btn-success'
+      = f.button 'Create', class: 'btn btn-success btn-lg'

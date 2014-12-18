@@ -1,10 +1,8 @@
 .form-group
-  = f.text_field :title, class: 'form-control input-transparent input-lg', placeholder: 'Title'
+  = f.text_field :title, class: 'form-control input-transparent-no-border input-lg', placeholder: 'Type the title of the tutorial'
 .form-group
   = f.hidden_field :welcome_message, class: 'textarea-target'
-  .textarea-editable{data: {placeholder: 'Welcome message'}}= f.object.welcome_message.html_safe if f.object.welcome_message
-  %p.form-control-help.text-right
-    Insert the content of the welcome message. Select text to change style. If empty it will start from the first tip.
+  .textarea-editable{data: {placeholder: 'Type a welcome message, if you want. Select text to change style'}}= f.object.welcome_message.html_safe if f.object.welcome_message
 .form-group
   = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
   %p.form-control-help.text-right
@@ -21,13 +19,13 @@
   .col-md-6
     .form-group
       .input-group.date.datetimepicker
-        = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+        = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
         %span.input-group-addon
           %span.fa.fa-calendar
   .col-md-6
     .form-group
       .input-group.date.datetimepicker
-        = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+        = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
         %span.input-group-addon
           %span.fa.fa-calendar
 

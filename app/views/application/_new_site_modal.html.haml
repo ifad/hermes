@@ -9,19 +9,16 @@
       = form_for Site.new, remote: true do |f|
         .modal-body
           .form-group
-            = f.text_field :name, { :class => 'form-control input-lg input-transparent', placeholder: 'Name' }
-            %p.form-control-help Enter a name for the site you are adding.
+            = f.text_field :name, { :class => 'form-control input-lg input-transparent', placeholder: 'Type a name for the site' }
           .form-group
-            = f.text_field :hostname , { :class => 'form-control input-lg input-transparent', placeholder: 'Address' }
-            %p.form-control-help Enter the URL for the site you are adding.
+            = f.text_field :hostname , { :class => 'form-control input-lg input-transparent', placeholder: 'Type the host of the site' }
           .form-group
             %span.help-block
               Hint: don't forget to add the
-              %code hermes.js
+              %code hermes
               script to your site!
         .modal-footer
-          %button.btn.btn-success
-            %i.fa.fa-plus
+          %button.btn.btn-success.btn-lg
             Add site
 
      

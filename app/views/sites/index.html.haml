@@ -2,45 +2,37 @@
   .col-md-3= render 'side'
 %div{class: any_sites? ? 'col-md-9' : ''}
   .welcome
-    %h1 
-      Hey, welcome to 
+    %h2
+      Hey there, I'm 
       = logo_big
       %span.hermes-title Hermes
-      = ":)"
+    %h4 Below I'll give you just a few simple hints to set me up for your website
   .explain
-    %ul
+    %ul.rules
+      %li 
+        Add the following code to your pages, inside your JavaScript/CoffeeScript. Preferably inside the <a href="http://api.jquery.com/ready/" target="_blank">domready</a> and <b>after</b> your app initialization.
+        .embed-element
+          %pre#embed_dynamic
+            (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
+          %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
+            copy
+
+        <b>or</b> insert it statically just before the ending
+        %code &lt;/body&gt;
+        tag and <b>after</b> your page scripts:
+        .embed-element
+          %pre#embed_static
+            &lt;script src="#{hermes_embed_url}"&gt;&lt;/script&gt;
+          %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
+            copy
       %li
-        To set up Hermes for your website:
+        = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
+          Add new site
+      %li
+        %p
+          Boom! Once you added a site, you can add
         %ul
-          %li 
-            add the following code to your pages just before the ending
-            %code &lt;/body&gt;
-            tag and <b>before</b> your page scripts:
-            .embed-element
-              %pre#embed_static
-                &lt;script src="#{hermes_embed_url}"&gt;&lt;/script&gt;
-              %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
-                %i.fa.fa-files-o
-                copy
-          %li 
-            or you can dinamically import it via JavaScript:
-            .embed-element
-              %pre#embed_dynamic
-                (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
-              %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
-                %i.fa.fa-files-o
-                copy
+          %li <b>Tips</b>: they will be shown to your visitors until they dismiss them. They can be bound to particular elements or they can be shown as broadcasts.
+          %li <b>Tutorials</b>: collections of tips/broadcasts that will be shown to the visitors sequentially.
       %li
-        Then
-        %p.text-center
-          = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
-            Add new site
-  .explain
-    %p
-      Once you added a site, you can add messages as you wish to it: they will be shown to your visitor until they dismiss them.
-    %p
-      You can decide, for every single message:
-    %ul
-      %li the publishing time frame
-      %li the visualization order (for multiple messages on one page)
-      %li the layout type (broadcast message or tooltip bound to a specific page element)
+        Happy delivery, by Hermes! :)

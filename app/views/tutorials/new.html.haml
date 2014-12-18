@@ -1,4 +1,3 @@
 .col-md-8.col-md-offset-2.tutorial-edit{data: {view: 'entity-edit'}}
-  %h3 New tutorial
   = form_for @tutorial, :url => site_tutorials_path(@site), html: { role: 'form' } do |f|
     = render 'form', :f => f

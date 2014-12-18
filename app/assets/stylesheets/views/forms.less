@@ -2,7 +2,8 @@
   border: 1px solid @brand-danger;
 }
 
-.input-transparent {
+.input-transparent,
+.input-transparent-no-border {
   background-color: transparent;
   .box-shadow(none);
   border: none;
@@ -15,6 +16,21 @@
   }
 }
 
+.input-transparent-no-border {
+  &,
+  &:active,
+  &:focus {
+    border-bottom: none;
+  } 
+}
+
+.input-group-addon {
+  background: none;
+  border: none;
+  border-bottom: 1px solid lighten(@gray-light, 20%);
+}
+
+
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
@@ -22,6 +38,9 @@ input:-webkit-autofill {
    color: @gray-light;
 }
 :-moz-placeholder:focus {
+   color: @gray-light;
+}
+::-moz-placeholder:focus {
    color: @gray-light;
 }
 :-ms-input-placeholder:focus {
@@ -35,8 +54,7 @@ input:-webkit-autofill {
 }
 
 .textarea-editable {
-  padding: 10px;
-  border-bottom: 1px solid lighten(@gray-light, 20%);
+  padding: 15px;
 }
 
 .form-control-help {
@@ -53,8 +71,8 @@ input:-webkit-autofill {
 
 .medium-editor-placeholder:after {
   color: @gray-light;
-  top: 10px;
-  left: 10px;
+  top: 15px;
+  left: 18px;
   font-style: normal;
   font-family: 'Open Sans', sans-serif;
 }

@@ -9,26 +9,23 @@
       = form_for Tip.new, :url => general_broadcast_path, method: :post, remote: true, html: { role: 'form' }  do |f|
         .modal-body
           .form-group
-            = f.text_field :title, class: 'form-control input-transparent input-lg', placeholder: 'Title', id: :general_broadcast_title
+            = f.text_field :title, class: 'form-control input-transparent-no-border input-lg', placeholder: 'Type the title of the broadcast', id: :general_broadcast_title
           .form-group
             = f.hidden_field :content, class: 'textarea-target', id: :general_broadcast_content
-            .textarea-editable{data: {placeholder: 'Content'}}
-            %p.form-control-help.text-right
-              Insert the content of the broadcast. Select text to change style
+            .textarea-editable{data: {placeholder: 'Type the content of the broadcast. Select text to change style'}}
           .row
             .col-md-6
               .form-group
                 .input-group.date.datetimepicker
-                  = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss", id: :general_broadcast_published
+                  = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss", id: :general_broadcast_published
                   %span.input-group-addon
                     %span.fa.fa-calendar
             .col-md-6
               .form-group
                 .input-group.date.datetimepicker
-                  = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control', 'data-date-format' => "YYYY-MM-DD hh:mm:ss", id: :general_broadcast_unpublished
+                  = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss", id: :general_broadcast_unpublished
                   %span.input-group-addon
                     %span.fa.fa-calendar
         .modal-footer
-          %button.btn.btn-success 
-            %i.fa.fa-plus
-            Create new general broadcast
+          %button.btn.btn-success.btn-lg
+            Create a general broadcast
