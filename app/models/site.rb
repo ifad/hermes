@@ -9,7 +9,7 @@ class Site < ActiveRecord::Base
 
   validates :user_id, :name, :hostname, presence: true
 
-  before_save :strip_scheme, :sanitize_host, :remove_path # Sacrifice correctness for user-friendlyness.
+  before_save :strip_scheme # , :sanitize_host, :remove_path # Sacrifice correctness for user-friendlyness.
 
   def self.by_user(user)
     where(user_id: user.id)
@@ -33,11 +33,11 @@ class Site < ActiveRecord::Base
       self.hostname = self.hostname.sub(%r{^https?://}, '')
     end
 
-    def sanitize_host
-      self.hostname = self.hostname.gsub(/\s+/, "")
-    end
+    # def sanitize_host
+    #   self.hostname = self.hostname.gsub(/\s+/, "")
+    # end
 
-    def remove_path
-      self.hostname = self.hostname.split(/\//)[0]
-    end
+    # def remove_path
+    #   self.hostname = self.hostname.split(/\//)[0]
+    # end
 end

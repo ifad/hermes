@@ -23,4 +23,8 @@ module TipsHelper
     end
   end
 
+  def current_path
+     @tutorial ? (@site.hostname + @tutorial.path).gsub(/\/$/, '') : @site.hostname.gsub(/\/$/, '')
+  end
+
 end

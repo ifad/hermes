@@ -1,4 +1,4 @@
-.col-md-8.col-md-offset-2
+.col-md-8.col-md-offset-2.animated.fadeInUp
   %h1
     %b= @site.name
   %h2= @site.hostname
@@ -15,12 +15,10 @@
         = link_to site_tutorials_path(@site) do
           = pluralize(@site.tutorials.count, 'tutorial')
       = link_to new_site_tutorial_path(@site), class: 'btn btn-primary btn-block btn-lg' do
-        %i.fa.fa-plus
         New tutorial
     .col-md-6
       %p.text-center
         = link_to site_tips_path(@site) do
           = pluralize(@site.tips.count, 'tip')
       = link_to new_site_tip_path(@site), class: 'btn btn-primary btn-block btn-lg' do
-        %i.fa.fa-plus
         New Tip

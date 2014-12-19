@@ -8,7 +8,7 @@
   .box-shadow(none);
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid lighten(@gray-light, 20%);
+  border-bottom: 1px solid darken(@gray-lighter, 15%);
   &:active,
   &:focus {
     .box-shadow(none);
@@ -27,12 +27,42 @@
 .input-group-addon {
   background: none;
   border: none;
-  border-bottom: 1px solid lighten(@gray-light, 20%);
+  border-radius: 0;
+  border-bottom: 1px solid darken(@gray-lighter, 15%);
+  color: @gray-light;
+}
+
+.input-group-addon-text {
+  border: none;
+  background-color: @gray-lighter;
+  color: lighten(@gray-light, 25%);
+  border-right: 10px solid #fff !important;
+  border-radius: 3px !important;
+  cursor: pointer;
 }
 
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+html:not(.not_logged_in) {
+  .form-control::-webkit-input-placeholder {
+    color: darken(@gray-lighter, 15%);
+    font-weight: 200;
+  }
+  .form-control::-moz-placeholder {
+    color: darken(@gray-lighter, 15%);
+    font-weight: 200;
+  }
+  .form-control:-moz-placeholder {
+    color: darken(@gray-lighter, 15%);
+    font-weight: 200;
+  }
+  .form-control:-ms-input-placeholder:focus {
+     color: @gray-light;
+     font-weight: 200;
+  }
 }
 :focus::-webkit-input-placeholder {
    color: @gray-light;
@@ -70,7 +100,7 @@ input:-webkit-autofill {
 /* content editable overwrite */
 
 .medium-editor-placeholder:after {
-  color: @gray-light;
+  color: darken(@gray-lighter, 15%);
   top: 15px;
   left: 18px;
   font-style: normal;

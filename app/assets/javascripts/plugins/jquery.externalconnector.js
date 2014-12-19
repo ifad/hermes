@@ -60,7 +60,7 @@
   ExternalConnector.prototype._changePath = function(evt) {
     var $input  = this.components.path,
         $target = $($input.data('connect-path')),
-        val = $input.val().trim(),
+        val = $input.val().replace(/\s/g, ''),
         val = val === '' ? '/' : val.split('')[0] !== '/' ? '/' + val : val,
         url = [
           $target.data('hostname'),

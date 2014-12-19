@@ -4,9 +4,11 @@
   = f.hidden_field :welcome_message, class: 'textarea-target'
   .textarea-editable{data: {placeholder: 'Type a welcome message, if you want. Select text to change style'}}= f.object.welcome_message.html_safe if f.object.welcome_message
 .form-group
-  = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
+  .input-group
+    .input-group-addon.input-group-addon-text= @site.hostname.gsub(/\/$/, '')
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
   %p.form-control-help.text-right
-    insert the path where the tutorial will be displayed (<b>/</b> default)
+    insert the path where the tutorial will be displayed (<b>/</b> default). It can also be a regexp.
 .checkbox
   %label
     = f.check_box :overlay
@@ -46,6 +48,6 @@
 .form-actions.text-center
   %p
     - if f.object.persisted?
-      = f.button 'Update tutorial', class: 'btn btn-success'
+      = f.button 'Update', class: 'btn btn-success btn-lg'
     - else
-      = f.button 'Create new tutorial', class: 'btn btn-success'
+      = f.button 'Create', class: 'btn btn-success btn-lg'

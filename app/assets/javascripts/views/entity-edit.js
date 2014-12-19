@@ -48,6 +48,13 @@ THE SOFTWARE.
     this.element.find('.textarea-target').val(this.contentEditor.serialize()['element-0'].value);
   }
 
+  EntityEdit.prototype.selectPath = function(evt) {
+    var path = $(evt.target).parents('.input-group').find('input:text'),
+        pathV = path.val()
+    ;
+    path.focus().get(0).setSelectionRange(pathV.length,pathV.length);
+  }
+
   /**
   * Init method, called when the object is being created via the constructor function.
   *
@@ -61,7 +68,8 @@ THE SOFTWARE.
       buttons: ['bold', 'italic', 'underline', 'anchor', 'orderedlist', 'unorderedlist'],
       targetBlank: true
     });
-    this.element.on('submit', 'form', this.submitForm.bind(this))
+    this.element.on('submit', 'form', this.submitForm.bind(this));
+    this.element.on('click', '.input-group-addon-text', this.selectPath.bind(this));
     return this;
   };
 
