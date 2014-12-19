@@ -26,8 +26,8 @@ class TipsController < ApplicationController
   end
 
   def create
-    @tip = @site.tips.new(tip_params)
     @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
+    @tip = @site.tips.new(tip_params)
     if @tip.save
       @tutorial.tips << @tip if @tutorial
       redirect_to @tutorial ? site_tutorial_tips_path(@site, @tutorial) : site_tips_path(@site)
@@ -93,9 +93,10 @@ class TipsController < ApplicationController
       params.require(:tip).permit(
         :title, :content, :published_at, :path,
         :unpublished_at, :selector, :position, :redisplay,
-        :tutorial_id
+        :tutorial_id, :absolute_url
       ).tap do |params|
         params[:redisplay] = nil if params[:redisplay] === '0'
+        params[:absolute_url] = false unless @tutorial
       end
     end
 

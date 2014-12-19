@@ -64,7 +64,7 @@ THE SOFTWARE.
   EntityEdit.prototype.init = function() {
     this.element.find('input:text').first().focus();
     this.element.externalconnector();
-    this.contentEditor = new MediumEditor('.textarea-editable', {
+    this.contentEditor = new MediumEditor(this.element.find('.textarea-editable'), {
       buttons: ['bold', 'italic', 'underline', 'anchor', 'orderedlist', 'unorderedlist'],
       targetBlank: true
     });

@@ -11,6 +11,11 @@
     insert the path where the tip will be displayed (<b>/</b> default).
     - unless @tutorial
       It can also be a regexp.
+- if @tutorial
+  .checkbox
+    = f.label :absolute_url do
+      = f.check_box :absolute_url
+      Check to make the path absolute
 - unless @tutorial
   .row
     .col-md-6
