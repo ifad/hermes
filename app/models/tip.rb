@@ -22,7 +22,7 @@ class Tip < ActiveRecord::Base
   end
 
   before_validation :on => :create do |tip|
-    tip.position = :last
+    tip.position = :first
   end
 
   ranks :row_order, :with_same => [:tippable_id, :tippable_type]

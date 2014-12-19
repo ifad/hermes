@@ -266,9 +266,10 @@ pre {
   }
 
   > li:nth-child(1) {
-    padding-bottom: 10px;
+    padding-top: 30px;
     & + li {
-      padding-top: 30px;
+      padding-top: 45px;
+      padding-bottom: 40px;
     }
   }
   > li:nth-child(3) {
@@ -281,4 +282,13 @@ pre {
   > li:last-child:after {
     display: none;
   }
+}
+
+.animated {
+  .animation-duration(.8s);
+}
+
+.main-index,
+.main-side {
+  .animation-duration(.5s);
 }

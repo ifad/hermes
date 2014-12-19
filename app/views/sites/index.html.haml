@@ -1,6 +1,6 @@
 - if any_sites?
-  .col-md-3= render 'side'
-%div{class: any_sites? ? 'col-md-9' : ''}
+  .col-md-3.animated.fadeInLeft.main-side= render 'side'
+.animated.fadeInUp.main-index{class: any_sites? ? 'col-md-9' : ''}
   .welcome
     %h2
       Hey there, I'm 
@@ -10,27 +10,11 @@
   .explain
     %ul.rules
       %li 
-        Add the following code to your pages, inside your JavaScript/CoffeeScript. Preferably inside the <a href="http://api.jquery.com/ready/" target="_blank">domready</a> and <b>after</b> your app initialization.
-        .embed-element
-          %pre#embed_dynamic
-            (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
-          %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
-            copy
-
-        <b>or</b> insert it statically just before the ending
-        %code &lt;/body&gt;
-        tag and <b>after</b> your page scripts:
-        .embed-element
-          %pre#embed_static
-            &lt;script src="#{hermes_embed_url}"&gt;&lt;/script&gt;
-          %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
-            copy
-      %li
         = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
           Add new site
+      %li Once you added a site, remember to include the script on your page(s)
       %li
-        %p
-          Boom! Once you added a site, you can add
+        %p Then, BOOM! You can finally create:
         %ul
           %li <b>Tips</b>: they will be shown to your visitors until they dismiss them. They can be bound to particular elements or they can be shown as broadcasts.
           %li <b>Tutorials</b>: collections of tips/broadcasts that will be shown to the visitors sequentially.

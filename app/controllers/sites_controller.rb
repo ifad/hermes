@@ -22,7 +22,7 @@ class SitesController < ApplicationController
     @site.save
 
     respond_to do |format|
-      format.html { redirect_to sites_path }
+      format.html { redirect_to site_path(@site) }
       format.js
     end
   end

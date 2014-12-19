@@ -7,9 +7,9 @@ class Site < ActiveRecord::Base
   has_many :tips, as: :tippable, inverse_of: :tippable, dependent: :destroy
   has_many :tutorials,           inverse_of: :site,     dependent: :destroy
 
-  validates :user_id, :name, :hostname, presence: true
+  before_validation :normalize_hostname
 
-  before_save :strip_scheme # , :sanitize_host, :remove_path # Sacrifice correctness for user-friendlyness.
+  validates :user_id, :name, :hostname, presence: true,  uniqueness: { scope: :hostname }
 
   def self.by_user(user)
     where(user_id: user.id)
@@ -29,15 +29,9 @@ class Site < ActiveRecord::Base
   end
 
   protected
-    def strip_scheme
-      self.hostname = self.hostname.sub(%r{^https?://}, '')
+
+    def normalize_hostname
+      self.hostname = self.hostname.gsub(/(^https?:\/\/)|(\s+)|(\/+$)/, '')
     end
 
-    # def sanitize_host
-    #   self.hostname = self.hostname.gsub(/\s+/, "")
-    # end
-
-    # def remove_path
-    #   self.hostname = self.hostname.split(/\//)[0]
-    # end
 end

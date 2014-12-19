@@ -9,6 +9,7 @@ gem 'turbolinks'
 gem 'ranked-model', github: 'mixonic/ranked-model'
 gem 'jbuilder', '~> 1.2'
 gem 'uglifier', '>= 1.3.0'
+gem 'airbrake'
 # FIXME later rubyracer doesn't compile on SuSE 11.4 :-(.
 # https://code.google.com/p/v8/issues/detail?id=2195
 #

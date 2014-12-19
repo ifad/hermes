@@ -57,6 +57,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    airbrake (4.1.0)
+      builder
+      multi_json
     animate-rails (1.0.7)
       rails
     arel (5.0.1.20140414130214)
@@ -232,6 +235,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   animate-rails
   autosize-rails
   bcrypt-ruby (~> 3.0.0)
