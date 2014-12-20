@@ -1,0 +1,4 @@
+- if errors.messages[:path] && errors.messages[:path][0].present?
+  .alert.alert-danger
+    %button.close{type: 'button', 'data-dismiss' => 'alert', 'aria-hidden' => 'true'} &times
+    = errors.messages[:path][0]

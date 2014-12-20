@@ -23,14 +23,15 @@
       = link_to new_site_tip_path(@site), class: 'btn btn-primary btn-block btn-lg' do
         New Tip
   %br
-  .alert.alert-warning.text-center
-    <b>hint</b>: don't forget to add the hermes script below
+  - if params[:just_created].present?
+    .alert.alert-warning.text-center
+      <b>heads up</b>: don't forget to add the hermes script below
   %p
     Add the following code to the pages of <span class="label-primary label">#{@site.hostname}</span>, inside your JavaScript/CoffeeScript. Preferably inside the <a href="http://api.jquery.com/ready/" target="_blank">domready</a> and <b>after</b> your app initialization.
   .embed-element
     %pre#embed_dynamic
       (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','#{@site.hostname}');s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
-    %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
+    %button.btn.btn-primary.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
       copy
   <b>or</b>, <br> insert it statically just before the ending
   %code &lt;/body&gt;
@@ -38,5 +39,5 @@
   .embed-element
     %pre#embed_static
       &lt;script src="#{hermes_embed_url}" id="#{@site.hostname}"&gt;&lt;/script&gt;
-    %button.btn.btn-default.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
+    %button.btn.btn-primary.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
       copy

@@ -4,6 +4,7 @@
   = f.hidden_field :content, class: 'textarea-target'
   .textarea-editable{data: {placeholder: 'Type the content of the tip. Select text to change style'}}= f.object.content.html_safe if f.object.content
 .form-group
+  = render 'path_error', errors: f.object.errors
   .input-group
     .input-group-addon.input-group-addon-text= current_path
     = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path : f.object.path

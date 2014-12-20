@@ -4,6 +4,7 @@
   = f.hidden_field :welcome_message, class: 'textarea-target'
   .textarea-editable{data: {placeholder: 'Type a welcome message, if you want. Select text to change style'}}= f.object.welcome_message.html_safe if f.object.welcome_message
 .form-group
+  = render 'path_error', errors: f.object.errors
   .input-group
     .input-group-addon.input-group-addon-text= @site.hostname.gsub(/\/$/, '')
     = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
