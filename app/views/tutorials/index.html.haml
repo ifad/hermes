@@ -1,14 +1,7 @@
 %div
-  %p.text-center
+  %p.text-center.animated.fadeInUp
     = link_to(new_site_tutorial_path(@site), :class => 'btn btn-primary btn-lg') do
-      Create Tutorial
-  %h3 All tutorials:
-  %table.table.table-hover
-    %thead
-      %tr
-        %th Title
-        %th From
-        %th To
-        %th
-    %tbody
-      = render @tutorials
+      New Tutorial
+  .tutorials-container
+    %h3.animated.fadeInDown All tutorials:
+    = render @tutorials

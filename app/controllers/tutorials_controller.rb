@@ -36,6 +36,13 @@ class TutorialsController < ApplicationController
 
   def update
     if @tutorial.update_attributes(tutorial_params)
+      # update also tips that don't have path
+      @tutorial.tips.each do |tip|
+        if (tip.path.blank? || tip.path == '/') && tip.site_host_ref.blank?
+          tip.path = @tutorial.path
+          tip.save!
+        end
+      end
       redirect_to site_tutorials_path(@site), :notice => 'tutorial saved'
     else
       render :edit

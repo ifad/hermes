@@ -4,18 +4,8 @@
     = link_to new_tip_link, class: 'btn btn-default btn-sm pull-right' do
       %i.fa.fa-plus
       New message
-  - if @tips.any?
-    %table.table.table-hover
-      %thead
-        %tr
-          %th Message title
-          - unless @tutorial
-            %th Visible From
-            %th Visible Until
-          %th
-      %tbody#tips-list
-        = render @tips
-  - else
+  = render @tips if @tips.any?
+  - unless @tips.any?
     .hero-unit{:style => "padding: 30px 60px; text-align: center"}
       %h3 No messages for this #{@tutorial ? 'tutorial' : 'site'} yet!
       %p

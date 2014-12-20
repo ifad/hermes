@@ -1,14 +1,18 @@
-%tr{"data-id" => tip.id, :id => dom_id(tip)}
-  %td
-    %i.fa.fa-reorder
-    = link_to tip.title, edit_tip_link(tip)
+.entity.animated.bounceIn{class: tip.selector.present? ? 'entity-tip' : 'entity-broadcast'}
+  %h4.entity-title= link_to tip.title, edit_tip_link(tip)
+  %p.small.courier
+    = (tip.site_host_ref.present? ? tip.site_host_ref : @site.hostname) + tip.path
+  .list-group-item-actions
+    = link_to edit_tip_link(tip), class: 'btn btn-primary btn-xs' do
+      %i.fa.fa-pencil
+    = link_to destroy_tip_link(tip), remote: true, method: :delete, :'data-confirm' => 'This action will delete your tutorial.', class: 'btn btn-danger btn-xs' do
+      %i.fa.fa-trash
+    = preview_tip_link tip
   - unless @tutorial
-    %td= l tip.published_at
-    %td= l tip.unpublished_at
-  %td
-    .btn-group
-      = preview_tip_link tip
-      = link_to edit_tip_link(tip), class: 'btn btn-default btn-sm' do
-        %i.fa.fa-edit
-      = link_to destroy_tip_link(tip), remote: true, method: :delete, :'data-confirm' => 'This action will delete your message.', class: 'btn btn-default btn-sm' do
-        %i.fa.fa-remove
+    %p.small.text-center.entity-publication-range
+      %i.glyphicon.glyphicon-time
+      = "#{l tip.published_at} - #{l tip.unpublished_at}"
+
+
+
+-# %tr{"data-id" => tip.id, :id => dom_id(tip)}

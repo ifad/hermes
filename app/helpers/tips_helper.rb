@@ -18,13 +18,16 @@ module TipsHelper
 
   def preview_tip_link(tip)
     m_path = @tutorial ? "#{message_tutorial_path(@tutorial.id, tip.class.model_name.param_key, tip.id)}" : "#{message_path(tip.class.model_name.param_key, tip.id)}"
-    link_to "http://#{@site.hostname}#{tip.path}", class: 'btn btn-default btn-sm ext', data: {messagepath: m_path} do
+    link_to "http://#{@site.hostname}#{tip.path}", class: 'btn btn-default btn-xs ext', data: {messagepath: m_path} do
       content_tag :i, '', class: 'fa fa-eye'
     end
   end
 
   def current_path
-     @tutorial ? (@site.hostname + @tutorial.path).gsub(/\/$/, '') : @site.hostname.gsub(/\/$/, '')
+     @site.hostname.gsub(/\/$/, '')
   end
 
+  def site_path_select(f)
+    f.select :site_host_ref, options_for_select((current_user.sites - [@site]).map{ |s| [s.hostname, s.hostname] }, f.object.site_host_ref), {include_blank: 'select site host ref'}
+  end
 end

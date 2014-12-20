@@ -1,15 +1,15 @@
-.row
-  %div
-    %h1= title "Tutorial #{@tutorial.title}"
-    %dl.dl-horizontal
-      %dt Title
-      %dd= @tutorial.title
-      %dt Path
-      %dd= @tutorial.path
-      %dt Publish on
-      %dd= l @tutorial.published_at
-      %dt Unpublish on
-      %dd= l @tutorial.unpublished_at
-  = link_to 'create_tips', site_tutorial_tips_path(@site.id, @tutorial.id)
-
-  = render @tutorial.tips
+.animated.fadeInUp
+  %h1
+    %b= @tutorial.title
+  %h2= @site.hostname + @tutorial.path
+  %p
+    = link_to 'edit', edit_site_tutorial_path(@site, @tutorial), class: 'btn btn-primary btn-sm'
+    = link_to 'delete', site_tutorial_path(@site, @tutorial), method: :delete, remote: true, class: 'btn btn-danger btn-sm', :'data-confirm' => 'This action will delete your tutorial'
+  %p.entity-publication-range
+    %i.glyphicon.glyphicon-time
+    = "#{l @tutorial.published_at} - #{l @tutorial.unpublished_at}"
+  %p.text-center
+    = link_to 'new tip', site_tutorial_tips_path(@site.id, @tutorial.id), class: 'btn btn-lg btn-primary'
+- if @tutorial.tips.any?
+  %h3.animated.fadeInDown All tips:
+  = render @tutorial.tips 

@@ -4,10 +4,8 @@
   %h2= @site.hostname
   %p
     = link_to edit_site_path(@site), remote: true, class: 'btn btn-primary btn-sm' do
-      %i.fa.fa-pencil
       edit
     = link_to site_path(@site), method: :delete, remote: true, class: 'btn btn-danger btn-sm', :'data-confirm' => 'This action will remove your site'  do
-      %i.fa.fa-trash
       delete
   .row
     .col-md-6

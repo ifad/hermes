@@ -48,6 +48,16 @@ THE SOFTWARE.
     this.element.find('.textarea-target').val(this.contentEditor.serialize()['element-0'].value);
   }
 
+  EntityEdit.prototype.toggleAbsoluteUrl = function(evt) {
+    if ($(evt.target).is(':checked')) {
+      this.element.find('.input-addon-abs-path').removeClass('hide');
+      this.element.find('.input-addon-current-path').addClass('hide');
+    } else {
+      this.element.find('.input-addon-abs-path').addClass('hide').find('select').val('');
+      this.element.find('.input-addon-current-path').removeClass('hide');
+    }
+  }
+
   EntityEdit.prototype.selectPath = function(evt) {
     var path = $(evt.target).parents('.input-group').find('input:text'),
         pathV = path.val()
@@ -69,7 +79,8 @@ THE SOFTWARE.
       targetBlank: true
     });
     this.element.on('submit', 'form', this.submitForm.bind(this));
-    this.element.on('click', '.input-group-addon-text', this.selectPath.bind(this));
+    this.element.on('click', '.input-group-addon-text:not(.input-addon-abs-path)', this.selectPath.bind(this));
+    this.element.on('change', '#absolute_url', this.toggleAbsoluteUrl.bind(this));
     return this;
   };
 

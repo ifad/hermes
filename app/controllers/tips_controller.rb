@@ -52,7 +52,7 @@ class TipsController < ApplicationController
         redirect_to site_tips_path(@site), :notice => "Message '#{@tip.title}' saved"
       end
     else
-      flash.now[:error] = 'There was an error updating your message'.
+      flash.now[:error] = 'There was an error updating your message.'
       render :edit
     end
   end
@@ -93,10 +93,10 @@ class TipsController < ApplicationController
       params.require(:tip).permit(
         :title, :content, :published_at, :path,
         :unpublished_at, :selector, :position, :redisplay,
-        :tutorial_id, :absolute_url
+        :tutorial_id, :site_host_ref
       ).tap do |params|
         params[:redisplay] = nil if params[:redisplay] === '0'
-        params[:absolute_url] = false unless @tutorial
+        params[:site_host_ref] = nil unless @tutorial
       end
     end
 

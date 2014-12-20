@@ -6,17 +6,19 @@
 .form-group
   = render 'path_error', errors: f.object.errors
   .input-group
-    .input-group-addon.input-group-addon-text= current_path
-    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path + f.object.path : f.object.path
+    .input-group-addon.input-group-addon-text.input-addon-current-path{class: f.object.site_host_ref.present? ? 'hide' : ''}= current_path
+    - if @tutorial
+      .input-group-addon.input-group-addon-text.input-addon-abs-path{class: f.object.site_host_ref.present? ? '' : 'hide'}= site_path_select(f)
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
   %p.form-control-help.text-right
     insert the path where the tip will be displayed (<b>/</b> default).
     - unless @tutorial
       It can also be a regexp.
 - if @tutorial
   .checkbox
-    = f.label :absolute_url do
-      = f.check_box :absolute_url
-      Check to make the path absolute
+    = label_tag :absolute_url do
+      = check_box_tag :absolute_url, '', f.object.site_host_ref.present?
+      Absolute url (Just available for your sites. The target url <b>must</b> contain the hermes script)
 - unless @tutorial
   .row
     .col-md-6

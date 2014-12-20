@@ -1,0 +1,58 @@
+.mixin-loop (@i) when (@i > 0) {
+  &:nth-child(@{i}) {
+    .animation-delay(@i*100ms);
+  }
+  .mixin-loop(@i - 1);
+}
+
+.entity {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid @gray-lighter;
+  padding: 20px;
+  .animation-duration(1s);
+  .entity-title {
+    margin-top: 0;
+  }
+  .mixin-loop(20);
+}
+
+.entity-tip,
+.entity-broadcast {
+  padding-bottom: 40px;
+  &:after {
+    position: absolute;
+    left: -3px; right: -3px; bottom: 5px;
+    padding: 3px 0;
+    text-align: center;
+    font-size: 10px;
+  }
+  &.entity-tip:after {
+    content: 'tip';
+    background-color: rgba(238, 238, 238, .7);
+    color: @gray-light;
+  }
+  &.entity-broadcast:after {
+    content: 'broadcast';
+    background-color: rgba(126, 176, 219, .35);
+    color: #fff;
+  }
+}
+
+.entity-publication-range {
+  margin-bottom: 0;
+  margin-top: 20px;
+  color: lighten(@gray-light, 20%);
+}
+
+@media only screen and (min-width : @screen-sm) { 
+  .entity {
+    display: inline-block;
+    width: 30%;
+    margin: 1%;
+    border: 1px solid @gray-lighter;
+    &:hover {
+      border-color: darken(@gray-lighter, 10%);
+    }
+  }
+}

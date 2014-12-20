@@ -19,5 +19,5 @@
   .list-group-item-actions
     = link_to edit_site_path(site), remote: true, class: 'btn btn-xs btn-primary' do
       %i.fa.fa-pencil
-    = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-xs btn-primary', :'data-confirm' => 'This action will remove your site'  do
+    = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-xs btn-danger', :'data-confirm' => 'This action will remove your site'  do
       %i.fa.fa-trash
