@@ -43,6 +43,15 @@ THE SOFTWARE.
     return this;
   };
 
+  TipCollection.prototype.destroyTip = function(id) {
+    this.element.find('[data-tip-id=' + id + ']').remove();
+    if (this.element.find('.entity').length === 0) {
+      this.element.find('.hero-unit').removeClass('hide');
+      this.element.find('.tip-collection-top').addClass('hide');
+      this.element.find('.hero-unit').addClass('animated bounceIn');
+    }
+  }
+
   TipCollection.prototype._receiveMessage = function(evt) {
     if (evt.data === '__get__mode__') {
       this.openedWindow.postMessage('preview', this.openedWindowHref);
@@ -62,13 +71,14 @@ THE SOFTWARE.
   }
 
   TipCollection.prototype.init = function() {
-    this.element.find('#tips-list').sortable({
+    this.element.find('.tips-container').sortable({
       revert: true,
-      handle: '.fa-reorder',
-      start: function(event, ui) {},
+      start: function(event, ui) {
+        ui.item.removeClass('animated bounceIn');
+      },
       update: function(event, ui) {
-        var pos = $('#tips-list').find('tr').index(ui.item);
-        $.ajax("/tips/" + ui.item.attr('data-id') + '/position', {
+        var pos = $('.tips-container').find('.entity').index(ui.item);
+        $.ajax("/tips/" + ui.item.attr('data-tip-id') + '/position', {
           data: { pos: pos },
           type: 'put',
           success: function() {
@@ -76,7 +86,7 @@ THE SOFTWARE.
         });
       }
     });
-    this.element.find('#tips-list').disableSelection();
+    this.element.find('.tips-container').disableSelection();
     this.element.on('click', 'a.ext', this.openExternalLink.bind(this));
     w.addEventListener('message', this._receiveMessage.bind(this), false);
     return this;

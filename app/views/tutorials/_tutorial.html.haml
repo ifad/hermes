@@ -1,7 +1,7 @@
-.entity.animated.bounceIn
-  %h4.entity-title= link_to tutorial.title, site_tutorial_tips_path(@site, tutorial)
-  %p.small.courier
-    = @site.hostname + tutorial.path
+.entity.animated.bounceIn{"data-tutorial-id" => tutorial.id, id: dom_id(tutorial)}
+  %h4.entity-title= link_to tutorial.title, site_tutorial_path(@site, tutorial)
+  %p.small.courier.entity-path
+    = (@site.hostname + tutorial.path)
   .list-group-item-actions
     = link_to edit_site_tutorial_path(@site, tutorial), class: 'btn btn-primary btn-xs' do
       %i.fa.fa-pencil
@@ -9,7 +9,7 @@
       %i.fa.fa-trash
   %p
     = link_to pluralize(tutorial.tips.count, 'tip'), site_tutorial_tips_path(@site, tutorial)
-    = link_to 'new', site_tutorial_tips_path(@site.id, tutorial.id), class: 'btn btn-xs btn-primary'
+    = link_to 'new', new_site_tutorial_tip_path(@site.id, tutorial.id), class: 'btn btn-xs btn-primary'
   %p.small.text-center.entity-publication-range
     %i.glyphicon.glyphicon-time
     = "#{l tutorial.published_at} - #{l tutorial.unpublished_at}"

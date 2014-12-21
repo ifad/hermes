@@ -60,7 +60,9 @@ class TipsController < ApplicationController
   def destroy
     @tip.destroy
 
-    render js: "$('##{dom_id(@tip)}').hide('fade');"
+    respond_to do |format|
+      format.js
+    end
   end
 
   # Sets the given tip position

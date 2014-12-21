@@ -6,7 +6,7 @@ class TutorialsController < ApplicationController
   before_filter :generate_xd_token, only: %w( new edit )
 
   def index
-    @tutorials = @site.tutorials.order('created_at DESC') # FIXME
+    @tutorials = @site.tutorials.order('created_at DESC')
 
     if @tutorials.blank?
       redirect_to new_site_tutorial_path(@site)
@@ -14,6 +14,7 @@ class TutorialsController < ApplicationController
   end
 
   def show
+    @tips = Tip.where(tippable_id: @tutorial.id, tippable_type: 'Tutorial').sort_by_row_order
   end
 
   def new
@@ -51,7 +52,9 @@ class TutorialsController < ApplicationController
 
   def destroy
     @tutorial.destroy
-    redirect_to site_tutorials_path(@site), :notice => 'tutorial deleted'
+    respond_to do |format|
+      format.js
+    end
   end
 
   protected

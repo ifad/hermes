@@ -1,15 +1,15 @@
 .tip-collection{data: {view: 'tip-collection'}}
-  %h3
-    = index_title
-    = link_to new_tip_link, class: 'btn btn-default btn-sm pull-right' do
-      %i.fa.fa-plus
-      New message
-  = render @tips if @tips.any?
-  - unless @tips.any?
-    .hero-unit{:style => "padding: 30px 60px; text-align: center"}
-      %h3 No messages for this #{@tutorial ? 'tutorial' : 'site'} yet!
-      %p
-        Start adding messages to your #{@tutorial ? 'tutorial' : 'site'} by clicking the button below.
-      %hr/
-      %p
-        = link_to "Add a message to your #{@tutorial ? 'tutorial' : 'site'}!", new_tip_link, class: 'btn btn-large btn-primary'
+  .tip-collection-top
+    %p.text-center.animated.fadeInUp
+      = link_to new_tip_link, class: 'btn btn-primary btn-lg' do
+        New tip
+    - if @tips.any?
+      %h3.animated.fadeInDown= index_title.html_safe
+  - if @tips.any?
+    .tips-container= render @tips 
+  .hero-unit.text-center{class: @tips.any? ? 'hide' : 'animated bounceIn'}
+    %h3 No messages for this #{@tutorial ? 'tutorial' : 'site'} yet!
+    %p
+      Start adding messages to your #{@tutorial ? 'tutorial' : 'site'} by clicking the button below.
+    %p
+      = link_to "Add a message to your #{@tutorial ? 'tutorial' : 'site'}!", new_tip_link, class: 'btn btn-lg btn-primary'

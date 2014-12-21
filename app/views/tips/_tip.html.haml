@@ -1,4 +1,5 @@
-.entity.animated.bounceIn{class: tip.selector.present? ? 'entity-tip' : 'entity-broadcast'}
+.entity.entity-sortable.animated.bounceIn{class: tip.selector.present? ? 'entity-tip' : 'entity-broadcast', "data-tip-id" => tip.id, id: dom_id(tip)}
+  %span.entity-number
   %h4.entity-title= link_to tip.title, edit_tip_link(tip)
   %p.small.courier
     = (tip.site_host_ref.present? ? tip.site_host_ref : @site.hostname) + tip.path
@@ -12,7 +13,3 @@
     %p.small.text-center.entity-publication-range
       %i.glyphicon.glyphicon-time
       = "#{l tip.published_at} - #{l tip.unpublished_at}"
-
-
-
--# %tr{"data-id" => tip.id, :id => dom_id(tip)}

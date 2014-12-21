@@ -9,7 +9,7 @@ module TipsHelper
   end
 
   def index_title
-    @tutorial ? "Tips for tutorial #{@tutorial.title} (#{@site.name} site)" : "Tips for #{ @site.name }"
+    @tutorial ? "All tips for <b>#{h @tutorial.title}</b> tutorial:" : "All tips:"
   end
 
   def new_tip_link

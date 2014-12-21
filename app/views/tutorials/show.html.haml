@@ -1,5 +1,6 @@
 .animated.fadeInUp
   %h1
+    Tutorial
     %b= @tutorial.title
   %h2= @site.hostname + @tutorial.path
   %p
@@ -8,8 +9,17 @@
   %p.entity-publication-range
     %i.glyphicon.glyphicon-time
     = "#{l @tutorial.published_at} - #{l @tutorial.unpublished_at}"
-  %p.text-center
-    = link_to 'new tip', site_tutorial_tips_path(@site.id, @tutorial.id), class: 'btn btn-lg btn-primary'
-- if @tutorial.tips.any?
-  %h3.animated.fadeInDown All tips:
-  = render @tutorial.tips 
+.tip-collection{data: {view: 'tip-collection'}}
+  - if @tips.any?
+    .tip-collection-top
+      %p.text-center
+        = link_to 'new tip', new_site_tutorial_tip_path(@site.id, @tutorial.id), class: 'btn btn-lg btn-primary'
+      %h3.animated.fadeInDown= link_to 'All tips:', site_tutorial_tips_path(@site, @tutorial)
+    .tips-container= render @tips
+
+  .hero-unit.text-center{class: @tips.any? ? 'hide' : 'animated bounceIn'}
+    %h3 No messages for this #{@tutorial ? 'tutorial' : 'site'} yet!
+    %p
+      Start adding messages to your #{@tutorial ? 'tutorial' : 'site'} by clicking the button below.
+    %p
+      = link_to "Add a message to your #{@tutorial ? 'tutorial' : 'site'}!", new_tip_link, class: 'btn btn-lg btn-primary'
