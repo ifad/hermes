@@ -85,7 +85,6 @@ class MessagesController < ApplicationController
       full_site_ref = "#{@source.scheme}://#{params[:site_ref]}"
       path = request.referer.include?(full_site_ref) ? request.referer.sub!(full_site_ref, '') : @source.path
       @path = path == '' ? '/' : path.split('?')[0]
-      # TODO find a way to check if params[:site_ref] matches @source
       @site = Site.where(hostname: params[:site_ref]).first
 
     rescue URI::InvalidURIError

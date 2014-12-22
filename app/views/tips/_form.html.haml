@@ -9,7 +9,7 @@
     .input-group-addon.input-group-addon-text.input-addon-current-path{class: f.object.site_host_ref.present? ? 'hide' : ''}= current_path
     - if @tutorial
       .input-group-addon.input-group-addon-text.input-addon-abs-path{class: f.object.site_host_ref.present? ? '' : 'hide'}= site_path_select(f)
-    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path : '/'
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path : f.object.path
   %p.form-control-help.text-right
     insert the path where the tip will be displayed (<b>/</b> default).
     - unless @tutorial
