@@ -74,7 +74,7 @@ THE SOFTWARE.
     this.element.find('.tips-container').sortable({
       revert: true,
       start: function(event, ui) {
-        ui.item.removeClass('animated bounceIn');
+        ui.item.removeClass('animated fadeIn');
       },
       update: function(event, ui) {
         var pos = $('.tips-container').find('.entity').index(ui.item);

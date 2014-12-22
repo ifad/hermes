@@ -28,6 +28,6 @@ module TipsHelper
   end
 
   def site_path_select(f)
-    f.select :site_host_ref, options_for_select((current_user.sites - [@site]).map{ |s| [s.hostname, s.hostname] }, f.object.site_host_ref), {include_blank: 'select site host ref'}
+    f.select :site_host_ref, options_for_select(current_user.sites.map{ |s| [s.hostname, s.hostname] }, f.object.site_host_ref), {include_blank: 'select site host ref'}
   end
 end

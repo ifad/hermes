@@ -26,7 +26,7 @@ Create the App and Fire the JS!
 
 */
 
-!(function($, ns){
+!(function($, ns, w){
   'use strict';
 
   String.prototype.toViewTitle = String.prototype.toViewTitle || function() {
@@ -52,6 +52,14 @@ Create the App and Fire the JS!
     this.components = {};
     this.init();
   };
+
+  App.prototype.destroyTutorial = function(tutorialId, path) {
+    if (this.components.TutorialCollection) {
+      this.components.TutorialCollection.destroyTutorial(tutorialId);
+    } else {
+      w.location.href = path;
+    }
+  }
 
   App.prototype._startBootstrap = function() {
     $("a[rel~=popover], .has-popover").popover();
@@ -99,4 +107,4 @@ Create the App and Fire the JS!
 
   ns.App = new App();
 
-})(jQuery, HERMES);
+})(jQuery, HERMES, this);

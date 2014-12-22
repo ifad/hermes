@@ -6,7 +6,7 @@
     - if @tips.any?
       %h3.animated.fadeInDown= index_title.html_safe
   - if @tips.any?
-    .tips-container= render @tips 
+    .tips-container= render @tips
   .hero-unit.text-center{class: @tips.any? ? 'hide' : 'animated bounceIn'}
     %h3 No messages for this #{@tutorial ? 'tutorial' : 'site'} yet!
     %p

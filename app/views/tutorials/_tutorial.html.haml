@@ -1,4 +1,4 @@
-.entity.animated.bounceIn{"data-tutorial-id" => tutorial.id, id: dom_id(tutorial)}
+.entity.animated.fadeIn{"data-tutorial-id" => tutorial.id, id: dom_id(tutorial)}
   %h4.entity-title= link_to tutorial.title, site_tutorial_path(@site, tutorial)
   %p.small.courier.entity-path
     = (@site.hostname + tutorial.path)
