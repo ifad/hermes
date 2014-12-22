@@ -28,7 +28,7 @@
     Add the following code to the pages of <span class="label-primary label">#{@site.hostname}</span>, inside your JavaScript/CoffeeScript. Preferably inside the <a href="http://api.jquery.com/ready/" target="_blank">domready</a> and <b>after</b> your app initialization.
   .embed-element
     %pre#embed_dynamic
-      (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','#{@site.hostname}');s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
+      (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','#{@site.hostname}');s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
     %button.btn.btn-primary.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
       copy
   <b>or</b>, <br> insert it statically just before the ending
@@ -36,6 +36,6 @@
   tag and <b>after</b> your page scripts:
   .embed-element
     %pre#embed_static
-      &lt;script src="#{hermes_embed_url}" id="#{@site.hostname}"&gt;&lt;/script&gt;
+      &lt;script src="#{hermes_embed_url}" id="hermes_script_embed" data-ref="#{@site.hostname}"&gt;&lt;/script&gt;
     %button.btn.btn-primary.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
       copy

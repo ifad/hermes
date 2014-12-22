@@ -5,7 +5,7 @@ __hermes_embed.init_tutorials_manager = function($) {
     var DOC = $(document),
         BODY = $(document.body),
         DEFAULTS = {
-          retrieveTutorialsUrl: '/messages/tutorials.js'
+          retrieveTutorialsUrl: '/messages/tutorials.js?site_ref=' + ns.site_ref
         }
     ;
 

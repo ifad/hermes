@@ -396,7 +396,7 @@ Node.prototype.nodeNameInCorrectCase = function(){
       );
     },
 
-    checkFixedElement: function(elem) {
+    checkFixedElement: function(elem, $) {
       var isFixed = elem.css('position') === 'fixed',
           parents = null,
           parentElement = null;
@@ -416,6 +416,13 @@ Node.prototype.nodeNameInCorrectCase = function(){
         }
       }
       return 'body';
+    },
+
+    getParameterByName: function(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
   }

@@ -140,7 +140,7 @@ __hermes_embed.init_authoring = function($) {
         }
       }
 
-      if(ns.utils.checkFixedElement($selected) !== 'body' && !confirm(ns.labels.elementPositionFixedWarning)) {
+      if(ns.utils.checkFixedElement($selected, $) !== 'body' && !confirm(ns.labels.elementPositionFixedWarning)) {
         return;
       }
 

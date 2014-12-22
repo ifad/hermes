@@ -6,7 +6,7 @@ __hermes_embed.init_general_messaging = function($) {
         BODY = $(document.body),
         DEFAULTS = {
           snoozeTimeOut: 250, //ms
-          retrieveMessagesUrl: '/messages.js'
+          retrieveMessagesUrl: '/messages.js?site_ref=' + ns.site_ref
         }
     ;
 

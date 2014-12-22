@@ -9,7 +9,8 @@ __hermes_embed.init_tutorial = function($) {
     var DOC = $(document),
         BODY = $(document.body),
         DEFAULTS = {
-          retrieveTutorialUrl: '/messages/tutorials/{{tutorial_id}}.js'
+          retrieveTutorialUrl: '/messages/tutorials/{{tutorial_id}}.js?site_ref=' + ns.site_ref,
+          tipTargetAbsoluteQS: 'hermes_tutorial_id={{id}}&hermes_tip_index={{index}}&hermes_site_ref={{ref}}'
         }
     ;
 
@@ -51,15 +52,35 @@ __hermes_embed.init_tutorial = function($) {
         this.end();
         return;
       }
-      if (w.location.pathname === tip.path) {
+      var cookieSiteRef = ns.utils.getParameterByName('hermes_site_ref');
+      if (tip.ext_site === '' 
+          && cookieSiteRef !== '' 
+          && cookieSiteRef !== ns.site_ref
+          && ns.instances.app.mode === 'started-tutorial') {
+        tip.ext_site = cookieSiteRef;
+      }
+
+      if ( (tip.ext_site !== '' && ns.site_ref.indexOf(tip.ext_site) > -1) 
+          || (w.location.pathname === tip.path && tip.ext_site === '')
+          || (tip.ext_site === '' && (tip.path === '' || tip.path === '/')) 
+         ) {
         ns.display(tip);
         this.options.progress_bar && ns.display({type: 'progressBar', tutorial: this});
       } else {
         ns.instances.app.deleteTutorialCookies();
-        ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
         $(w).off('beforeunload');
-        ns.DOM.overlay.hide();
-        window.location.href = tip.path;
+        ns.DOM.overlay && ns.DOM.overlay.hide();
+        if(tip.ext_site === '') {
+          ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
+          window.location.href = tip.path;  
+        } else {
+          var ext_ref = tip.ext_site + tip.path,
+              absQS = this.options.tipTargetAbsoluteQS.replace('{{id}}', this.id)
+                                         .replace('{{index}}', this.currentTipIndex)
+                                         .replace('{{ref}}', this.options.site_ref); 
+          ext_ref = ext_ref + ((ext_ref.indexOf('?') > -1) ? '&' : '?');
+          window.location.href = '//' + ext_ref + absQS;
+        }
       }
     }
 
@@ -139,7 +160,9 @@ __hermes_embed.init_tutorial = function($) {
         currTip = tips[len];
         if(currTip.type === 'tip') {
           elem = $(currTip.selector);
-          (w.location.pathname === currTip.path 
+          ( currTip.ext_site === ''
+            && this.siteRef === ns.site_ref
+            && w.location.pathname === currTip.path 
             && (elem.length === 0 || !elem.is(':visible'))
           ) && tips.splice(len, 1);
         }
@@ -156,6 +179,7 @@ __hermes_embed.init_tutorial = function($) {
           if(data.length === 0) {
             ns.publish('tutorialdeleted');
           } else {
+            this.siteRef = data[0].site_ref;
             $.extend(this.options, this.sanitize(data[0]));
             this.init(startedOptions.tipIndex);
           }

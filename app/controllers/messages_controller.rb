@@ -11,19 +11,16 @@ class MessagesController < ApplicationController
 
   def index
     head :not_found and return unless @site
-
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
-
-    @messages = @site.tips.published.sorted.within(@source.path).respecting(remote_user)
+    @messages = @site.tips.published.sorted.within(@path).respecting(remote_user)
 
     render json: render_to_string(template: 'messages/index.json'), callback: @callback
   end
 
   def tutorial
-    head :not_found and return unless @site
+    @tutorials = Tutorial.where(id: params[:tutorial_id])
+    head :not_found and return unless @site.user == @tutorials[0].site.user
 
-    @tutorials = @site.tutorials.where(id: params[:tutorial_id])
-      
     render json: render_to_string(template: 'messages/tutorial.json'), callback: @callback
   end
 
@@ -32,9 +29,9 @@ class MessagesController < ApplicationController
 
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
 
-    @tutorials = @site.tutorials.published.noselector.within(@source.path).respecting(remote_user)
-    @tutorials_already_viewed = @site.tutorials.published.noselector.within(@source.path).not_respecting(remote_user)
-    @tutorials_with_selector = @site.tutorials.published.withselector.within(@source.path)
+    @tutorials = @site.tutorials.published.noselector.within(@path).respecting(remote_user)
+    @tutorials_already_viewed = @site.tutorials.published.noselector.within(@path).not_respecting(remote_user)
+    @tutorials_with_selector = @site.tutorials.published.withselector.within(@path)
       
     render json: render_to_string(template: 'messages/tutorials.json'), callback: @callback
   end
@@ -85,7 +82,11 @@ class MessagesController < ApplicationController
 
       @source = URI.parse(request.referer)
       return unless @source.scheme.in? %w( http https )
-      @site = Site.by_url(@source)
+      full_site_ref = "#{@source.scheme}://#{params[:site_ref]}"
+      path = request.referer.include?(full_site_ref) ? request.referer.sub!(full_site_ref, '') : @source.path
+      @path = path == '' ? '/' : path.split('?')[0]
+      # TODO find a way to check if params[:site_ref] matches @source
+      @site = Site.where(hostname: params[:site_ref]).first
 
     rescue URI::InvalidURIError
       nil

@@ -146,7 +146,7 @@
     *
     **/
 
-  App.prototype.initSubscriptions = function() {
+  App.prototype.initSubscriptions = function($) {
 
     var availableTutorialsTO = null;
 
@@ -249,9 +249,11 @@
         ns.tutorials = ns.tutorials || {}; // not yet defined as we're in the middle of a tutorial
                                            // so no tutorial manager instantiated (check for future in case
                                            // we will enable tutorials manager)
-        ns.tutorials['tutorial' + ns.cookie.read('hermes-tutorialid')] = new ns.Tutorial({}, {
-          tutorialId : ns.cookie.read('hermes-tutorialid'),
-          tipIndex   : ns.cookie.read('hermes-tipindex')
+        var tutorialId = ns.utils.getParameterByName('hermes_tutorial_id') || ns.cookie.read('hermes-tutorialid'),
+            tipIndex = ns.utils.getParameterByName('hermes_tip_index') || ns.cookie.read('hermes-tipindex');
+        ns.tutorials['tutorial' + tutorialId] = new ns.Tutorial({}, {
+          tutorialId : tutorialId,
+          tipIndex   : tipIndex
         });
         this.deleteTutorialCookies();
         break;
@@ -308,7 +310,7 @@
 
   App.prototype.init = function($){
     var path = '',
-        startedTutorial = ns.cookie.read('hermes-tutorial-started') !== null
+        startedTutorial = ns.cookie.read('hermes-tutorial-started') !== null || ns.utils.getParameterByName('hermes_tutorial_id') !== ''
     ;
     this.initPubSub($);
     this.initClasses($);
@@ -322,7 +324,7 @@
       this.mode = ns.mode;
     }
     ns.instances.app = this;
-    this.initSubscriptions();
+    this.initSubscriptions($);
     this.initMode();
   };
 
@@ -330,9 +332,13 @@
   ns.instances = {};
 
   var messageReceived = function(evt) {
-    w.removeEventListener('message', messageReceived);
-    ns.mode = evt.data;
-    new App;
+    if (evt.data === 'preview' ||
+        evt.data === 'authoring' ||
+        evt.data === 'authoring-tutorial'){
+      w.removeEventListener('message', messageReceived);
+      ns.mode = evt.data;
+      new App;
+    }
   }
 
   w.addEventListener('message', messageReceived);

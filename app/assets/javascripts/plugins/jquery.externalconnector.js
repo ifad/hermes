@@ -47,6 +47,23 @@
     return this;
   }
 
+  ExternalConnector.prototype._toggleAbsolutePath = function(evt) {
+    if (!$(evt.target).is(':checked'))
+      this.components.connectLink.attr('data-hostname', this.defaultHost);
+      this._changePath();
+  }
+
+  ExternalConnector.prototype._changeAbsolutePath = function(evt) {
+    var val = $(evt.target).find(':selected').val().trim();
+    if (val) {
+      this.components.connectLink.attr('data-hostname', 'http://' + val);
+      this._changePath();
+    } else {
+      this.components.connectLink.attr('data-hostname', this.defaultHost);
+      this._changePath();
+    }
+  }
+
   /**
   * Whenever the path is changed, just update the connection link
   * it also checks wether the value is invalid (like empty string or string
@@ -57,13 +74,13 @@
   * @return {this} (current instance, chaining purpose)
   **/
 
-  ExternalConnector.prototype._changePath = function(evt) {
+  ExternalConnector.prototype._changePath = function() {
     var $input  = this.components.path,
         $target = $($input.data('connect-path')),
         val = $input.val().replace(/\s/g, ''),
         val = val === '' ? '/' : val.split('')[0] !== '/' ? '/' + val : val,
         url = [
-          $target.data('hostname'),
+          $target.attr('data-hostname'),
           val
         ].join('')
     ;
@@ -105,6 +122,9 @@
   ExternalConnector.prototype._connect = function(evt) {
     evt.preventDefault();
 
+    w.removeEventListener('message', this._receiveMessage.bind(this));
+    w.addEventListener('message', this._receiveMessage.bind(this), false);
+
     var $connector = this.components.connectLink;
     this.$output = this.$output || $($connector.data('output'));
 
@@ -117,12 +137,14 @@
 
 
   ExternalConnector.prototype.init = function() {
+    this.defaultHost = this.components.connectLink.attr('data-hostname');
     this.$el
       .on('click', '.ext-connect', this._connect.bind(this))
       .on('change', '.ext-remove-selector', this._removeSelector.bind(this))
       .on('blur', '.ext-path', this._changePath.bind(this))
+      .on('change', '.input-addon-abs-path select', this._changeAbsolutePath.bind(this))
+      .on('change', '#absolute_url', this._toggleAbsolutePath.bind(this))
     ;
-    w.addEventListener('message', this._receiveMessage.bind(this), false);
   }
 
   // ExternalConnector PLUGIN DEFINITION

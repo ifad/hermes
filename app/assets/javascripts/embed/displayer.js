@@ -194,7 +194,7 @@ __hermes_embed.init_displayer = function($) {
 
     Displayer.prototype.displayTip = function(tip, elem) {
       var content = $(TIP_TEMPLATE),
-          container = ns.utils.checkFixedElement(elem);
+          container = ns.utils.checkFixedElement(elem, $);
       content
         .prepend(tip.content)
         .on('click', '.js--hermes-close', function (event) {
@@ -211,7 +211,7 @@ __hermes_embed.init_displayer = function($) {
           trigger: 'manual',
           title: tip.title,
           content: content,
-          container: ns.utils.checkFixedElement(elem)
+          container: ns.utils.checkFixedElement(elem, $)
         })
         .popover('show');
 
@@ -286,7 +286,7 @@ __hermes_embed.init_displayer = function($) {
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
       var content = $(TUTORIAL_TIP_TEMPLATE),
-          container = ns.utils.checkFixedElement(elem);
+          container = ns.utils.checkFixedElement(elem, $);
       content
         .find('.btn').hide().end()
         .prepend(tip.content)
