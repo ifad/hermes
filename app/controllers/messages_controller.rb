@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
 
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
 
-    @tutorials = @site.tutorials.published.noselector.within(@path).respecting(remote_user)
+    @tutorials_to_view = @site.tutorials.published.noselector.within(@path).respecting(remote_user)
     @tutorials_already_viewed = @site.tutorials.published.noselector.within(@path).not_respecting(remote_user)
     @tutorials_with_selector = @site.tutorials.published.withselector.within(@path)
 

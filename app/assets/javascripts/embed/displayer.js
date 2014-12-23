@@ -286,32 +286,37 @@ __hermes_embed.init_displayer = function($) {
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
       var content = $(TUTORIAL_TIP_TEMPLATE),
-          container = ns.utils.checkFixedElement(elem, $);
+          container = ns.utils.checkFixedElement(elem, $),
+          removePopover = function(){
+            elem.popover('destroy');
+            elem.off('.popover').removeData('bs.popover');
+            $('.popover').remove();
+            if (container !== 'body') {
+              container.removeClass('hermes-force-element-z-index')
+            }
+          };
       content
         .find('.btn').hide().end()
         .prepend(tip.content)
         .on('click', '.js--hermes-next', function() {
+          removePopover();
           tip.tutorial_ref.next();
         })
         .on('click', '.js--hermes-prev', function() {
+          removePopover();
           tip.tutorial_ref.prev();
         })
         .on('click', '.js--hermes-restart', function() {
+          removePopover();
           tip.tutorial_ref.restart();
         })
         .on('click', '.js--hermes-exit', function() {
+          removePopover();
           tip.tutorial_ref.end(true);
         })
         .on('click', '.js--hermes-end', function() {
+          removePopover();
           tip.tutorial_ref.end();
-        })
-        .on('click', '.js--hermes-end, .js--hermes-exit, .js--hermes-restart, .js--hermes-prev, .js--hermes-next', function(){
-          elem.popover('destroy');
-          elem.off('.popover').removeData('bs.popover');
-          $('.popover').remove();
-          if (container !== 'body') {
-            container.removeClass('hermes-force-element-z-index')
-          }
         });
 
       this.handleTutorialButtons(tip, content);

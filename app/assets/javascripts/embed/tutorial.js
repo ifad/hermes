@@ -47,6 +47,8 @@ __hermes_embed.init_tutorial = function($) {
     }
 
     Tutorial.prototype.checkPathAndDisplay = function(tip) {
+      // TODO , check also tutorial path_regexp, has to match current location
+      // to display correct tips on the same page!!
       if (!tip) {
         alert(ns.labels.noMoreTips);
         this.end();

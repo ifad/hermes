@@ -4,7 +4,7 @@ class Tip < ActiveRecord::Base
   include Politeness
   include PathScoping
   include RankedModel
-  include Validations
+  include PathValidations
 
   belongs_to :tippable, polymorphic: true, inverse_of: :tips
   belongs_to :tutorial, polymorphic: true

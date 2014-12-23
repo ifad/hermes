@@ -4,7 +4,7 @@ class Tutorial < ActiveRecord::Base
   include Politeness
   include PathScoping
   include SelectorChecking
-  include Validations
+  include PathValidations
 
   belongs_to :site, inverse_of: :tutorials
 

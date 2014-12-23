@@ -73,7 +73,7 @@ class TutorialsController < ApplicationController
         permit(:title, :published_at,
                :unpublished_at, :path, :position,
                :selector, :welcome_message,
-               :overlay, :progress_bar)
+               :overlay, :progress_bar, :path_re)
     end
 
     # This is a token to passed between the #tip-connector and the
