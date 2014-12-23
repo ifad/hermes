@@ -1,0 +1,104 @@
+.mixin-loop (@i) when (@i > 0) {
+  &:nth-child(@{i}) {
+    .animation-delay(@i*100ms);
+  }
+  .mixin-loop(@i - 1);
+}
+
+.entity {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid @gray-lighter;
+  background-color: rgba(255, 255, 255, .7);
+  padding: 20px;
+  .animation-duration(1s);
+  .mixin-loop(50);
+}
+
+.entity-title {
+  margin-top: 0;
+}
+
+.entity-title,
+.entity-path {
+  .ellipsistext();
+  width: 95%;
+}
+
+.entity-tip,
+.entity-broadcast {
+  padding-bottom: 40px;
+  &.entity-tip:before {
+    content: ' ';
+    position: absolute;
+    left: 50%;
+    margin-left: -6px;
+    bottom: 25px;
+    width: 0; height: 0;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    border-bottom: 6px solid rgba(238, 238, 238, .7);
+  }
+  &:after {
+    position: absolute;
+    left: -3px; right: -3px; bottom: 5px;
+    padding: 3px 0;
+    text-align: center;
+    font-size: 10px;
+  }
+  &.entity-tip:after {
+    left: 5px; right: 5px;
+    content: 'tip';
+    background-color: rgba(238, 238, 238, .7);
+    color: @gray-light;
+    border-radius: 5px;
+  }
+  &.entity-broadcast:after {
+    content: 'broadcast';
+    background-color: rgba(126, 176, 219, .35);
+    color: #fff;
+  }
+}
+
+.entity-sortable:hover {
+  cursor: move;
+}
+
+.entity-publication-range {
+  margin-bottom: 0;
+  margin-top: 20px;
+  color: lighten(@gray-light, 20%);
+}
+
+.tips-container {
+  counter-reset: tips-counter;
+}
+
+.entity-number {
+  position: absolute;
+  top: -15px;
+  left: 10px;
+  padding: 3px 8px;
+  background-color: rgba(222, 222, 222, .7);
+  border: 1px solid darken(@gray-lighter, 2%);
+  box-shadow: 0 1px 10px -2px rgba(0, 0, 0, .2);
+  color: lighten(@gray-light, 10%);
+  border-radius: 3px;
+  &:before {
+    content: counter(tips-counter);
+    counter-increment: tips-counter;
+  }
+}
+
+@media only screen and (min-width : @screen-sm) {
+  .entity {
+    display: inline-block;
+    vertical-align: top;
+    width: 30%;
+    margin: 1%;
+    border: 1px solid @gray-lighter;
+    &:hover {
+      border-color: darken(@gray-lighter, 10%);
+    }
+  }
+}

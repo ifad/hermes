@@ -6,7 +6,15 @@ class TipsController < ApplicationController
   before_filter :generate_xd_token, only: %w( new edit )
 
   def index
-    @tips = @site.tips.sort_by_row_order
+    @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
+    if @tutorial
+      @tips = Tip.where(tippable_id: @tutorial.id, tippable_type: 'Tutorial').sort_by_row_order
+    else
+      @tips = @site.tips.sort_by_row_order
+    end
+    if @tips.blank?
+      redirect_to @tutorial ? new_site_tutorial_tip_path(@site, @tutorial) : new_site_tip_path(@site)
+    end
   end
 
   def show
@@ -14,16 +22,22 @@ class TipsController < ApplicationController
 
   def new
     @tip = @site.tips.new
+    @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
   end
 
   def create
+    @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id]
     @tip = @site.tips.new(tip_params)
-
     if @tip.save
-      redirect_to site_tips_path(@site)
+      @tutorial.tips << @tip if @tutorial
+      redirect_to @tutorial ? site_tutorial_tips_path(@site, @tutorial) : site_tips_path(@site)
     else
       flash.now[:error] = 'There was an error saving your message.'
-      render :new
+      if @tutorial
+        render :new, tutorial_id: params[:tutorial_id]
+      else
+        render :new
+      end
     end
   end
 
@@ -32,9 +46,13 @@ class TipsController < ApplicationController
 
   def update
     if @tip.update_attributes(tip_params)
-      redirect_to site_tips_path(@site), :notice => "Message '#{@tip.title}' saved"
+      if @tutorial
+        redirect_to site_tutorial_tips_path(@site, @tutorial), :notice => "Message '#{@tip.title}' for tutorial '#{@tutorial.title}' saved"
+      else
+        redirect_to site_tips_path(@site), :notice => "Message '#{@tip.title}' saved"
+      end
     else
-      flash.now[:error] = 'There was an error updating your message'.
+      flash.now[:error] = 'There was an error updating your message.'
       render :edit
     end
   end
@@ -42,7 +60,9 @@ class TipsController < ApplicationController
   def destroy
     @tip.destroy
 
-    render js: "$('##{dom_id(@tip)}').hide('fade');"
+    respond_to do |format|
+      format.js
+    end
   end
 
   # Sets the given tip position
@@ -67,15 +87,18 @@ class TipsController < ApplicationController
     end
 
     def find_tip
-      @tip = @site.tips.find(params[:id])
+      @tutorial = Tutorial.find(params[:tutorial_id]) if params[:tutorial_id].present?
+      @tip = @tutorial ? @tutorial.tips.find(params[:id]) : @site.tips.find(params[:id])
     end
 
     def tip_params
       params.require(:tip).permit(
         :title, :content, :published_at, :path,
-        :unpublished_at, :selector, :position, :redisplay
+        :unpublished_at, :selector, :position, :redisplay,
+        :tutorial_id, :site_host_ref
       ).tap do |params|
         params[:redisplay] = nil if params[:redisplay] === '0'
+        params[:site_host_ref] = nil unless @tutorial
       end
     end
 
@@ -87,6 +110,6 @@ class TipsController < ApplicationController
     # is only used to pass the opener scheme to postMessage.
     #
     def generate_xd_token
-      @tip_connector_token = "#hermes-authoring,#{request.scheme}"
+      @tip_connector_token = "authoring"
     end
 end

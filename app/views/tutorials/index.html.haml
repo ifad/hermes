@@ -1,14 +1,15 @@
-%div
-  %h1= title @site.name, 'Tutorials'
-  = link_to(new_site_tutorial_path(@site), :class => 'btn btn-primary') do
-    %i.icon-list-alt
-    Create Tutorial
-  %table.table.table-hover
-    %thead
-      %tr
-        %th Title
-        %th From
-        %th To
-        %th
-    %tbody
+.tutorial-collection{data: {view: 'tutorial-collection'}}
+  .tutorial-collection-top
+    %p.text-center.animated.fadeInUp
+      = link_to "New Tutorial", new_site_tutorial_path(@site), :class => 'btn btn-primary btn-lg'
+    - if @tutorials.any?
+      %h3.animated.fadeInDown All tutorials:
+  - if @tutorials.any?
+    .tutorials-container
       = render @tutorials
+  .hero-unit.text-center{class: @tutorials.any? ? 'hide' : 'animated bounceIn'}
+    %h3 No tutorials for this site yet!
+    %p
+      Start adding tutorials to your site by clicking the button below.
+    %p
+      = link_to "Add a tutorial", new_site_tutorial_path(@site), class: 'btn btn-lg btn-primary'

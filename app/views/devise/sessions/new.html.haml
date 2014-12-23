@@ -1,16 +1,19 @@
 .user-meta
-  = image_tag 'hermes-logo.png', class: 'logo'
-  %h3 Hermes
-  %h4 Sign in
-  = form_for resource, :as => resource_name, :url => session_path(resource_name) do |f|
-    .form-group
-      = f.email_field :email, :autofocus => true, placeholder: 'email...', class: 'form-control input-lg'
-    .form-group
-      = f.password_field :password, placeholder: 'password...', class: 'form-control input-lg'
-    .checkbox
-      - if devise_mapping.rememberable?
-        = f.label :remember_me do
-          = f.check_box :remember_me
-          Remember me
-    = f.button "Sign in", class: "btn btn-block"
-  = render 'devise/shared/links'
+  .user-meta-head.animated.fadeInUp
+    = logo_big
+    %h3 Hermes
+    %h4 Sign in
+  .user-meta-content.animated.zoomInUp
+    = form_for resource, :as => resource_name, :url => session_path(resource_name) do |f|
+      .form-group
+        = f.email_field :email, :autofocus => true, placeholder: 'email...', class: 'form-control input-lg input-transparent'
+      .form-group
+        = f.password_field :password, placeholder: 'password...', class: 'form-control input-lg input-transparent'
+      .checkbox
+        - if devise_mapping.rememberable?
+          = f.label :remember_me do
+            = f.check_box :remember_me
+            Remember me
+      .form-group
+        = f.button "Sign in", class: "btn btn-block btn-success"
+    = render 'devise/shared/links'

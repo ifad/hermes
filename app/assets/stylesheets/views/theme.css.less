@@ -1,0 +1,104 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.02em;
+  color: rgba(0,0,0,0.8);
+  font-family: 'Open Sans', sans-serif;
+  background-color: #fff;
+  padding-top: 70px;
+}
+
+html.not_logged_in {
+  body {
+    // background: @lightblue-smoke image-url('hermes-wing.png') no-repeat right 100px;
+    background: image-url('sky.jpg') no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  .navbar-default {
+    background-color: rgba(255, 255, 255, .5);
+    border: none;
+    -webkit-animation-delay: 1.5s;
+    -moz-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: rgba(0, 0, 0, .7);
+  font-weight: 200;
+}
+
+.navbar-default {
+  background-color: rgba(255, 255, 255, .95);
+  border-bottom: 1px solid @gray-lighter;
+  .navbar-btn {
+    margin-right: 5px;
+  }
+}
+
+.courier {
+  font-family: Courier new;
+  font-size: .7em;
+}
+
+.homepage-cover-img {
+  position: fixed;
+  .square(200%);
+  left: -50%;
+  top: -50%;
+  img {
+    display: block;
+    margin: auto;
+    min-width: 50%;
+    min-height: 55%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  img {
+
+  }
+}
+
+.homepage-cover-img.layer-1 {
+  img {
+    -moz-animation: cloudsMobile 50s linear infinite;
+    -webkit-animation: cloudsMobile 50s linear infinite;
+    animation: cloudsMobile 50s linear infinite;
+  }
+}
+
+.homepage-cover-img.layer-2 {
+  top: -60%;
+  img {
+    -moz-animation: cloudsMobile 20s linear infinite reverse;
+    -webkit-animation: cloudsMobile 20s linear infinite reverse;
+    animation: cloudsMobile 20s linear infinite reverse;
+  }
+}
+
+@media only screen and (min-width : @screen-md) {
+  .homepage-cover-img.layer-1 img {
+    -moz-animation: clouds 50s linear infinite;
+    -webkit-animation: clouds 50s linear infinite;
+    animation: clouds 50s linear infinite;
+  }
+  .homepage-cover-img.layer-2 img {
+    -moz-animation: clouds 20s linear infinite reverse;
+    -webkit-animation: clouds 20s linear infinite reverse;
+    animation: clouds 20s linear infinite reverse;
+  }
+}

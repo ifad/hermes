@@ -1,0 +1,24 @@
+.modal.fade.modal-deal#new-site-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+        %h4.modal-title Add a new site
+      = form_for Site.new, remote: true do |f|
+        .modal-body
+          .form-group
+            = f.text_field :name, { :class => 'form-control input-lg input-transparent', placeholder: 'Type a name for the site' }
+          .form-group
+            = f.text_field :hostname , { :class => 'form-control input-lg input-transparent', placeholder: 'Type the path of the site' }
+          .form-group
+            %span.help-block
+              Hint: don't forget to add the
+              %code hermes
+              script to your site!
+        .modal-footer
+          %button.btn.btn-success.btn-lg
+            Add site
+
+     

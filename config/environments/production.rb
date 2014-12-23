@@ -23,7 +23,7 @@ Hermes::Application.configure do
   config.serve_static_assets = false
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -55,7 +55,7 @@ Hermes::Application.configure do
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  #config.action_controller.asset_host = '//antani.r13.railsrumble.com'
+  config.action_controller.asset_host = 'https://hermes.ifad.org'
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
@@ -77,9 +77,4 @@ Hermes::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-
-  config.middleware.use ExceptionNotifier,
-    :email_prefix => "[HERMES] ",
-    :sender_address => %{hermes@antani.r13.railsrumble.com},
-    :exception_recipients => %w{antani-r13@googlegroups.com}
 end

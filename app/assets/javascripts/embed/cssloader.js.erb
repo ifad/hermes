@@ -1,0 +1,10 @@
+!(function(w, d){
+  'use strict';
+
+  var style = d.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = "<%= ActionView::Base.new.escape_javascript(File.read('app/assets/stylesheets/hermes.css').gsub("\n", '')) %>";
+
+  (d.getElementsByTagName('head')[0] || d.documentElement).appendChild(style);
+
+})(this, document);

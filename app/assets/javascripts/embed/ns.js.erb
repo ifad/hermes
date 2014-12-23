@@ -1,0 +1,14 @@
+!(function(w, h){
+  'use strict';
+
+  var s = document.querySelector('#hermes_script_embed');
+  h = w.__hermes_embed = {};
+  h.assets = {
+    logo: "<%= asset_url('hermes-logo.png') %>"
+  };
+  h.host = "<%= compute_asset_host %>";
+  h.site_ref = s ? s.dataset.ref : w.location.origin;
+  h.env = "<%= Rails.env %>";
+  h.DOM = {} // shortcut to get HERMES dom nodes (+ cache)
+
+})(this);

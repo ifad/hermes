@@ -1,14 +1,54 @@
-%div
-  = f.label :title
-  = f.text_field :title
-%div
-  = f.label :path
-  = f.text_field :path
-%div
-  = f.label :published_at, 'Publishing starts'
-  = f.text_field :published_at, :class => "datepicker span2"
-%div
-  = f.label :unpublished_at, 'Publishing ends'
-  = f.text_field :unpublished_at, :class => "datepicker span2"
-%div
-  = f.submit 'Save!'
+.form-group
+  = f.text_field :title, class: 'form-control input-transparent-no-border input-lg', placeholder: 'Type the title of the tutorial'
+.form-group
+  = f.hidden_field :welcome_message, class: 'textarea-target'
+  .textarea-editable{data: {placeholder: 'Type a welcome message, if you want. Select text to change style'}}= f.object.welcome_message.html_safe if f.object.welcome_message
+.form-group
+  = render 'path_error', errors: f.object.errors
+  .input-group
+    .input-group-addon.input-group-addon-text= @site.hostname.gsub(/\/$/, '')
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
+  %p.form-control-help.text-right
+    insert the path where the tutorial will be displayed (<b>/</b> default). It can also be a regexp.
+.checkbox
+  %label
+    = f.check_box :overlay
+    Show semi-transparent overlay
+.checkbox
+  %label
+    = f.check_box :progress_bar
+    Show progress bar during tutorial
+.row
+  .col-md-6
+    .form-group
+      .input-group.date.datetimepicker
+        = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+        %span.input-group-addon
+          %span.fa.fa-calendar
+  .col-md-6
+    .form-group
+      .input-group.date.datetimepicker
+        = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+        %span.input-group-addon
+          %span.fa.fa-calendar
+
+%p Activate tutorial on click to item in the page
+.form-group
+  .btn-group{"data-toggle" => "buttons"}
+    %label.btn.btn-default{class: f.object.selector.present? ? '' : 'active'}
+      %input.ext-remove-selector{:"data-output" => "#selector-connected", :name => "selector", :type => "radio", checked: f.object.selector.blank?}
+      No
+    %label.btn.btn-default.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
+      %input{"data-output" => "#selector-connect", :name => "selector", :type => "radio", checked: f.object.selector.present?}
+      = link_to 'Connect', [@site.url, f.object.path].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tutorial_connector_token, :'data-output' => '#selector-connected'
+      Yes
+      %span#selector-connected{:class => f.object.selector.blank? ? 'hide' : ''}
+        %i.fa.fa-check
+        Connected!
+        = f.hidden_field :selector
+.form-actions.text-center
+  %p
+    - if f.object.persisted?
+      = f.button 'Update', class: 'btn btn-success btn-lg'
+    - else
+      = f.button 'Create', class: 'btn btn-success btn-lg'

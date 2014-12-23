@@ -1,16 +1,24 @@
+// require libs/plugins
 //= require jquery
 //= require jquery_ujs
+//= require jquery.autosize
 //= require jquery-ui/sortable
 //= require jquery-ui/draggable
 //= require jquery-ui/effect-highlight
 //= require twitter/bootstrap
-//= require bootstrap
+//= require classlist-polyfill
+//= require moment
 //= require bootstrap-datetimepicker
-//= require bootstrap-wysihtml5
-//= require toggler
-//= require tip-connector
 //= require data-confirm-modal
+//= require medium-editor
+//= require zeroclipboard
+//= require jquery.placeholder
 
-//= require main
+// require own plugins
+//= require_directory ./plugins
 
-// TO TEST -> http://jsfiddle.net/xboehvvs/1/ @TODO
+// require views (main should always be the last, order for others doesn't matter)
+//= require views/tip-collection
+//= require views/tutorial-collection
+//= require views/entity-edit
+//= require views/main

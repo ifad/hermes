@@ -1,0 +1,28 @@
+.dropdown-menu {
+  border: none;
+  > li {
+    > a {
+      color: @gray;
+      padding: 8px 15px;
+    }
+  }
+  .divider {
+    margin: 0;
+  }
+}
+
+.dropdown-toggle {
+  .caret {
+    .transition(all .2s);
+  }
+}
+
+.open {
+  > .dropdown-menu {
+    .transform-origin(center center);
+    .animation(dropdownIn .2s @outBack);
+  }
+  .caret {
+    .transform(rotate(180deg));
+  }
+}

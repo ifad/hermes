@@ -1,10 +1,41 @@
-%div
-  %h3= title "Site #{@site.name}"
-  %dl.dl-horizontal
-    %dt Host name
-    %dd= @site.hostname
-    %dt Tips
-    %dd= link_to pluralize(@site.tips.count, 'tip'), site_tips_path(@site)
-    /
-      dt>Tutorials</dt>
-      <dd><haml:loud> link_to pluralize(@site.tutorials.count, &amp;#39;tutorial&amp;#39;), site_tutorials_path(@site) </haml:loud></dd
+.col-md-8.col-md-offset-2.animated.fadeInUp
+  %h1
+    %b= @site.name
+  %h2= @site.hostname
+  %p
+    = link_to edit_site_path(@site), remote: true, class: 'btn btn-primary btn-sm' do
+      edit
+    = link_to site_path(@site), method: :delete, remote: true, class: 'btn btn-danger btn-sm', :'data-confirm' => 'This action will remove your site'  do
+      delete
+  .row
+    .col-md-6
+      %p.text-center
+        = link_to site_tutorials_path(@site) do
+          = pluralize(@site.tutorials.count, 'tutorial')
+      = link_to new_site_tutorial_path(@site), class: 'btn btn-primary btn-block btn-lg' do
+        New tutorial
+    .col-md-6
+      %p.text-center
+        = link_to site_tips_path(@site) do
+          = pluralize(@site.tips.count, 'tip')
+      = link_to new_site_tip_path(@site), class: 'btn btn-primary btn-block btn-lg' do
+        New Tip
+  %br
+  - if params[:just_created].present?
+    .alert.alert-warning.text-center
+      <b>heads up</b>: don't forget to add the hermes script below
+  %p
+    Add the following code to the pages of <span class="label-primary label">#{@site.hostname}</span>, inside your JavaScript/CoffeeScript. Preferably inside the <a href="http://api.jquery.com/ready/" target="_blank">domready</a> and <b>after</b> your app initialization.
+  .embed-element
+    %pre#embed_dynamic
+      (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','#{@site.hostname}');s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));
+    %button.btn.btn-primary.copy-element.btn-xs{:'data-clipboard-target' => "embed_dynamic"}
+      copy
+  <b>or</b>, <br> insert it statically just before the ending
+  %code &lt;/body&gt;
+  tag and <b>after</b> your page scripts:
+  .embed-element
+    %pre#embed_static
+      &lt;script src="#{hermes_embed_url}" id="hermes_script_embed" data-ref="#{@site.hostname}"&gt;&lt;/script&gt;
+    %button.btn.btn-primary.copy-element.btn-xs{:'data-clipboard-target' => "embed_static"}
+      copy

@@ -1,0 +1,67 @@
+.boxed {
+  position: relative;
+  padding: 10px;
+  background: #fff;
+  border-radius: 0;
+  border: 1px solid;
+  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.hermes-title {
+  font-family: 'Lobster', cursive;
+  color: #EFAD2B;
+  text-align: center;
+}
+
+.transition (@transition) {
+  -webkit-transition: @transition;
+  -moz-transition:    @transition;
+  -ms-transition:     @transition;
+  -o-transition:      @transition;
+}
+
+.transform-origin (@x:center, @y:center) {
+  -webkit-transform-origin: @x @y;
+  -moz-transform-origin:    @x @y;
+  -ms-transform-origin:     @x @y;
+  -o-transform-origin:      @x @y;
+}
+
+.transform(...) {
+  -webkit-transform: @arguments;
+  -moz-transform:    @arguments;
+  -ms-transform:     @arguments;
+  -o-transform:      @arguments;
+  transform:         @arguments;
+}
+
+.box-shadow (@string) {
+  -webkit-box-shadow: @string;
+  -moz-box-shadow:    @string;
+  box-shadow:         @string;
+}
+
+.animation (@name, @duration: 300ms, @delay: 0, @ease: ease) {
+  -webkit-animation: @name @duration @delay @ease;
+  -moz-animation:    @name @duration @delay @ease;
+  -ms-animation:     @name @duration @delay @ease;
+}
+
+.gradient (@startColor: #eee, @endColor: white) {
+  background-color: @startColor;
+  background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+  background: -webkit-linear-gradient(top, @startColor, @endColor);
+  background: -moz-linear-gradient(top, @startColor, @endColor);
+  background: -ms-linear-gradient(top, @startColor, @endColor);
+  background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.ellipsistext {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

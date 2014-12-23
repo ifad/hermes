@@ -1,4 +1,3 @@
-%h3
-  = title @site.name, "Edit message '#{@tip.title}'"
-= form_for @tip, :url => site_tip_path(@site, @tip), html: { role: 'form' } do |f|
-  = render 'form', :f => f
+.col-md-8.col-md-offset-2.tip-edit{data: {view: 'entity-edit'}}
+  = form_for @tip, :url => @tutorial ? site_tutorial_tip_path(@site, @tutorial, @tip) : site_tip_path(@site, @tip), html: { role: 'form' } do |f|
+    = render 'form', :f => f

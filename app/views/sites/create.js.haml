@@ -1,5 +1,6 @@
 - if @site.persisted?
   $('#new-site-modal').modal('hide');
-  window.location.reload();
+  window.location.href = '#{site_path(@site)}?just_created=true';
 - else
-  alert('Oh, snap! Check your entry.');
+  alert('Oh Snap :(! It seems your entry is invalid. Maybe another site entry has the same path?');
+  $('#site_hostname').focus();

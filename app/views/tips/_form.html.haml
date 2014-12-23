@@ -1,46 +1,63 @@
 .form-group
-  = f.text_field :title, class: 'form-control', placeholder: 'Title'
+  = f.text_field :title, class: 'form-control input-transparent-no-border input-lg', placeholder: 'Type the title of the tip'
 .form-group
-  = f.text_area :content, class: 'form-control wysihtml5', rows: 8, placeholder: 'Content'
+  = f.hidden_field :content, class: 'textarea-target'
+  .textarea-editable{data: {placeholder: 'Type the content of the tip. Select text to change style'}}= f.object.content.html_safe if f.object.content
 .form-group
-  = f.label :path
-  = f.text_field :path, :'data-tip-connect-path' => '#tip-connector', class: 'form-control', id: 'tip-path'
+  = render 'path_error', errors: f.object.errors
+  .input-group
+    .input-group-addon.input-group-addon-text.input-addon-current-path{class: f.object.site_host_ref.present? ? 'hide' : ''}= current_path
+    - if @tutorial
+      .input-group-addon.input-group-addon-text.input-addon-abs-path{class: f.object.site_host_ref.present? ? '' : 'hide'}= site_path_select(f)
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path : f.object.path
+  %p.form-control-help.text-right
+    insert the path where the tip will be displayed (<b>/</b> default).
+    - unless @tutorial
+      It can also be a regexp.
+- if @tutorial
+  .checkbox
+    = label_tag :absolute_url do
+      = check_box_tag :absolute_url, '', f.object.site_host_ref.present?
+      Absolute url (Just available for your sites. The target url <b>must</b> contain the hermes script)
+- unless @tutorial
+  .row
+    .col-md-6
+      .form-group
+        .input-group.date.datetimepicker
+          = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+          %span.input-group-addon
+            %span.fa.fa-calendar
+    .col-md-6
+      .form-group
+        .input-group.date.datetimepicker
+          = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss"
+          %span.input-group-addon
+            %span.fa.fa-calendar
 .form-group
   %label
     Layout type
   %div
     .btn-group{"data-toggle" => "buttons"}
-      %label.btn.btn-primary{class: f.object.selector.blank? ? 'active' : ''}
-        %input#tip-broadcast{"data-output" => "#tip-connected", :name => "broadcast", :type => "radio", checked: f.object.selector.blank?}
+      %label.btn.btn-default{class: f.object.selector.blank? ? 'active' : ''}
+        %input.ext-remove-selector{"data-output" => "#tip-connected", :name => "broadcast", :type => "radio", checked: f.object.selector.blank?}
         Broadcast
-      %label.btn.btn-primary#tip-connect-label{class: f.object.selector.blank? ? '' : 'active'}
+      %label.btn.btn-default.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
         %input{"data-output" => "#tip-connect", :name => "broadcast", :type => "radio", checked: f.object.selector.present?}
         Bound to item in the page
-        = link_to 'Connect', [f.object.tippable.url, f.object.path, @tip_connector_token].join, :id => 'tip-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => f.object.tippable.url, :'data-token' => @tip_connector_token, :'data-output' => '#tip-connected'
+        = link_to 'Connect', [@site.url, f.object.path].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @tip_connector_token, :'data-output' => '#tip-connected'
         %span#tip-connected{:class => f.object.selector.blank? ? 'hide' : ''}
-          %i.icon.icon-ok
+          %i.fa.fa-check
           Connected!
           = f.hidden_field :selector
-        
-.form-group
-  .input-group.datetimepicker
-    = f.text_field :published_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing starts', class: 'form-control'
-    %span.input-group-addon.add-on
-      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
 
-.form-group
-  .input-group.datetimepicker
-    = f.text_field :unpublished_at, 'data-format' => "yyyy-MM-dd hh:mm:ss", placeholder: 'Publishing ends', class: 'form-control'
-    %span.input-group-addon.add-on
-      %i{"data-date-icon" => "icon-calendar", "data-time-icon" => "icon-time"}
-
-- if f.object.persisted?
+- if f.object.persisted? && !@tutorial
   .checkbox
     = f.label :redisplay do
       = f.check_box :redisplay
       Check to redisplay the message
-.form-actions
-  - if f.object.persisted?
-    = f.button 'Update message', class: 'btn btn-primary'
-  - else
-    = f.button 'Create new message', class: 'btn btn-primary'
+.form-actions.text-center
+  %p
+    - if f.object.persisted?
+      = f.button 'Update', class: 'btn btn-success btn-lg'
+    - else
+      = f.button 'Create', class: 'btn btn-success btn-lg'

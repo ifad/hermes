@@ -1,0 +1,31 @@
+.modal.fade.modal-deal#general-broadcast-modal{data: {view: 'entity-edit'}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+        %h4.modal-title Add a new general broadcast for every website
+      = form_for Tip.new, :url => general_broadcast_path, method: :post, remote: true, html: { role: 'form' }  do |f|
+        .modal-body
+          .form-group
+            = f.text_field :title, class: 'form-control input-transparent-no-border input-lg', placeholder: 'Type the title of the broadcast', id: :general_broadcast_title
+          .form-group
+            = f.hidden_field :content, class: 'textarea-target', id: :general_broadcast_content
+            .textarea-editable{data: {placeholder: 'Type the content of the broadcast. Select text to change style'}}
+          .row
+            .col-md-6
+              .form-group
+                .input-group.date.datetimepicker
+                  = f.text_field :published_at, placeholder: 'Publishing starts', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss", id: :general_broadcast_published
+                  %span.input-group-addon
+                    %span.fa.fa-calendar
+            .col-md-6
+              .form-group
+                .input-group.date.datetimepicker
+                  = f.text_field :unpublished_at, placeholder: 'Publishing ends', class: 'form-control input-transparent', 'data-date-format' => "YYYY-MM-DD hh:mm:ss", id: :general_broadcast_unpublished
+                  %span.input-group-addon
+                    %span.fa.fa-calendar
+        .modal-footer
+          %button.btn.btn-success.btn-lg
+            Create a general broadcast

@@ -9,14 +9,11 @@
     /[if lt IE 9]
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
     = stylesheet_link_tag "application", :media => "all"
-    = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
-    = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
-    = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
-    = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     = yield :head
-    %link{:href => "//fonts.googleapis.com/css?family=Lato:300,400,700", :rel => "stylesheet", :type => "text/css"}
-    %link{:href => "//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css", :rel => "stylesheet"}    
+    %link{:href => "//fonts.googleapis.com/css?family=Open+Sans:400,300,600", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "//fonts.googleapis.com/css?family=Lobster", :rel => "stylesheet", :type => "text/css"}
+
     :javascript
       // the app namespace
       !function(w) {
@@ -24,44 +21,27 @@
         HERMES.env = "#{Rails.env}";
       }(this);
   %body
-    = render 'new_site'
-    .navbar.navbar-default{role: :navigation}
+    - unless user_signed_in?
+      .homepage-cover-img.layer-1= image_tag 'animated-clouds.png'
+      .homepage-cover-img.layer-2= image_tag 'animated-clouds.png'
+    = render 'new_site_modal' if user_signed_in?
+    = render 'general_broadcast_modal' if user_signed_in?
+    .navbar.navbar-default.navbar-fixed-top{role: :navigation, class: user_signed_in? ? '' : 'animated fadeInDown'}
       .container-fluid
         .navbar-header
           = logo
-        - if user_signed_in?
-          %ul.nav.navbar-nav.navbar-right
-            %li
-              = link_to '#new-site-modal', :'data-toggle' => 'modal' do
-                %i.icon-plus
-                Add new site
-            - if Site.by_user(current_user).any?
-              %li.dropdown
-                %a.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
-                  Your sites
-                  %b.caret
-                %ul.dropdown-menu
-                  = render Site.by_user(current_user)
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                = image_tag gravatar(current_user.email, 25), size: "25x25"
-                = current_user.email
-                %b.caret
-              %ul.dropdown-menu
-                %li
-                  = link_to 'Logout', destroy_user_session_path, method: :delete
+        = render 'sites_list' if user_signed_in?
+    = render 'breadcrumb' if user_signed_in?
     .container
       .row
+        = bootstrap_flash
         - if user_signed_in?
-          .col-md-12
-            = bootstrap_flash
-            = render 'edit_site'
-            -# = render 'side' if current_user
-            = yield
+          = render 'edit_site_modal'
+          = yield
         - else
-          .col-md-7
-            = bootstrap_flash
-            = render 'welcome'
-          .col-md-3
-            = yield
+          .col-md-7.col-md-offset-1= render 'welcome'
+          .col-md-3= yield
+      - unless user_signed_in?
+        .row.text-center.ifad-logo-wrapper.animated.fadeIn
+          = image_tag 'ifad.png', width: 200, height: 122
     = javascript_include_tag "application"

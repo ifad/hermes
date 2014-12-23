@@ -1,3 +1,3 @@
-%h1= title @site.name, 'New tutorial'
-= form_for @tutorial, :url => site_tutorials_path(@site) do |f|
-  = render 'form', :f => f
+.col-md-8.col-md-offset-2.tutorial-edit{data: {view: 'entity-edit'}}
+  = form_for @tutorial, :url => site_tutorials_path(@site), html: { role: 'form' } do |f|
+    = render 'form', :f => f

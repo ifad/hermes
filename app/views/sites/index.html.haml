@@ -1,29 +1,22 @@
-.welcome
-  = image_tag 'hermes-logo.png'
-  %h3 Welcome to Hermes
-.explain
-  %p
-    To set up Hermes for your website, add the following code to your pages
-    just before the ending
-    %code &lt;/body&gt;
-    tag:
-  %pre
-    &lt;script src="#{root_url + 'assets/hermes.js'}"&gt;&lt;/script&gt;
-  %p or you can dinamically import it via JavaScript:
-  %pre
-    (function(t,d,s){s=d.createElement('script'),l=d.scripts[0];s.src='#{root_url + 'assets/hermes.js'}';l.parentNode.insertBefore(s,l)}(this,document));
-  %p
-    Then
-  %p.text-center
-    = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
-      %i.icon-plus
-      Add new site
-.explain
-  %p
-    Once you added a site, you can add as many messages as you wish to it: they will be shown to your visitor until they dismiss them.
-  %p
-    You can decide, for every single message:
-  %ul
-    %li the publishing time frame
-    %li the visualization order (for multiple messages on one page)
-    %li the layout type (broadcast message or tooltip bound to a specific page element)
+- if any_sites?
+  .col-md-3.animated.fadeInLeft.main-side= render 'side'
+.animated.fadeInUp.main-index{class: any_sites? ? 'col-md-9' : ''}
+  .welcome
+    %h2
+      Hey there, I'm
+      = logo_big
+      %span.hermes-title Hermes
+    %h4 Below I'll give you just a few simple hints to set me up for your website
+  .explain
+    %ul.rules
+      %li
+        = link_to '#new-site-modal', class: 'btn btn-primary btn-lg', :'data-toggle' => 'modal' do
+          Add new site
+      %li Once you added a site, remember to include the script on your page(s)
+      %li
+        %p Then, BOOM! You can finally create:
+        %ul
+          %li <b>Tips</b>: they will be shown to your visitors until they dismiss them. They can be bound to particular elements or they can be shown as broadcasts.
+          %li <b>Tutorials</b>: collections of tips/broadcasts that will be shown to the visitors sequentially.
+      %li
+        Happy delivery, by Hermes! :)

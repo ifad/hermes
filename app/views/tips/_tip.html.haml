@@ -1,14 +1,15 @@
-%tr{"data-id" => tip.id, :id => dom_id(tip)}
-  %td
-    %i.icon-reorder
-    = link_to tip.title, edit_site_tip_path(@site, tip)
-  %td= l tip.published_at
-  %td= l tip.unpublished_at
-  %td{:style => "text-align: right"}
-    .btn-group
-      = link_to "http://#{@site.hostname}#{tip.path}#hermes-preview,#{message_path(tip.class.model_name.param_key, tip.id)}", class: 'btn btn-default btn-sm', target: '_blank' do
-        %i.icon-eye-open
-      = link_to edit_site_tip_path(@site, tip), class: 'btn btn-default btn-sm' do
-        %i.icon-edit
-      = link_to site_tip_path(@site, tip), remote: true, method: :delete, :'data-confirm' => 'This action will delete your message.', class: 'btn btn-default btn-sm' do
-        %i.icon-remove
+.entity.entity-sortable.animated.fadeIn{class: tip.selector.present? ? 'entity-tip' : 'entity-broadcast', "data-tip-id" => tip.id, id: dom_id(tip)}
+  %span.entity-number
+  %h4.entity-title= link_to tip.title, edit_tip_link(tip)
+  %p.small.courier
+    = (tip.site_host_ref.present? ? tip.site_host_ref : @site.hostname) + tip.path
+  .list-group-item-actions
+    = link_to edit_tip_link(tip), class: 'btn btn-primary btn-xs' do
+      %i.fa.fa-pencil
+    = link_to destroy_tip_link(tip), remote: true, method: :delete, :'data-confirm' => 'This action will delete your tutorial.', class: 'btn btn-danger btn-xs' do
+      %i.fa.fa-trash
+    = preview_tip_link tip
+  - unless @tutorial
+    %p.small.text-center.entity-publication-range
+      %i.glyphicon.glyphicon-time
+      = "#{l tip.published_at} - #{l tip.unpublished_at}"

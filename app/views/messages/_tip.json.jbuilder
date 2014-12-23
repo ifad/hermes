@@ -11,3 +11,5 @@ end
 json.id      tip.id
 json.title   tip.title
 json.content tip.content
+json.path    tip.path
+json.ext_site tip.site_host_ref

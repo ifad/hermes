@@ -5,16 +5,15 @@
   %h4.modal-title Edit an existing site
 = form_for site, method: :put, remote: true do |f|
   .modal-body
-    %div
-      = f.text_field :name, { :class => 'form-control input-lg', placeholder: 'Name' }
-      %span.help-block Enter a name for the site you are adding.
-    %div
-      = f.text_field :hostname , { :class => 'form-control input-lg', placeholder: 'Address' }
-      %span.help-block Enter the URL for the site you are adding.
-    %div
+    .form-group
+      = f.text_field :name, { :class => 'form-control input-lg input-transparent', placeholder: 'Type a name for the site' }
+    .form-group
+      = f.text_field :hostname , { :class => 'form-control input-lg input-transparent', placeholder: 'Type the path of the site' }
+    .form-group
       %span.help-block
         Hint: don't forget to add the
-        %code hermes.js
+        %code hermes
         script to your site!
   .modal-footer
-    = f.submit 'Update site', class: 'btn btn-primary'
+    %button.btn.btn-success.btn-lg
+      Update site

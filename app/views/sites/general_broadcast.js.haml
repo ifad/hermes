@@ -1,0 +1,6 @@
+- if @saved
+  $('#general-broadcast-modal').modal('hide');
+  window.location.href = '#{root_path}';
+- else
+  $('#general_broadcast_title').focus();
+  alert('Oh, snap! Insert title and content.');

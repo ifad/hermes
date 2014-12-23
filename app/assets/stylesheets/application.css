@@ -9,46 +9,12 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require animate
  *= require font-awesome
- *= require bootstrap_and_overrides
  *= require jquery-ui/core
  *= require jquery-ui/theme
  *= require bootstrap-datetimepicker
- *= require bootstrap-wysihtml5
- *= require style
+ *= require medium-editor/medium-editor
+ *= require medium-editor/themes/flat
+ *= require views/main
  */
-
-.nav-list li {
-  position: relative;
-}
-
-.nav-list .actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-}
-
-#sites-list a:hover {
-  text-decoration: none;
-}
-
-.nav-list .remove:hover {
-  text-decoration: none;
-  color: red;
-}
-
-.nav-list .edit:hover {
-  text-decoration: none;
-  color: green;
-}
-
-#tips-list .icon-reorder {
-  margin-right: 10px;
-  cursor: move;
-}
-
-.support-links {
-  border-top: 1px solid #EEE;
-  font-size: 0.85em;
-}

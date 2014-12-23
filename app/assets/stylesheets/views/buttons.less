@@ -1,0 +1,50 @@
+.btn,
+a {
+  -webkit-transition: -webkit-transform .2s @cubic;
+  -moz-transition:    -moz-transform .2s @cubic;
+  -ms-transition:     -ms-transform .2s @cubic;
+  -o-transition:      -o-transform .2s @cubic;
+  transition:         transform .2s @cubic;
+  &:active {
+    .transform(scale(.98));
+  }
+}
+
+.btn {
+  border-radius: 999em;
+}
+
+.btn-primary {
+  .button-variant(lighten(@brand-primary, 15%), #fff, lighten(@brand-primary, 20%));
+  &:hover {
+    background-color: transparent;
+    border-color: @brand-primary;
+  }
+}
+
+html:not(.not_logged_in) {
+  .btn-success {
+    .button-variant(lighten(@brand-success, 15%), #fff, lighten(@brand-success, 20%));
+    &:hover {
+      background-color: transparent;
+      border-color: @brand-success;
+    }
+  }
+
+  .btn-danger {
+    .button-variant(lighten(@brand-danger, 15%), #fff, lighten(@brand-danger, 20%));
+    &:hover {
+      background-color: transparent;
+      border-color: @brand-danger;
+    }
+  }
+
+  .btn-default {
+    .button-variant(lighten(@gray-light, 15%), #fff, lighten(@gray-light, 20%));
+    &:hover {
+      background-color: transparent;
+      border-color: @gray-light;
+    }
+  }
+
+}

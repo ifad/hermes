@@ -2,21 +2,38 @@
 # The remote site is identified through the HTTP Referer header.
 #
 class MessagesController < ApplicationController
-  before_filter :require_callback
 
+  before_filter :require_callback
   before_filter :find_site
-  before_filter :find_message, only: %w( show update )
+  before_filter :find_message, only: %w( show update show_tutorial_message )
 
   skip_before_action :verify_authenticity_token
 
   def index
     head :not_found and return unless @site
+    remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
+    @messages = @site.tips.published.sorted.within(@path).respecting(remote_user)
+
+    render json: render_to_string(template: 'messages/index.json'), callback: @callback
+  end
+
+  def tutorial
+    @tutorials = Tutorial.where(id: params[:tutorial_id])
+    head :not_found and return unless @site.user == @tutorials[0].site.user
+
+    render json: render_to_string(template: 'messages/tutorial.json'), callback: @callback
+  end
+
+  def tutorials
+    head :not_found and return unless @site
 
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
 
-    @messages = @site.tips.published.sorted.within(@source.path).respecting(remote_user)
+    @tutorials = @site.tutorials.published.noselector.within(@path).respecting(remote_user)
+    @tutorials_already_viewed = @site.tutorials.published.noselector.within(@path).not_respecting(remote_user)
+    @tutorials_with_selector = @site.tutorials.published.withselector.within(@path)
 
-    render json: render_to_string(template: 'messages/index.json'), callback: @callback
+    render json: render_to_string(template: 'messages/tutorials.json'), callback: @callback
   end
 
   # Render a single tip, bypassing the State machinery, for preview purposes.
@@ -24,6 +41,11 @@ class MessagesController < ApplicationController
   # partial in the backend interface.
   #
   def show
+    json = render_to_string partial: 'messages/message', object: @message
+    render json: json, callback: @callback
+  end
+
+  def show_tutorial_message
     json = render_to_string partial: 'messages/message', object: @message
     render json: json, callback: @callback
   end
@@ -60,7 +82,10 @@ class MessagesController < ApplicationController
 
       @source = URI.parse(request.referer)
       return unless @source.scheme.in? %w( http https )
-      @site = Site.by_url(@source)
+      full_site_ref = "#{@source.scheme}://#{params[:site_ref]}"
+      path = request.referer.include?(full_site_ref) ? request.referer.sub!(full_site_ref, '') : @source.path
+      @path = path == '' ? '/' : path.split('?')[0]
+      @site = Site.where(hostname: params[:site_ref]).first
 
     rescue URI::InvalidURIError
       nil
