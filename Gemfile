@@ -27,6 +27,8 @@ gem 'autosize-rails'
 gem 'medium-editor-rails'
 gem 'zeroclipboard-rails'
 
+gem 'airbrake'
+
 group :doc do
   gem 'sdoc', require: false
 end
@@ -43,5 +45,4 @@ end
 group :production do
   gem 'unicorn'
   gem 'pg'
-  gem 'airbrake'
 end
