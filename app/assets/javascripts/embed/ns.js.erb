@@ -7,7 +7,7 @@
     logo: "<%= asset_url('hermes-logo.png') %>"
   };
   h.host = "<%= compute_asset_host %>";
-  h.site_ref = s ? s.dataset.ref : w.location.origin;
+  h.site_ref = s ? s.attributes.getNamedItem('data-ref').value : w.location.host;
   h.env = "<%= Rails.env %>";
   h.DOM = {} // shortcut to get HERMES dom nodes (+ cache)
 
